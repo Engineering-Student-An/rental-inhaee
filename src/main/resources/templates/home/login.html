@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>인하대 전자공학과 학생회</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+<!--    <div class="jumbotron">-->
+    <h2>로그인</h2>
+    <form th:method="post" th:action="|/login|" th:object="${loginRequest}">
+
+        <br>
+        <div>
+            <label th:for="stuId">학번</label>
+            <input type="text" th:field="*{stuId}" class="form-control" placeholder="학번을 입력하세요"/>
+        </div>
+        <br/>
+        <div>
+            <label th:for="password">비밀번호</label>
+            <input type="password" th:field="*{password}" class="form-control" placeholder="비밀번호를 입력하세요"/>
+        </div>
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <br/>
+            <div class="error-class" th:each="error : ${#fields.globalErrors()}" th:text="${error}" />
+        </div>
+        <br/>
+
+        <button type="submit" class="btn btn-secondary">로그인</button>
+        <button type="button" th:onclick="|location.href='/join'|" class="btn btn-secondary">회원 가입</button> <br/><br/>
+    </form>
+    <br>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>
+
+<style>
+    .error-class {
+        color: red;
+    }
+    .error-input {
+        border-color: red;
+    }
+</style>

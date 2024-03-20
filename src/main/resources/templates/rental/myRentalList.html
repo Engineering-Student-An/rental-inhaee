@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+
+<div class="container">
+
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>대여 물품 이름</th>
+                <th>대여 상태</th>
+                <th>대여 일자</th>
+                <th>반납 일자</th>
+                <th>연체 여부 (연체 일 당 500원)</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${myRentalList}">
+                <td th:text="${myRentalList.getNumber()*myRentalList.getSize() + itemStat.count}"></td>
+                <td th:if="${item.item.name != ''}" th:text="${item.item.name}"></td>
+                <td th:unless="${item.item.name != ''}" th:text="${item.item.category}"></td>
+
+                <td>
+                    <a th:if="${item.status.name() == 'FINISH'}" th:text="'반납 완료'"></a>
+                    <a th:if="${item.status.name() == 'OVERDUE'}" th:text="'연체 중'" style="color: red; font-weight: bold" ></a>
+                    <a th:if="${item.status.name() == 'ING'}" th:text="'대여 중'"></a>
+                </td>
+                <td th:text="${item.rentalDate}"></td>
+                <td>
+                    <a th:if="${item.status.name() == 'ING' || item.status.name() == 'OVERDUE'}" href="#" th:href="'javascript:cancel('+${item.id}+')'"
+                       class="btn btn-danger">물품 반납</a>
+                    <a th:if="${item.status.name() == 'FINISH'}" th:text="${item.finishRentalDate}"></a>
+                </td>
+                <td>
+                    <a th:if="${item.status.name() == 'OVERDUE'}" th:text="'연체료 ' + ((${T(java.time.temporal.ChronoUnit).DAYS.between(item.rentalDate, T(java.time.LocalDate).now())}-3) * 500) + '원'"></a>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div style="text-align: center">
+        <button class="btn btn-outline-info" th:disabled="${myRentalList.getNumber()}==0"
+                th:onclick="|location.href='@{/rental/myRentalList(page=${1}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
+            <<</button>
+        <button class="btn btn-outline-info" th:disabled="${!myRentalList.hasPrevious()}"
+                th:onclick="|location.href='@{/rental/myRentalList(page=${myRentalList.getNumber()}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
+            <</button>
+        &nbsp; &nbsp;
+        <span>[[${myRentalList.getNumber()+1}]] / [[${myRentalList.getTotalElements() == 0 ? 1 : myRentalList.getTotalPages()}]] page</span>
+        &nbsp; &nbsp;
+        <button class="btn btn-outline-info" th:disabled="${!myRentalList.hasNext()}"
+                th:onclick="|location.href='@{/rental/myRentalList(page=${myRentalList.getNumber() + 2}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
+            ></button>
+        <button class="btn btn-outline-info" th:disabled="${!myRentalList.hasNext()}"
+                th:onclick="|location.href='@{/rental/myRentalList(page=${myRentalList.getTotalPages()}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
+            >></button>
+    </div>
+    <br>
+    <div th:replace="fragments/footer :: footer"/>
+
+</div> <!-- /container -->
+
+</body>
+<script>
+    function cancel(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "myRentalList/" + id + "/finish");
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+
+</html>

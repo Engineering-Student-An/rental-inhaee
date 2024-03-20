@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+
+<style>
+    .shorten {
+        display: inline-block;
+        width: 150px; /* 원하는 길이 설정 */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
+<body>
+
+<div class="container">
+
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div>
+        <br/>
+        <h3>공지사항 <img th:src="@{/announcement.png}" alt="좋아요"></h3><br/>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th> <th>공지사항</th> <th>작성 일자</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="notice : ${notices}">
+                <td th:text="${notices.getNumber()*notices.getSize() + noticeStat.count}"></td>
+                <td>
+                    <a class="shorten" th:href="@{/board/{id}(id=${notice.id})}" th:text="${notice.title}"></a>
+                </td>
+                <div th:if="${notice.editTime == null}">
+                    <td th:text="${#temporals.format(notice.writeTime, 'yyyy-MM-dd HH:mm')}"></td>
+                </div>
+                <div th:unless="${notice.editTime == null}">
+                    <td th:text="${#temporals.format(notice.editTime, 'yyyy-MM-dd HH:mm') + ' (수정)'}"></td>
+                </div>
+            </tr>
+            </tbody>
+
+        </table>
+        <div style="text-align: center">
+            <button class="btn btn-outline-info" th:disabled="${notices.getNumber()}==0"
+                    th:onclick="|location.href='@{/board/list(noticePage=${1}, boardPage=${boardPage})}'|">
+                <<</button>
+            <button class="btn btn-outline-info" th:disabled="${!notices.hasPrevious()}"
+                    th:onclick="|location.href='@{/board/list(noticePage=${notices.getNumber()}, boardPage=${boardPage}) }'|">
+                <</button>
+            &nbsp; &nbsp;
+            <span>[[${notices.getNumber()+1}]] / [[${notices.getTotalElements() == 0 ? 1 : notices.getTotalPages()}]] page</span>
+            &nbsp; &nbsp;
+            <button class="btn btn-outline-info" th:disabled="${!notices.hasNext()}"
+                    th:onclick="|location.href='@{/board/list(noticePage=${notices.getNumber() + 2}, boardPage=${boardPage}) }'|">
+                ></button>
+            <button class="btn btn-outline-info" th:disabled="${!notices.hasNext()}"
+                    th:onclick="|location.href='@{/board/list(noticePage=${notices.getTotalPages()}, boardPage=${boardPage} ) }'|">
+                >></button>
+        </div>
+        <br>
+
+        <br/><hr/><br>
+        <div class="d-flex justify-content-between">
+            <h3>게시글</h3>
+            <a href="/board/new" class="btn btn-primary ms-auto" role="button">게시글 작성</a>
+        </div>
+        <br>
+        <table class="table table-striped">
+            <thead> <tr>
+                <th>#</th> <th>제목</th> <th>작성자 학번</th> <th>작성자 이름</th> <th><img th:src="@{/thumbsUp.png}"></th> <th>작성 일자</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="board : ${boards}">
+                <td th:text="${boards.getNumber()*boards.getSize() + boardStat.count}"></td>
+                <td>
+                    <a class="shorten" th:href="@{/board/{id}(id=${board.id})}" th:text="${board.title}"></a>
+                </td>
+                <td th:unless="${board.stuId=='ADMIN'}" th:text="${board.stuId}"></td>
+                <td th:if="${board.stuId=='ADMIN'}"></td>
+                <td th:unless="${board.stuId=='ADMIN'}" th:text="${board.name}"></td>
+                <td th:if="${board.stuId=='ADMIN'}"><strong>관리자</strong></td>
+                <td th:text="${board.likeNumber.size()}"></td>
+                <div th:if="${board.editTime == null}">
+                    <td th:text="${#temporals.format(board.writeTime, 'yyyy-MM-dd HH:mm')}"></td>
+                </div>
+                <div th:unless="${board.editTime == null}">
+                    <td th:text="${#temporals.format(board.editTime, 'yyyy-MM-dd HH:mm') + ' (수정)'}"></td>
+                </div>
+
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="text-align: center">
+        <button class="btn btn-outline-info" th:disabled="${boards.getNumber()}==0"
+                th:onclick="|location.href='@{/board/list(noticePage=${noticePage}, boardPage=${1}) }'|">
+            <<</button>
+        <button class="btn btn-outline-info" th:disabled="${!boards.hasPrevious()}"
+                th:onclick="|location.href='@{/board/list(noticePage=${noticePage}, boardPage=${boards.getNumber()}) }'|">
+            <</button>
+        &nbsp; &nbsp;
+        <span>[[${boards.getNumber()+1}]] / [[${boards.getTotalElements() == 0 ? 1 : boards.getTotalPages()}]] page</span>
+        &nbsp; &nbsp;
+        <button class="btn btn-outline-info" th:disabled="${!boards.hasNext()}"
+                th:onclick="|location.href='@{/board/list(noticePage=${noticePage}, boardPage=${boards.getNumber() + 2}) }'|">
+            ></button>
+        <button class="btn btn-outline-info" th:disabled="${!boards.hasNext()}"
+                th:onclick="|location.href='@{/board/list(noticePage=${noticePage}, boardPage=${boards.getTotalPages()} ) }'|">
+            >></button>
+    </div>
+    <br>
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+</html>
+

@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+    <h3>물품 대여 신청</h3><br>
+
+    <form role="form" action="/rental" method="post">
+        <div class="form-group">
+            <label for="item">대여 물품</label>
+            <select name="itemId" id="item" class="form-control">
+                <option value="">물품 선택</option>
+
+                <option th:each="item : ${itemList}" th:if="${item.stockQuantity > 0}" th:value="${item.id}">
+                    <span th:text="${item.category + (item.name != '' ? ') ' + item.name : '')}"></span>
+                    <span th:text="${'    ' + item.stockQuantity + '개'}"></span>
+                </option>
+
+            </select>
+        </div>
+        <br><br>
+        <button type="submit" class="btn btn-primary">대여 신청</button>
+    </form>
+    <br>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>

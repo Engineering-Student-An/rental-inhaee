@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+
+<style>
+    .shorten {
+        display: inline-block;
+        width: 150px; /* 원하는 길이 설정 */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div>
+
+        <h3>내가 작성한 게시글</h3><hr/>
+        <table class="table table-striped">
+            <thead> <tr>
+                <th>#</th> <th>제목</th> <th><img th:src="@{/thumbsUp.png}"></th> <th>작성 일자</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="board : ${boards}">
+                <td th:text="${boards.getNumber()*boards.getSize() + boardStat.count}"></td>
+                <td>
+                    <a class="shorten" th:href="@{/board/{id}(id=${board.id})}" th:text="${board.title}"></a>
+                </td>
+                <td th:text="${board.likeNumber.size()}"></td>
+                <div th:if="${board.editTime == null}">
+                    <td th:text="${#temporals.format(board.writeTime, 'yyyy-MM-dd HH:mm')}"></td>
+                </div>
+                <div th:unless="${board.editTime == null}">
+                    <td th:text="${#temporals.format(board.editTime, 'yyyy-MM-dd HH:mm') + ' (수정)'}"></td>
+                </div>
+
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="text-align: center">
+        <button class="btn btn-outline-info" th:disabled="${boards.getNumber()}==0"
+                th:onclick="|location.href='@{/board/myList(page=${1}) }'|">
+            <<</button>
+        <button class="btn btn-outline-info" th:disabled="${!boards.hasPrevious()}"
+                th:onclick="|location.href='@{/board/myList(page=${boards.getNumber()}) }'|">
+            <</button>
+        &nbsp; &nbsp;
+        <span>[[${boards.getNumber()+1}]] / [[${boards.getTotalElements() == 0 ? 1 : boards.getTotalPages()}]] page</span>
+        &nbsp; &nbsp;
+        <button class="btn btn-outline-info" th:disabled="${!boards.hasNext()}"
+                th:onclick="|location.href='@{/board/myList(page=${boards.getNumber() + 2}) }'|">
+            ></button>
+        <button class="btn btn-outline-info" th:disabled="${!boards.hasNext()}"
+                th:onclick="|location.href='@{/board/myList(page=${boards.getTotalPages()} ) }'|">
+            >></button>
+    </div>
+    <br>
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+</html>

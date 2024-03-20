@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div>
+        <p th:if="${loginStuId} != ADMIN">
+            <a href="/rental" class="btn btn-outline-info" role="button">대여 신청</a>
+        </p>
+
+        <p th:if="${loginStuId} == ADMIN">
+            <a href="/item/new" class="btn btn-primary" role="button">물품 추가</a>
+        </p>
+
+        <table class="table table-striped">
+            <thead> <tr>
+                <th>카테고리</th> <th>물품 이름</th> <th>대여 가능 재고</th> <th>총 재고</th> <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${items}">
+                <td th:text="${item.category}"></td>
+                <td th:text="${item.name}"></td>
+                <td th:text="${item.stockQuantity}"></td>
+                <td th:text="${item.allStockQuantity}"></td>
+                <td th:if="${loginStuId} == ADMIN">
+                    <div class="text-end">
+                        <a href="#" th:href="@{/item/{id}/edit (id=${item.id})}" class="btn btn-primary" role="button">수정</a>
+                        &nbsp;
+                        <a href="#" onclick="return confirm('물품 삭제 시 해당 물품의 대여 기록도 삭제 됩니다. \n정말 물품을 삭제하겠습니까?');"
+                           th:href="@{/item/{id}/delete (id=${item.id})}" class="btn btn-danger" role="button">삭제</a>
+                    </div>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+</html>

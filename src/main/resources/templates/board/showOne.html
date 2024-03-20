@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<style>
+    .table {
+        table-layout: fixed;
+    }
+
+    .table td:nth-child(1) {
+        width: 15%; /* 첫 번째 열의 너비 */
+    }
+
+    .table td:nth-child(2) {
+        width: 10%; /* 두 번째 열의 너비 */
+    }
+
+    .table td:nth-child(3) {
+        width: 15%; /* 세 번째 열의 너비 */
+    }
+
+    .table td:nth-child(4) {
+        width: 60%; /* 세 번째 열의 너비 */
+    }
+
+
+</style>
+<style>
+    .말풍선 {
+        background-color: #f2f2f2;
+        border-radius: 10px;
+        padding: 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        word-wrap: break-word;
+    }
+</style>
+<style>
+    .form-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .form-group {
+        flex-grow: 1;
+        margin-right: 10px; /* 댓글 작성 칸과 버튼 사이의 간격 조정 */
+    }
+    .btn-primary{
+        flex-shrink: 0;
+    }
+
+</style>
+
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div>
+        <div class="d-flex justify-content-between">
+            <h4>[[${board.title}]]</h4>
+            <a href="/board/list" class="btn btn-primary" role="button">목록으로</a>
+        </div>
+        <br>
+        <div class="d-flex justify-content-end">
+            <a><strong>작성자</strong> <span th:if="${board.stuId} != 'ADMIN'" th:text="${board.stuId}"></span>  [[${board.name}]]</a><br>
+        </div>
+        <div class="d-flex justify-content-end">
+
+            <a><strong>좋아요</strong> [[${board.likeNumber.size()}]]개 | <strong>작성 일자</strong>&nbsp;</a>
+            <div th:if="${board.editTime} == null">
+                <a> [[${#temporals.format(board.writeTime, 'yyyy-MM-dd HH:mm')}]]</a>
+            </div>
+            <div th:unless="${board.editTime} == null">
+                <a> [[${#temporals.format(board.editTime, 'yyyy-MM-dd HH:mm')}]] (수정)</a>
+            </div>
+        </div><hr/>
+
+        <div class="border p-3" style="white-space: pre-line; word-break: break-all" th:text="${board.content}"></div><br><br>
+        <div class="d-flex justify-content-end">
+            <div th:if="${loginStuId == board.stuId}">
+                <a th:href="@{/board/{id}/edit(id=${board.id})}" class="btn btn-primary" role="button">수정</a>
+            </div>
+            <div th:if="${loginStuId == board.stuId || loginStuId == 'ADMIN'}">
+                <a href="#" onclick="return confirm('게시글을 삭제하시겠습니까?');"
+                   th:href="@{/board/{id}/delete(id=${board.id})}" class="btn btn-danger mx-1" role="button">삭제</a>
+            </div>
+
+
+
+            <div>
+                <a th:href="@{/board/{id}/like(id=${id})}" class="btn btn-link" role="button"
+                   th:onclick="${board.isLike(loginStuId) == true} ? @{return confirm('해당 게시글의 좋아요를 취소 하시겠습니까?');} : ''">
+                    <img th:src="${board.isLike(loginStuId) == true} ? @{'/thumbsUp2.png'} : @{'/thumbsUp.png'}"
+                         th:alt="${board.isLike(loginStuId) == true} ? '좋아요 취소' : '좋아요'">
+                </a>
+            </div>
+
+
+        </div>
+        <hr/>
+
+        <form th:action="@{/board/{id}/reply/new(id=${id})}" th:object="${form}" method="post" class="form-container">
+            <div class="form-group">
+                <label th:for="content"><strong>댓글 작성</strong></label>
+                <textarea th:field="*{content}" th:errorclass="error-input" class="form-control" placeholder="작성 내용을 입력하세요 (등록 시 수정은 불가합니다)"></textarea>
+                <div class="error-class" th:errors="*{content}"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button><br>
+        </form>
+
+        <table class="table">
+            <tbody>
+            <tr th:each="reply : ${board.getReplyList()}">
+                <td>
+                    <span class="line-break">
+                        <span th:text="${reply.stuId}"></span><br>
+                        <span th:text="${reply.name}"></span>
+                        <div th:if="${loginStuId == reply.stuId || loginStuId == 'ADMIN'}" style="display: flex">
+                            <a href="#" onclick="return confirm('댓글을 삭제하시겠습니까?');"
+                               th:href="@{/board/{id}/reply/{replyId}/delete(id=${id}, replyId=${reply.id})}" class="btn btn-danger btn-sm" role="button">삭제</a>
+                        </div>
+                    </span>
+                </td>
+                <td>
+                    <a th:href="@{/reply/{id}/like(id=${reply.id}, boardId=${board.id})}" class="btn btn-link btn-sm" role="button"
+                       th:onclick="${reply.isLike(loginStuId) == true} ? @{return confirm('해당 댓글의 좋아요를 취소 하시겠습니까?');} : ''">
+                        <img th:src="@{/thumbsUp.png}">
+                        <span th:text="${reply.likeNumber.size()}">
+                    </a>
+                </td>
+
+                <td>
+                    <span th:text="${#temporals.format(reply.writeTime, 'yyyy-MM-dd')}"></span><br>
+                    <span th:text="${#temporals.format(reply.writeTime, 'HH:mm')}"></span>
+                </td>
+
+                <td colspan="3">
+                    <div class="말풍선">
+                        <p th:text="${reply.getContent()}"></p>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+    <br>
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+</html>
+
+<style>
+    .error-class {
+        color: red;
+    }
+    .error-input {
+        border-color: red;
+    }
+</style>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="header" th:fragment="bodyHeader">
+    <ul class="nav nav-pills pull-right">
+
+    </ul>
+    <div class="d-flex justify-content-between">
+        <div style="text-align: left">
+            <a th:if="${loginStuId == 'ADMIN'}" href="/admin"><img th:src="@{/home.png}" alt="home" /></a>
+            <a th:unless="${loginStuId == 'ADMIN'}" href="/"><img th:src="@{/home.png}" alt="home" /></a>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                내 정보
+            </button>
+            <div class="dropdown-menu p-3 text-muted" style="max-width: 200px;">
+                <div th:if="${loginStuId == null}">
+                    <p>
+                        로그인 후<br/>
+                        이용 가능 합니다!
+                    </p>
+                </div>
+                <div th:if="${loginStuId != null}">
+                    <p> [[${loginStuId}]] <br>
+                        [[${loginName}]] 님<br>
+                        환영합니다!
+                    </p>
+                    <p class="mb-0"></p>
+                    <li><a class="dropdown-item" href="/changePassword">비밀번호 변경</a></li>
+                    <p class="mb-0"></p>
+                    <li><a class="dropdown-item" href="/board/myList">내가 쓴 게시글</a></li>
+                    <p class="mb-0"></p>
+                    <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
+                </div>
+            </div>
+        <br><br>
+        </div>
+    </div>
+
+
+    <div style="text-align: center">
+        <h1><a href="https://www.inha.ac.kr" target="_blank"><img th:src="@{/inhalogo.png}" alt="인하대 로고" /></a>
+            <a th:if="${loginStuId == 'ADMIN'}" href="/admin" class="text-decoration-none text-light-emphasis" >전자공학과 학생회 대여 사업</a>
+            <a th:unless="${loginStuId == 'ADMIN'}" href="/" class="text-decoration-none text-light-emphasis" >전자공학과 학생회 대여 사업</a>
+            <a href="https://pf.kakao.com/_CxjxlxiM" target="_blank"><img th:src="@{/eelogo.png}" alt="학생회 로고" /></a> </h1>
+    </div>
+</div>

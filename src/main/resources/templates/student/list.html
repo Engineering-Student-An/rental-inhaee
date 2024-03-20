@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+
+    <div>
+        <form class="form-inline">
+            <style>
+                .inline-elements{
+                    display: flex;
+                    align-items: center;
+                }
+            </style>
+
+            <div class="inline-elements">
+                <form th:action="@{/student/list}" method="get">
+                    <div class="form-group mb-2" style="margin-right: 5px;"><input type="text" class="form-control" name="stuId"  placeholder="학생 학번" style="margin-right: 20px;"> </div>
+                    <div class="form-group mb-2" style="margin-right: 5px;"><input type="text" class="form-control" name="name"  placeholder="학생 이름" style="margin-right: 20px;"> </div>
+                </form>
+                <button class="btn btn-primary mb-2" type="submit">검색</button>
+            </div>
+        </form>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>학번</th>
+                <th>이름</th>
+                <th>조회</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="student : ${students}">
+                <td th:text="${student.stuId}"></td>
+                <td th:text="${student.name}"></td>
+                <td><a href="#" th:href="@{/student/{id}/find (id=${student.stuId})}" class="btn btn-primary" role="button">조회</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="text-align: center">
+        <button class="btn btn-outline-info" th:disabled="${students.getNumber()}==0"
+                th:onclick="|location.href='@{/student/list(page=${1}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
+            <<</button>
+        <button class="btn btn-outline-info" th:disabled="${!students.hasPrevious()}"
+                th:onclick="|location.href='@{/student/list(page=${students.getNumber()}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
+            <</button>
+        &nbsp; &nbsp;
+        <span>[[${students.getNumber()+1}]] / [[${students.getTotalElements() == 0 ? 1 : students.getTotalPages()}]] page</span>
+        &nbsp; &nbsp;
+        <button class="btn btn-outline-info" th:disabled="${!students.hasNext()}"
+                th:onclick="|location.href='@{/student/list(page=${students.getNumber() + 2}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
+            ></button>
+        <button class="btn btn-outline-info" th:disabled="${!students.hasNext()}"
+                th:onclick="|location.href='@{/student/list(page=${students.getTotalPages()}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
+            >></button>
+    </div>
+    <br>
+    <div th:replace="fragments/footer :: footer" />
+
+</div> <!-- /container -->
+
+</body>
+</html>

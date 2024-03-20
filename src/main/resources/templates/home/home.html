@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>인하대 전자공학과 학생회 대여 사업</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+</head>
+
+
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+
+    <div class="jumbotron">
+
+
+        <br>
+        <div th:if="${loginStuId == null}">
+            <h3>로그인 후 이용 가능합니다!</h3>
+            <br>
+            <a th:href="@{/login}" class="btn btn-primary" role="button">로그인</a>
+            <br><br>
+
+            <a th:href="@{/join}" class="btn btn-primary" role="button">회원 가입</a>
+            <br><br><br><br>
+
+        </div>
+
+        <div th:unless="${loginStuId == null}">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>[[${ann.title}]]</h2>
+            </div>
+            <hr/>
+            <div class="text-bg-danger">
+                <div class="text-start">
+                    <h3><div th:utext="${#strings.replace(ann.content, '\n', '<br/>')}"></div></h3>
+                </div>
+            </div><br><br>
+
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>대여</h2>
+            </div>
+            <hr/>
+            <div class="d-flex justify-content-between align-items-center">
+                <a th:href="@{/item/list}" class="btn btn-primary" role="button">물품 현황</a><br>
+                <a th:href="@{/rental}" class="btn btn-primary" role="button">대여 신청</a><br>
+                <a th:href="@{/rental/myRentalList}" class="btn btn-primary" role="button">내 대여 현황</a><br>
+            </div>
+            <br><br>
+
+
+            <div class="d-flex justify-content-between align-items-end">
+                <h2>게시판</h2>
+                <a th:href="@{/board/list}" class="btn btn-sm" role="button" style="padding: 5px 5px; font-size: 20px;">+</a>
+            </div>
+            <hr/>
+            <div class="d-flex justify-content-between align-items-flex-start">
+                <div style="width: 45%;">
+                    <div class="d-flex justify-content-between align-items-end">
+                        <h5>최근 게시글</h5>
+                    </div>
+                    <table class="table table-striped">
+                        <thead> <tr>
+                            <th>#</th> <th>제목</th> <th><img th:src="@{/thumbsUp.png}"></th> <th>작성 일자</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="board, iterStat : ${recentBoard}">
+                            <td th:text="${iterStat.count}"></td>
+                            <td>
+                                <a class="shorten" th:href="@{/board/{id}(id=${board.id})}" th:text="${board.title}"></a>
+                            </td>
+                            <td th:text="${board.likeNumber.size()}"></td>
+                            <div th:if="${board.editTime == null}">
+                                <td th:text="${#temporals.format(board.writeTime, 'MM-dd HH:mm')}"></td>
+                            </div>
+                            <div th:unless="${board.editTime == null}">
+                                <td th:text="${#temporals.format(board.editTime, 'MM-dd HH:mm') + ' (수정)'}"></td>
+                            </div>
+                        </tr>
+                        </tbody>
+                    </table>
+                    </div>
+
+
+                <div style="width: 45%;">
+                    <div class="d-flex justify-content-between align-items-end">
+                        <h5>최근 7일간 HOT 게시글</h5>
+                    </div>
+                    <table class="table table-striped">
+                        <thead> <tr>
+                            <th>#</th> <th>제목</th> <th><img th:src="@{/thumbsUp.png}"></th> <th>작성 일자</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="board, iterStat : ${hotBoard}">
+                            <td th:text="${iterStat.count}"></td>
+                            <td>
+                                <a class="shorten" th:href="@{/board/{id}(id=${board.id})}" th:text="${board.title}"></a>
+                            </td>
+                            <td th:text="${board.likeNumber.size()}"></td>
+                            <div th:if="${board.editTime == null}">
+                                <td th:text="${#temporals.format(board.writeTime, 'MM-dd HH:mm')}"></td>
+                            </div>
+                            <div th:unless="${board.editTime == null}">
+                                <td th:text="${#temporals.format(board.editTime, 'MM-dd HH:mm') + ' (수정)'}"></td>
+                            </div>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>

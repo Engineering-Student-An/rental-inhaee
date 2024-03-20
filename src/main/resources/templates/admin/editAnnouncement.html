@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:replace="fragments/header :: header"></head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+
+    <h3>필독 사항 수정</h3><br>
+    <form th:method="post" th:action="|/admin/editAnnouncement|" th:object="${request}">
+        <div>
+            <label th:for="title">필독 사항 제목</label>
+            <input type="text" th:field="*{title}" class="form-control" th:errorclass="error-input"
+                   placeholder="제목을 입력하세요"/>
+            <div class="error-class" th:errors="*{title}"></div>
+        </div> <br>
+        <div>
+            <label th:for="content">필독 사항 내용</label>
+            <textarea th:field="*{content}" class="form-control" rows="5" th:errorclass="error-input" placeholder="내용을 입력하세요"></textarea>
+            <div class="error-class" th:errors="*{content}"></div>
+        </div> <br>
+        <button type="submit" class="btn btn-primary">수정</button> <br>
+    </form>
+    <br>
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+</body>
+</html>
+
+<style>
+    .error-class {
+        color: red;
+    }
+    .error-input {
+        border-color: red;
+    }
+</style>

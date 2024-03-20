@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <h3>대여 물품 수정</h3><br>
+    <form th:object="${form}" method="post">
+        <!-- id -->
+        <input type="hidden" th:field="*{id}" />
+        <div class="form-group">
+            <label th:for="category">카테고리</label>
+            <input type="text" th:field="*{category}" th:errorclass="error-input" class="form-control"
+                   placeholder="카테고리를 입력하세요"/>
+            <div class="error-class" th:errors="*{category}"></div>
+        </div>
+        <br>
+        <div class="form-group">
+            <label th:for="name">물품 이름</label>
+            <input type="text" th:field="*{name}" class="form-control"
+                   placeholder="이름을 입력하세요"/> </div>
+        <br>
+        <div class="form-group">
+            <label th:for="allStockQuantity">물품 수량</label>
+            <input type="number" th:field="*{allStockQuantity}" th:errorclass="error-input" class="form-control" placeholder="수량을 입력하세요"/>
+            <div class="error-class" th:errors="*{allStockQuantity}"></div>
+        </div>
+        <br>
+        <div class="form-group">
+            <label th:for="stockQuantity">대여중인 수량 : [[*{ingStockQuantity}]]</label>
+            <input type="hidden" th:field="*{ingStockQuantity}" th:value="${form.ingStockQuantity}">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <br>
+    </form>
+    <br>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>
+
+<style>
+    .error-class {
+        color: red;
+    }
+    .error-input {
+        border-color: red;
+    }
+</style>
