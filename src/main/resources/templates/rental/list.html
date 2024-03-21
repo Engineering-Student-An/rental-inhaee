@@ -8,76 +8,77 @@
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
     <div>
-        <div>
-            <form th:object="${rentalSearch}" class="form-inline">
-                <style>
-                    .inline-elements {
-                        display: flex;
-                        align-items: center;
-                    }
-                </style>
+<!--        <div>-->
+<!--            <form th:object="${rentalSearch}" class="form-inline">-->
+<!--                <style>-->
+<!--                    .inline-elements {-->
+<!--                        display: flex;-->
+<!--                        align-items: center;-->
+<!--                    }-->
+<!--                </style>-->
 
-                <div class="inline-elements">
-                    <div class="form-group mb-2">
-                        <input type="text" th:field="*{stuId}" class="form-control" placeholder="학생 학번" /></div>
-                    <div class="form-group mx-sm-1 mb-2">
-                        <select th:field="*{rentalStatus}" class="form-control"><option value="">대여 상태</option>
-                            <option th:each="status : ${T(an.rentalinhaee.domain.RentalStatus).values()}"
-                                    th:value="${status}"
-                                    th:text="${status.getDisplayName()}">option
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group mb-2">
-                        <input type="text" th:field="*{itemName}" class="form-control" placeholder="물품 이름 (카테고리)" /></div>
-                    &nbsp;
-                    <button type="submit" class="btn btn-primary mb-2">검색</button>
-                </div>
-            </form>
-        </div>
+<!--                <div class="inline-elements">-->
+<!--                    <div class="form-group mb-2">-->
+<!--                        <input type="text" th:field="*{stuId}" class="form-control" placeholder="학생 학번" /></div>-->
+<!--                    <div class="form-group mx-sm-1 mb-2">-->
+<!--                        <select th:field="*{rentalStatus}" class="form-control"><option value="">대여 상태</option>-->
+<!--                            <option th:each="status : ${T(an.rentalinhaee.domain.RentalStatus).values()}"-->
+<!--                                    th:value="${status}"-->
+<!--                                    th:text="${status.getDisplayName()}">option-->
+<!--                            </option>-->
+<!--                        </select>-->
+<!--                    </div>-->
+<!--                    <div class="form-group mb-2">-->
+<!--                        <input type="text" th:field="*{itemName}" class="form-control" placeholder="물품 이름 (카테고리)" /></div>-->
+<!--                    &nbsp;-->
+<!--                    <button type="submit" class="btn btn-primary mb-2">검색</button>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
 
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>대여 일자</th>
-                <th>대여 물품</th>
-                <th>대여 상태</th>
-                <th>대여 학생 학번</th>
-                <th>대여 학생 이름</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="rental : ${rentals}">
-                <td th:text="${rental.rentalDate}"></td>
-                <td th:unless="${rental.item.name == ''}" th:text="${rental.item.name}"></td>
-                <td th:if="${rental.item.name == ''}" th:text="${rental.item.category}"></td>
-                <td th:if="${rental.status.name() == 'FINISH'}" th:text="'반납 완료'"></td>
-                <td th:if="${rental.status.name() == 'ING'}" th:text="'대여 중'"></td>
-                <td th:if="${rental.status.name() == 'OVERDUE'}" th:text="'연체 중'" style="color: red; font-weight: bold"></td>
-                <td th:text="${rental.student.stuId}"></td>
-                <td th:text="${rental.student.name}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+<!--        <table class="table table-striped">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th>대여 일자</th>-->
+<!--                <th>대여 물품</th>-->
+<!--                <th>대여 상태</th>-->
+<!--                <th>대여 학생 학번</th>-->
+<!--                <th>대여 학생 이름</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr th:each="rental : ${rentals}">-->
+<!--                <td th:text="${rental.rentalDate}"></td>-->
+<!--                <td th:unless="${rental.item.name == ''}" th:text="${rental.item.name}"></td>-->
+<!--                <td th:if="${rental.item.name == ''}" th:text="${rental.item.category}"></td>-->
+<!--                <td th:if="${rental.status.name() == 'FINISH'}" th:text="'반납 완료'"></td>-->
+<!--                <td th:if="${rental.status.name() == 'ING'}" th:text="'대여 중'"></td>-->
+<!--                <td th:if="${rental.status.name() == 'OVERDUE'}" th:text="'연체 중'" style="color: red; font-weight: bold"></td>-->
+<!--                <td th:text="${rental.student.stuId}"></td>-->
+<!--                <td th:text="${rental.student.name}"></td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+<!--    </div>-->
 
-    <div style="text-align: center">
-        <button class="btn btn-outline-info" th:disabled="${rentals.getNumber()}==0"
-                th:onclick="|location.href='@{/rental/list(page=${1}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
-            <<</button>
-        <button class="btn btn-outline-info" th:disabled="${!rentals.hasPrevious()}"
-                th:onclick="|location.href='@{/rental/list(page=${rentals.getNumber()}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
-            <</button>
-        &nbsp; &nbsp;
-        <span>[[${rentals.getNumber()+1}]] / [[${rentals.getTotalElements() == 0 ? 1 : rentals.getTotalPages()}]] page</span>
-        &nbsp; &nbsp;
-        <button class="btn btn-outline-info" th:disabled="${!rentals.hasNext()}"
-                th:onclick="|location.href='@{/rental/list(page=${rentals.getNumber() + 2}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
-            ></button>
-        <button class="btn btn-outline-info" th:disabled="${!rentals.hasNext()}"
-                th:onclick="|location.href='@{/rental/list(page=${rentals.getTotalPages()}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
-            >></button>
-    </div>
+<!--    <div style="text-align: center">-->
+<!--        <button class="btn btn-outline-info" th:disabled="${rentals.getNumber()}==0"-->
+<!--                th:onclick="|location.href='@{/rental/list(page=${1}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">-->
+<!--            <<</button>-->
+<!--        <button class="btn btn-outline-info" th:disabled="${!rentals.hasPrevious()}"-->
+<!--                th:onclick="|location.href='@{/rental/list(page=${rentals.getNumber()}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">-->
+<!--            <</button>-->
+<!--        &nbsp; &nbsp;-->
+<!--        <span>[[${rentals.getNumber()+1}]] / [[${rentals.getTotalElements() == 0 ? 1 : rentals.getTotalPages()}]] page</span>-->
+<!--        &nbsp; &nbsp;-->
+<!--        <button class="btn btn-outline-info" th:disabled="${!rentals.hasNext()}"-->
+<!--                th:onclick="|location.href='@{/rental/list(page=${rentals.getNumber() + 2}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">-->
+<!--            ></button>-->
+<!--        <button class="btn btn-outline-info" th:disabled="${!rentals.hasNext()}"-->
+<!--                th:onclick="|location.href='@{/rental/list(page=${rentals.getTotalPages()}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">-->
+<!--            >></button>-->
+<!--    </div>-->
+        <h1>안녕하세요!</h1>
     <br>
     <div th:replace="fragments/footer :: footer"/>
     </div> <!-- /container -->
