@@ -56,7 +56,7 @@ public class RentalController {
         return "redirect:/";
     }
 
-    @GetMapping("/rental/myRentalList")
+    @GetMapping("/rental/findOne")
     public String rentalList(@ModelAttribute("rentalSearch") RentalSearch rentalSearch,
                              @RequestParam(required = false, defaultValue = "1", value = "page") int page,
                              Model model) {
@@ -69,10 +69,10 @@ public class RentalController {
 
         model.addAttribute("myRentalList", myRentalList);
 
-        return "/rental/myRentalList";
+        return "/rental/findOne";
     }
 
-    @PostMapping("/rental/myRentalList/{rentalId}/finish")
+    @PostMapping("/rental/findOne/{rentalId}/finish")
     public String finishRental(@PathVariable("rentalId") Long rentalId, Model model) {
         if(ChronoUnit.DAYS.between(rentalService.findRentalByRentalId(rentalId).getRentalDate(), LocalDate.now()) > 3){
             model.addAttribute("errorMessage", "연체중인 물품의 반납은 관리자를 통해 가능합니다. \n(관리자 번호) ");
@@ -81,7 +81,7 @@ public class RentalController {
         }
         rentalService.finishRental(rentalId);
 
-        return "redirect:/rental/myRentalList";
+        return "redirect:/rental/findOne";
     }
 
     @PostMapping("/rental/finish/{rentalId}")
