@@ -18,7 +18,7 @@ jobs:
     # 실행될 jobs를 순서대로 명시
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     # JDK 21 설치
     - name: Set up JDK 21
