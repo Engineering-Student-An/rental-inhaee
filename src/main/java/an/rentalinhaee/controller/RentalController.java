@@ -101,21 +101,6 @@ public class RentalController {
         Page<Rental> rentalByStuIdStatusItem = rentalService.findRentalByStuId_Status_Item(rentalSearch, pageRequest);
         model.addAttribute("rentals", rentalByStuIdStatusItem);
 
-        for (Rental rental : rentalByStuIdStatusItem) {
-            System.out.println("rental.getId() = " + rental.getId());
-            System.out.println("rental.getStatus() = " + rental.getStatus());
-            System.out.println("rental.getStudent().getStuId() = " + rental.getStudent().getStuId());
-            System.out.println("rental.getItem().getName() = " + rental.getItem().getName());
-        }
-
-//        if(rentalSearch.getRentalStatus() == null){
-//            model.addAttribute("rentals", rentalService.findByStuId(rentalSearch.getStuId(), pageRequest));
-//        } else{
-//            model.addAttribute("rentals", rentalService.findByStatus(rentalSearch.getRentalStatus(), pageRequest));
-//        }
-
-//        model.addAttribute("rentals", rentalService.findByStatus(rentalSearch.getRentalStatus(), pageRequest));
-
         return "rental/list";
     }
 
