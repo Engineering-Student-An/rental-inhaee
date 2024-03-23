@@ -68,7 +68,7 @@ public class RentalController {
 
         model.addAttribute("myRentalList", myRentalList);
 
-        return "/rental/findOne";
+        return "rental/findOne";
     }
 
     @PostMapping("/rental/findOne/{rentalId}/finish")
@@ -116,7 +116,7 @@ public class RentalController {
 
 //        model.addAttribute("rentals", rentalService.findByStatus(rentalSearch.getRentalStatus(), pageRequest));
 
-        return "/rental/list";
+        return "rental/list";
     }
 
     @ModelAttribute("loginStuId")
