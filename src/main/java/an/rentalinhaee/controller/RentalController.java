@@ -57,8 +57,7 @@ public class RentalController {
     }
 
     @GetMapping("/rental/findOne")
-    public String rentalList(@ModelAttribute("rentalSearch") RentalSearch rentalSearch,
-                             @RequestParam(required = false, defaultValue = "1", value = "page") int page,
+    public String rentalList(@RequestParam(required = false, defaultValue = "1", value = "page") int page,
                              Model model) {
 
         PageRequest pageRequest = PageRequest.of(page-1, 10, Sort.by("status").descending());
