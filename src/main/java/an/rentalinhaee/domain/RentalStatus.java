@@ -1,5 +1,8 @@
 package an.rentalinhaee.domain;
 
+import lombok.Getter;
+
+@Getter
 public enum RentalStatus {
     // 연체, 진행중, 반납완료
     OVERDUE("연체 중"),
@@ -12,7 +15,4 @@ public enum RentalStatus {
         this.displayName = displayName;
     }
 
-    public String getDisplayName(){
-        return displayName;
-    }
 }

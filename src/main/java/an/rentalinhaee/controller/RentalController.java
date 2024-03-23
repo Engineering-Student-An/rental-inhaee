@@ -60,7 +60,7 @@ public class RentalController {
     public String rentalList(@RequestParam(required = false, defaultValue = "1", value = "page") int page,
                              Model model) {
 
-        PageRequest pageRequest = PageRequest.of(page-1, 10, Sort.by("status").descending());
+        PageRequest pageRequest = PageRequest.of(page-1, 10, Sort.by("status").and(Sort.by("rentalDate")));
 
 
         Page<Rental> myRentalList =
