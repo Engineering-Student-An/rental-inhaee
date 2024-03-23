@@ -124,7 +124,7 @@ public class BoardController {
         model.addAttribute("boardForm", boardForm);
 
 
-        return "/board/updateBoardForm";
+        return "board/updateBoardForm";
     }
 
     @PostMapping("/board/{id}/edit")
