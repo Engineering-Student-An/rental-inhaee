@@ -9,6 +9,7 @@
             <a th:if="${loginStuId == 'ADMIN'}" href="/admin"><img th:src="@{/home.png}" alt="home" /></a>
             <a th:unless="${loginStuId == 'ADMIN'}" href="/"><img th:src="@{/home.png}" alt="home" /></a>
         </div>
+
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                 내 정보
