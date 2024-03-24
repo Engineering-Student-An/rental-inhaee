@@ -21,6 +21,19 @@
                     <div class="form-group mb-2" style="margin-right: 5px;"><input type="text" class="form-control" name="name"  placeholder="학생 이름" style="margin-right: 20px;"> </div>
                 </form>
                 <button class="btn btn-primary mb-2" type="submit">검색</button>
+
+                &nbsp; &nbsp; &nbsp;
+                <a class="btn btn-primary mb-2" onclick="addTable()">추가</a>
+
+            </div>
+            <div id="tableContainer">
+                <table class="table table-striped">
+                    <tbody>
+
+
+                    </tbody>
+                </table>
+
             </div>
         </form>
 
@@ -41,19 +54,19 @@
     </div>
     <div style="text-align: center">
         <button class="btn btn-outline-info" th:disabled="${students.getNumber()}==0"
-                th:onclick="|location.href='@{/student/list(page=${1}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
+                th:onclick="|location.href='@{/student/feeList(page=${1}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
             <<</button>
         <button class="btn btn-outline-info" th:disabled="${!students.hasPrevious()}"
-                th:onclick="|location.href='@{/student/list(page=${students.getNumber()}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
+                th:onclick="|location.href='@{/student/feeList(page=${students.getNumber()}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
             <</button>
         &nbsp; &nbsp;
         <span>[[${students.getNumber()+1}]] / [[${students.getTotalElements() == 0 ? 1 : students.getTotalPages()}]] page</span>
         &nbsp; &nbsp;
         <button class="btn btn-outline-info" th:disabled="${!students.hasNext()}"
-                th:onclick="|location.href='@{/student/list(page=${students.getNumber() + 2}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
+                th:onclick="|location.href='@{/student/feeList(page=${students.getNumber() + 2}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
             ></button>
         <button class="btn btn-outline-info" th:disabled="${!students.hasNext()}"
-                th:onclick="|location.href='@{/student/list(page=${students.getTotalPages()}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
+                th:onclick="|location.href='@{/student/feeList(page=${students.getTotalPages()}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
             >></button>
     </div>
     <br>
@@ -62,4 +75,41 @@
 </div> <!-- /container -->
 
 </body>
+
+<script>
+    function addTable() {
+        var newTable = '<h4>학생회비 납부 학생 추가</h4>' +
+            '<div>' +
+            '<table class="table table-striped">' +
+            '<thead>' +
+            '<tr>' +
+            '<th>학번</th>' +
+            '<th>이름</th>' +
+            '</tr>' +
+            '</thead>' +
+            '<tbody>' +
+            '<tr>' +
+            '<td><input type="text" class="form-control" name="newStuId" placeholder="학번 입력"></td>' +
+            '<td><input type="text" class="form-control" name="newName" placeholder="이름 입력"></td>' +
+            '</tr>' +
+            '</tbody>' +
+            '</table>' +
+            '</div>';
+
+        var addButton = '<button id="addButton" class="btn btn-primary" onclick="addStudent()">추가</button>'
+
+        // 새로운 행을 기존 표의 tbody에 추가
+        document.getElementById('tableContainer').innerHTML += newTable + addButton;
+    }
+</script>
+
+<script>
+    function addStudent() {
+        var stuId = document.getElementsByName('newStuId')[0].value;
+        var name = document.getElementsByName('newName')[0].value;
+        location.href = `/student/feeList/add?newStuId=${stuId}&newName=${name}`;
+    }
+</script>
+
+
 </html>
