@@ -33,4 +33,9 @@ public class Student {
     public void editPassword(String password) {
         this.password = password;
     }
+
+    public Student(String stuId, String name) {
+        this.stuId = stuId;
+        this.name = name;
+    }
 }

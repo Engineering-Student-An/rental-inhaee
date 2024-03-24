@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-import static an.rentalinhaee.ReadExcel.readExcel;
+import static an.rentalinhaee.ReadExcel.readOneExcel;
 
 
 @Controller
@@ -51,7 +51,7 @@ public class LoginController {
                     "passwordCheck", "비밀번호가 동일하지 않습니다!"));
         }
 
-        List<String> readRequest = readExcel(joinRequest.getStuId());
+        List<String> readRequest = readOneExcel(joinRequest.getStuId());
 
         if(readRequest.get(0).isEmpty()){
              bindingResult.addError(new FieldError("joinRequest",

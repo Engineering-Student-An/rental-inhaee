@@ -4,6 +4,7 @@ import an.rentalinhaee.domain.Rental;
 import an.rentalinhaee.domain.Student;
 import an.rentalinhaee.repository.RentalSearch;
 import an.rentalinhaee.repository.StudentSearch;
+import an.rentalinhaee.service.FeeStudentService;
 import an.rentalinhaee.service.RentalService;
 import an.rentalinhaee.service.StudentService;
 import jakarta.servlet.http.HttpSession;
@@ -25,7 +26,7 @@ public class StudentController {
     private final StudentService studentService;
     private final RentalService rentalService;
 
-    @GetMapping("student/list")
+    @GetMapping("/student/list")
     public String list(@ModelAttribute("studentSearch") StudentSearch studentSearch,
                        @RequestParam(required = false, defaultValue = "1", value = "page") int page,
                        Model model) {
@@ -62,6 +63,28 @@ public class StudentController {
         model.addAttribute("student", student);
         model.addAttribute("rentalList", rentalList);
         return "student/studentInfo";
+    }
+
+    private final FeeStudentService feeStudentService;
+
+    @GetMapping("/student/feeList")
+    String feeList(@ModelAttribute("studentSearch") StudentSearch studentSearch,
+                @RequestParam(required = false, defaultValue = "1", value = "page") int page,
+                Model model) {
+
+        PageRequest pageRequest;
+
+        // 학번, 이름 모두 포함하는 학생들 추가
+        if (studentSearch.getStuId() != null && studentSearch.getName() != null) {
+            System.out.println("!!!!!!!!!! = ");
+            pageRequest = PageRequest.of(page - 1, 10, Sort.by("stuId").descending());
+            model.addAttribute("students", feeStudentService.findFeeStudent(studentSearch.getStuId(), studentSearch.getName(), pageRequest));
+        } else {
+            pageRequest = PageRequest.of(page - 1, 10, Sort.by("stuId").descending());
+            model.addAttribute("students", feeStudentService.findFeeList(pageRequest));
+        }
+        model.addAttribute("studentSearch", studentSearch);
+        return"student/feeList";
     }
 
 
