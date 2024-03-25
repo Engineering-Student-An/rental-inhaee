@@ -73,7 +73,7 @@ public class FeeStudentController {
     }
 
     @PostMapping("/student/feeList/upload")
-    public String uploadExcelFile(@RequestParam("excelFile")MultipartFile file, Model model) throws IOException {
+    public String uploadExcelFile(@RequestParam("excelFile")MultipartFile file) throws IOException {
 
         List<FeeStudent> feeStudents = ReadExcel.uploadExcel(file);
         feeStudentService.deleteAll();
