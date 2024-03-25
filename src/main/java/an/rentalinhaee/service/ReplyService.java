@@ -1,11 +1,14 @@
 package an.rentalinhaee.service;
 
-import an.rentalinhaee.domain.*;
+import an.rentalinhaee.domain.Board;
+import an.rentalinhaee.domain.Reply;
 import an.rentalinhaee.repository.BoardRepository;
 import an.rentalinhaee.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 @Service
@@ -32,4 +35,9 @@ public class ReplyService {
     public void delete(Long id) {
         replyRepository.delete(replyRepository.findReplyById(id));
     }
+
+    public List<Reply> findRepliesByStuId(String stuId) {
+        return replyRepository.findRepliesByStuId(stuId);
+    }
+
 }

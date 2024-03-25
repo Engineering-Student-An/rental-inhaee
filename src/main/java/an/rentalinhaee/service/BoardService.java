@@ -41,6 +41,8 @@ public class BoardService {
         board.edit(boardForm);
     }
 
+
+
     public Page<Board> findAll(Pageable pageable){
         return boardRepository.findAll(pageable);
     }
@@ -53,6 +55,9 @@ public class BoardService {
         return boardRepository.findBoardsByStuId(pageable, stuId);
     }
 
+    public List<Board> findBoardsByStuId(String stuId) {
+        return boardRepository.findBoardsByStuId(stuId);
+    }
     public Board findOne(Long id) {
         return boardRepository.findBoardById(id);
     }

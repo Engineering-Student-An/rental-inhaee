@@ -75,9 +75,16 @@ public class StudentController {
 
     @GetMapping("/student/{stuId}/delete")
     public String deleteStudent(@PathVariable("stuId") String stuId, Model model) {
-        studentService.delete(stuId);
+        if(studentService.delete(stuId)) {
+            model.addAttribute("errorMessage", "계정 삭제가 완료되었습니다.\n대여 정보, 게시글, 댓글이 모두 삭제되었습니다.");
+            model.addAttribute("nextUrl", "/student/list");
+        } else {
+            model.addAttribute("errorMessage", "대여중인 물품을 모두 반납하고 계정 삭제를 진행해주세요!");
+            model.addAttribute("nextUrl", "/student/" + stuId + "/find");
 
-        return "redirect:/student/list";
+        }
+        return "error/errorMessage";
+
     }
 
     @ModelAttribute("loginStuId")

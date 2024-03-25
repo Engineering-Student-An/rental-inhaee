@@ -1,9 +1,12 @@
 package an.rentalinhaee.service;
 
-import an.rentalinhaee.domain.Student;
+import an.rentalinhaee.domain.*;
 import an.rentalinhaee.domain.dto.ChangePasswordRequest;
 import an.rentalinhaee.domain.dto.JoinRequest;
 import an.rentalinhaee.domain.dto.LoginRequest;
+import an.rentalinhaee.repository.BoardRepository;
+import an.rentalinhaee.repository.RentalRepository;
+import an.rentalinhaee.repository.ReplyRepository;
 import an.rentalinhaee.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,6 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class StudentService {
 
     private final StudentRepository studentRepository;
+    private final RentalRepository rentalRepository;
+    private final BoardRepository boardRepository;
+    private final ReplyRepository replyRepository;
 
     /**
      * 학번 중복 검증
@@ -40,9 +46,54 @@ public class StudentService {
         student.editPassword(request.getChangePassword());
     }
 
+
+    private final BoardService boardService;
+    private final ReplyService replyService;
+    private final RentalService rentalService;
+
     // 회원 탈퇴
-    public void delete(String stuId) {
-        studentRepository.delete(studentRepository.findByStuId(stuId));
+    @Transactional
+    public boolean delete(String stuId) {
+        Student findStudent = studentRepository.findByStuId(stuId);
+
+        if(!rentalRepository.existsByStudent_IdAndStatusNot(findStudent.getId(), RentalStatus.FINISH)) {
+
+            // 대여 기록 삭제
+            for (Rental rental : rentalRepository.findRentalsByStudent_IdAndStatus(findStudent.getId(), RentalStatus.FINISH)) {
+                rentalRepository.delete(rental);
+            }
+
+            // 학생 정보 삭제
+            studentRepository.delete(findStudent);
+
+            // 게시글의 학생 정보 수정
+            for (Board board : boardService.findBoardsByStuId(stuId)) {
+                boardRepository.delete(board);
+            }
+
+            // 댓글의 학생 정보 수정
+            for (Reply reply : replyService.findRepliesByStuId(stuId)) {
+                replyRepository.delete(reply);
+            }
+
+            // 게시글의 좋아요 리스트에서 삭제
+            for (Board board : boardRepository.findAll()) {
+                if(board.isLike(stuId)) {
+                    board.like(stuId);
+                }
+            }
+
+            // 댓글의 좋아요 리스트에서 삭제
+            for(Reply reply : replyRepository.findAll()) {
+                if(reply.isLike(stuId)) {
+                    reply.like(stuId);
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     /**

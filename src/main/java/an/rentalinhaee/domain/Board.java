@@ -65,4 +65,9 @@ public class Board {
         this.title = boardForm.getTitle();
         this.content = boardForm.getContent();
     }
+
+    public void editStudentInfo(String stuId, String name) {
+        this.stuId = stuId;
+        this.name = name;
+    }
 }

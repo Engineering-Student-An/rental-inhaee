@@ -32,4 +32,8 @@ public interface RentalRepository extends JpaRepository<Rental, Long> {
 
     void deleteRentalByItem_Id(Long itemId);
 
+    Boolean existsByStudent_IdAndStatusNot(Long id, RentalStatus status);
+
+    List<Rental> findRentalsByStudent_IdAndStatus(Long id, RentalStatus status);
+
 }

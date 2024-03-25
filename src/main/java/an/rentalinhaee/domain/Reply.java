@@ -62,5 +62,9 @@ public class Reply {
         return reply;
     }
 
+    public void editStudentInfo(String stuId, String name) {
+        this.stuId = stuId;
+        this.name = name;
+    }
 
 }
