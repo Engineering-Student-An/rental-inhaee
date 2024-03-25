@@ -30,6 +30,7 @@ public class JoinRequest {
                 .stuId(this.stuId)
                 .name(this.name)
                 .password(this.password)
+                .phoneNumber(this.phoneNumber)
                 .role(role)
                 .build();
     }

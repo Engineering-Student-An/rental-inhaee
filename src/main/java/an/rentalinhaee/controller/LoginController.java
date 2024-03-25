@@ -135,9 +135,12 @@ public class LoginController {
         return "redirect:/";
     }
     @GetMapping("/changePassword")
-    public String changePassword(Model model) {
+    public String changePassword(Model model, HttpServletRequest httpServletRequest) {
+
+        HttpSession httpSession = httpServletRequest.getSession(true);
 
         model.addAttribute("changePasswordRequest", new ChangePasswordRequest());
+        model.addAttribute("phoneNumber", studentService.findStudent(loginStuId(httpSession)).getPhoneNumber());
         return "home/changePassword";
     }
 
