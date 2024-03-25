@@ -40,6 +40,11 @@ public class StudentService {
         student.editPassword(request.getChangePassword());
     }
 
+    // 회원 탈퇴
+    public void delete(String stuId) {
+        studentRepository.delete(studentRepository.findByStuId(stuId));
+    }
+
     /**
      * 로그인
      */

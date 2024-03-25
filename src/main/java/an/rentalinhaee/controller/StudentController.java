@@ -1,6 +1,5 @@
 package an.rentalinhaee.controller;
 
-import an.rentalinhaee.WriteExcel;
 import an.rentalinhaee.domain.Rental;
 import an.rentalinhaee.domain.Student;
 import an.rentalinhaee.repository.RentalSearch;
@@ -8,6 +7,7 @@ import an.rentalinhaee.repository.StudentSearch;
 import an.rentalinhaee.service.FeeStudentService;
 import an.rentalinhaee.service.RentalService;
 import an.rentalinhaee.service.StudentService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.io.IOException;
 
 
 @Controller
@@ -52,7 +50,8 @@ public class StudentController {
     @GetMapping("/student/{stuId}/find")
     public String findOneStudent(@PathVariable("stuId") String stuId, Model model,
                                  @ModelAttribute("rentalSearch") RentalSearch rentalSearch,
-                                 @RequestParam(required = false, defaultValue = "1", value = "page") int page) {
+                                 @RequestParam(required = false, defaultValue = "1", value = "page") int page,
+                                 HttpServletRequest httpServletRequest) {
 
         Student student = studentService.findStudent(stuId);
         if(rentalSearch.getStuId()==null) rentalSearch.setStuId(stuId);
@@ -66,12 +65,20 @@ public class StudentController {
 
         model.addAttribute("student", student);
         model.addAttribute("rentalList", rentalList);
+        HttpSession httpSession = httpServletRequest.getSession(true);
+        model.addAttribute("adminPassword", studentService.findStudent(loginStuId(httpSession)).getPassword());
         return "student/studentInfo";
     }
 
     private final FeeStudentService feeStudentService;
 
 
+    @GetMapping("/student/{stuId}/delete")
+    public String deleteStudent(@PathVariable("stuId") String stuId, Model model) {
+        studentService.delete(stuId);
+
+        return "redirect:/student/list";
+    }
 
     @ModelAttribute("loginStuId")
     public String loginStuId(HttpSession httpSession) {
