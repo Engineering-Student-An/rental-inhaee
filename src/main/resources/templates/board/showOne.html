@@ -57,7 +57,7 @@
     <div>
         <div class="d-flex justify-content-between">
             <h4>[[${board.title}]]</h4>
-            <a href="/board/list" class="btn btn-primary" role="button">목록으로</a>
+            <a href="/board/list" class="btn btn-outline-primary" role="button">목록으로</a>
         </div>
         <br>
         <div class="d-flex justify-content-end">
@@ -77,11 +77,11 @@
         <div class="border p-3" style="white-space: pre-line; word-break: break-all" th:text="${board.content}"></div><br><br>
         <div class="d-flex justify-content-end">
             <div th:if="${loginStuId == board.stuId}">
-                <a th:href="@{/board/{id}/edit(id=${board.id})}" class="btn btn-primary" role="button">수정</a>
+                <a th:href="@{/board/{id}/edit(id=${board.id})}" class="btn btn-outline-primary" role="button">수정</a>
             </div>
             <div th:if="${loginStuId == board.stuId || loginStuId == 'ADMIN'}">
                 <a href="#" onclick="return confirm('게시글을 삭제하시겠습니까?');"
-                   th:href="@{/board/{id}/delete(id=${board.id})}" class="btn btn-danger mx-1" role="button">삭제</a>
+                   th:href="@{/board/{id}/delete(id=${board.id})}" class="btn btn-outline-danger mx-1" role="button">삭제</a>
             </div>
 
 
@@ -105,7 +105,7 @@
                 <div class="error-class" th:errors="*{content}"></div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button><br>
+            <button type="submit" class="btn btn-outline-primary">작성</button><br>
         </form>
 
         <table class="table">
@@ -117,7 +117,7 @@
                         <span th:text="${reply.name}"></span>
                         <div th:if="${loginStuId == reply.stuId || loginStuId == 'ADMIN'}" style="display: flex">
                             <a href="#" onclick="return confirm('댓글을 삭제하시겠습니까?');"
-                               th:href="@{/board/{id}/reply/{replyId}/delete(id=${id}, replyId=${reply.id})}" class="btn btn-danger btn-sm" role="button">삭제</a>
+                               th:href="@{/board/{id}/reply/{replyId}/delete(id=${id}, replyId=${reply.id})}" class="btn btn-outline-danger btn-sm" role="button">삭제</a>
                         </div>
                     </span>
                 </td>

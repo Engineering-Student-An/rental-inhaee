@@ -20,10 +20,10 @@
         <div th:if="${loginStuId == null}">
             <h3>로그인 후 이용 가능합니다!</h3>
             <br>
-            <a th:href="@{/login}" class="btn btn-primary" role="button">로그인</a>
+            <a th:href="@{/login}" class="btn btn-outline-primary" role="button">로그인</a>
             <br><br>
 
-            <a th:href="@{/join}" class="btn btn-primary" role="button">회원 가입</a>
+            <a th:href="@{/join}" class="btn btn-outline-primary" role="button">회원 가입</a>
             <br><br><br><br>
 
         </div>
@@ -44,9 +44,9 @@
             </div>
             <hr/>
             <div class="d-flex justify-content-between align-items-center">
-                <a th:href="@{/item/list}" class="btn btn-primary" role="button">물품 현황</a><br>
-                <a th:href="@{/rental}" class="btn btn-primary" role="button">대여 신청</a><br>
-                <a th:href="@{/rental/findOne}" class="btn btn-primary" role="button">내 대여 현황</a><br>
+                <a th:href="@{/item/list}" class="btn btn-outline-primary" role="button">물품 현황</a><br>
+                <a th:href="@{/rental}" class="btn btn-outline-primary" role="button">대여 신청</a><br>
+                <a th:href="@{/rental/findOne}" class="btn btn-outline-primary" role="button">내 대여 현황</a><br>
             </div>
             <br><br>
 
