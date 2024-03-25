@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 
 @Controller
@@ -51,6 +52,12 @@ public class LoginController {
                     "passwordCheck", "비밀번호가 동일하지 않습니다!"));
         }
 
+
+        if (!Pattern.compile("^\\d{3}-\\d{3,4}-\\d{4}$").matcher(joinRequest.getPhoneNumber()).matches()) {
+            bindingResult.addError(new FieldError("joinRequest",
+                    "phoneNumber", "전화번호 형식이 올바르지 않습니다!"));
+        }
+
 //        List<String> readRequest = readOneExcel(joinRequest.getStuId());
         List<String> readRequest = feeStudentService.findOne(joinRequest.getStuId());
         if(readRequest.get(0).isEmpty()){
@@ -65,11 +72,25 @@ public class LoginController {
         if (bindingResult.hasErrors()) {
             return "home/join";
         }
+        model.addAttribute("joinRequest", joinRequest);
+        return "home/joinMessage";
 
-        studentService.join(joinRequest);
-        return "redirect:/";
     }
 
+    @GetMapping("/join/complete")
+    public String joinComplete(@RequestParam("stuId")String stuId,
+                               @RequestParam("name")String name,
+                               @RequestParam("password")String password,
+                               @RequestParam("passwordCheck")String passwordCheck,
+                               @RequestParam("phoneNumber")String phoneNumber, Model model) {
+        JoinRequest joinRequest = new JoinRequest(stuId, name, password, passwordCheck, phoneNumber);
+        studentService.join(joinRequest);
+
+        model.addAttribute("errorMessage", "회원가입 완료되었습니다.");
+        model.addAttribute("nextUrl", "/");
+        return "error/errorMessage";
+
+    }
     @GetMapping("/login")
     public String loginPage(Model model) {
         model.addAttribute("loginRequest", new LoginRequest());

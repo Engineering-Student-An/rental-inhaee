@@ -20,6 +20,9 @@ public class JoinRequest {
     private String password;
     private String passwordCheck;
 
+    @NotBlank(message = "전화번호가 비어있습니다.")
+    private String phoneNumber;
+
     private StudentRole role = StudentRole.USER;
     // 비밀번호 암호화 X
     public Student toEntity(){
@@ -31,8 +34,15 @@ public class JoinRequest {
                 .build();
     }
 
+    public JoinRequest(String stuId, String name, String password, String passwordCheck, String phoneNumber) {
+        this.stuId = stuId;
+        this.name = name;
+        this.password = password;
+        this.passwordCheck = passwordCheck;
+        this.phoneNumber = phoneNumber;
+    }
 
-//    // 비밀번호 암호화
+    //    // 비밀번호 암호화
 //    public Student toEntity(String encodedPassword){
 //        return Student.builder()
 //                .stuId(this.stuId)

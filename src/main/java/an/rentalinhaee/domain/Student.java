@@ -24,6 +24,8 @@ public class Student {
     private String name;
     private String password;
 
+    private String phoneNumber;
+
     @Enumerated(EnumType.STRING)
     private StudentRole role;   // [USER, ADMIN]
 

@@ -41,6 +41,13 @@
             <div class="error-class" th:errors="*{passwordCheck}"></div>
         </div>
         <br/>
+
+        <div>
+            <label th:for="phoneNumber">전화번호</label>
+            <input type="text" th:field="*{phoneNumber}" th:errorclass="error-input" class="form-control" placeholder="010-0000-0000 형식으로 입력하세요">
+            <div class="error-class" th:errors="*{phoneNumber}"></div>
+        </div>
+        <br/>
         <button type="submit" class="btn btn-secondary">회원 가입</button> <br/><br/>
 
     </form>
