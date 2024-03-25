@@ -1,10 +1,9 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header" />
+<head th:replace="fragments/header :: header"></head>
 <body>
-
 <div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
 
     <div>
         <form class="form-inline">
@@ -23,7 +22,11 @@
                 <button class="btn btn-primary mb-2" type="submit">검색</button>
 
                 &nbsp; &nbsp; &nbsp;
-                <a class="btn btn-primary mb-2" onclick="addTable()">추가</a>
+                <a class="btn btn-outline-info" onclick="addTable()">추가</a>
+                &nbsp;
+
+                <button type="submit" class="btn btn-outline-danger" form="deleteForm">삭제</button>
+
 
             </div>
             <div id="tableContainer">
@@ -37,20 +40,25 @@
             </div>
         </form>
 
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>학번</th>
-                <th>이름</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="student : ${students}">
-                <td th:text="${student.stuId}"></td>
-                <td th:text="${student.name}"></td>
-            </tr>
-            </tbody>
-        </table>
+        <form id="deleteForm" th:action="@{/student/feeList/delete}" method="post">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>선택</th> <!-- 선택 열 추가-->
+                    <th>학번</th>
+                    <th>이름</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="student : ${students}">
+                    <td><input type="checkbox" name="stuIdList" th:value="${student.stuId}"></td> <!-- 체크박스 추가 -->
+                    <td th:text="${student.stuId}"></td>
+                    <td th:text="${student.name}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+
     </div>
     <div style="text-align: center">
         <button class="btn btn-outline-info" th:disabled="${students.getNumber()}==0"
@@ -70,46 +78,51 @@
             >></button>
     </div>
     <br>
-    <div th:replace="fragments/footer :: footer" />
+    <div th:replace="fragments/footer :: footer"></div>
 
 </div> <!-- /container -->
 
 </body>
 
-<script>
+<script>        <!-- 추가 로직 -->
+    var tableAdded = false;
     function addTable() {
-        var newTable = '<h4>학생회비 납부 학생 추가</h4>' +
-            '<div>' +
-            '<table class="table table-striped">' +
-            '<thead>' +
-            '<tr>' +
-            '<th>학번</th>' +
-            '<th>이름</th>' +
-            '</tr>' +
-            '</thead>' +
-            '<tbody>' +
-            '<tr>' +
-            '<td><input type="text" class="form-control" name="newStuId" placeholder="학번 입력"></td>' +
-            '<td><input type="text" class="form-control" name="newName" placeholder="이름 입력"></td>' +
-            '</tr>' +
-            '</tbody>' +
-            '</table>' +
-            '</div>';
+        var tableContainer = document.getElementById('tableContainer');
+        if(tableAdded) {
+            tableContainer.innerHTML = '';
+            tableAdded = false;
+        } else {
+            var newTable = '<h4>학생회비 납부 학생 추가</h4>' +
+                '<div>' +
+                '<table class="table table-striped">' +
+                '<thead>' +
+                '<tr>' +
+                '<th>학번</th>' +
+                '<th>이름</th>' +
+                '</tr>' +
+                '</thead>' +
+                '<tbody>' +
+                '<tr>' +
+                '<td><input type="text" class="form-control" name="newStuId" placeholder="학번 입력"></td>' +
+                '<td><input type="text" class="form-control" name="newName" placeholder="이름 입력"></td>' +
+                '</tr>' +
+                '</tbody>' +
+                '</table>' +
+                '</div>';
 
-        var addButton = '<button id="addButton" class="btn btn-primary" onclick="addStudent()">추가</button>'
+            var addButton = '<button id="addButton" class="btn btn-outline-info btn-sm float-end" onclick="addStudent()">추가</button>'
 
-        // 새로운 행을 기존 표의 tbody에 추가
-        document.getElementById('tableContainer').innerHTML += newTable + addButton;
+            // 새로운 행을 기존 표의 tbody에 추가
+            tableContainer.innerHTML += newTable + addButton;
+            tableAdded = true;
+        }
+
     }
-</script>
-
-<script>
     function addStudent() {
         var stuId = document.getElementsByName('newStuId')[0].value;
         var name = document.getElementsByName('newName')[0].value;
         location.href = `/student/feeList/add?newStuId=${stuId}&newName=${name}`;
     }
+
 </script>
-
-
 </html>

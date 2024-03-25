@@ -5,6 +5,7 @@ import an.rentalinhaee.domain.StudentRole;
 import an.rentalinhaee.domain.dto.ChangePasswordRequest;
 import an.rentalinhaee.domain.dto.JoinRequest;
 import an.rentalinhaee.domain.dto.LoginRequest;
+import an.rentalinhaee.service.FeeStudentService;
 import an.rentalinhaee.service.StudentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -22,8 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-import static an.rentalinhaee.ReadExcel.readOneExcel;
-
 
 @Controller
 @Slf4j
@@ -31,6 +30,7 @@ import static an.rentalinhaee.ReadExcel.readOneExcel;
 public class LoginController {
 
     private final StudentService studentService;
+    private final FeeStudentService feeStudentService;
 
     @GetMapping("/join")
     public String joinPage(Model model) {
@@ -51,8 +51,8 @@ public class LoginController {
                     "passwordCheck", "비밀번호가 동일하지 않습니다!"));
         }
 
-        List<String> readRequest = readOneExcel(joinRequest.getStuId());
-
+//        List<String> readRequest = readOneExcel(joinRequest.getStuId());
+        List<String> readRequest = feeStudentService.findOne(joinRequest.getStuId());
         if(readRequest.get(0).isEmpty()){
              bindingResult.addError(new FieldError("joinRequest",
                      "stuId", "학생회비 납부 명단에 존재하지 않는 학번입니다!"));

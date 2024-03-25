@@ -1,6 +1,5 @@
 package an.rentalinhaee.domain;
 
-import an.rentalinhaee.domain.dto.JoinRequest;
 import an.rentalinhaee.repository.RuleRepository;
 import an.rentalinhaee.service.ItemService;
 import an.rentalinhaee.service.RentalService;
