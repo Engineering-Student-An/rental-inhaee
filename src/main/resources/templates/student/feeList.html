@@ -22,20 +22,23 @@
                 <button class="btn btn-primary mb-2" type="submit">검색</button>
 
                 &nbsp; &nbsp; &nbsp;
-                <a class="btn btn-outline-info" onclick="addTable()">추가</a>
+                <a class="btn btn-outline-info btn-sm" onclick="addTable()">추가</a>
                 &nbsp;
 
-                <button type="submit" class="btn btn-outline-danger" form="deleteForm">삭제</button>
+                <button type="submit" class="btn btn-outline-danger btn-sm" form="deleteForm">삭제</button>
+                &nbsp;
+
+                <a class="btn btn-outline-primary btn-sm" onclick="addWindow()">업로드</a>
 
 
             </div>
             <div id="tableContainer">
                 <table class="table table-striped">
-                    <tbody>
-
-
-                    </tbody>
+                    <tbody></tbody>
                 </table>
+
+            </div>
+            <div id="windowContainer">
 
             </div>
         </form>
@@ -125,4 +128,47 @@
     }
 
 </script>
+
+<script>        <!-- 추가 로직 -->
+var windowAdded = false;
+function addWindow() {
+    var windowContainer = document.getElementById('windowContainer');
+    if(windowAdded) {
+        windowContainer.innerHTML = '';
+        windowAdded = false;
+    } else {
+
+        var newWindow = '<h4>학생회비 납부 명단 업로드 (엑셀 파일만 업로드!)</h4>' +
+
+            '<form th:action="@{/student/feeList/upload}" method="POST" enctype="multipart/form-data">' +
+                '<input type="file" name="excelFile">' +
+                '<input type="submit" value="업로드"/>' +
+            '</form>';
+
+        windowContainer.innerHTML += newWindow;
+        windowAdded = true;
+    }
+
+}
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const deleteButton = document.querySelector("button[type='submit'][form='deleteForm']");
+        const checkboxes = document.querySelectorAll("input[type='checkbox'][name='stuIdList']");
+
+        function updateButtonState() {
+            const isAnyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+            deleteButton.disabled = !isAnyChecked;
+        }
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener("change", updateButtonState);
+        });
+
+        // 초기 상태 업데이트
+        updateButtonState();
+    });
+</script>
+
 </html>

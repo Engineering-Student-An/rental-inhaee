@@ -58,6 +58,10 @@ public class FeeStudentService {
         feeStudentRepository.delete(feeStudentRepository.findByStuId(stuId));
     }
 
+    public void deleteAll() {
+        feeStudentRepository.deleteAll();
+    }
+
     // 학생회비 납부 명단 학번, 이름 포함 조회
 //    public Page<Student> findFeeStudent(String stuId, String name, Pageable pageable){
 //        List<Student> allList = ReadExcel.readAllExcel();

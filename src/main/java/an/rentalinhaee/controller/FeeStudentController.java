@@ -1,5 +1,6 @@
 package an.rentalinhaee.controller;
 
+import an.rentalinhaee.ReadExcel;
 import an.rentalinhaee.domain.FeeStudent;
 import an.rentalinhaee.repository.StudentSearch;
 import an.rentalinhaee.service.FeeStudentService;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -66,6 +69,18 @@ public class FeeStudentController {
         for (String stuId : stuIdList) {
             feeStudentService.delete(stuId);
         }
+        return "redirect:/student/feeList";
+    }
+
+    @PostMapping("/student/feeList/upload")
+    public String uploadExcelFile(@RequestParam("excelFile")MultipartFile file, Model model) throws IOException {
+
+        List<FeeStudent> feeStudents = ReadExcel.uploadExcel(file);
+        feeStudentService.deleteAll();
+        for (FeeStudent feeStudent : feeStudents) {
+            feeStudentService.save(feeStudent);
+        }
+
         return "redirect:/student/feeList";
     }
 

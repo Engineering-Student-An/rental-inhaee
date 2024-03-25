@@ -1,21 +1,24 @@
 package an.rentalinhaee;
 
+import an.rentalinhaee.domain.FeeStudent;
 import an.rentalinhaee.domain.Student;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.util.IOUtils;
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 public class ReadExcel {
     public static List<String> readOneExcel(String stuId) {
@@ -100,4 +103,25 @@ public class ReadExcel {
         return allList;
     }
 
+    public static List<FeeStudent> uploadExcel(MultipartFile file) throws IOException {
+        List<FeeStudent> result = new ArrayList<>();
+
+        XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+        XSSFSheet sheet = workbook.getSheetAt(0);
+
+        for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) {
+            XSSFRow row = sheet.getRow(i);
+            DataFormatter formatter = new DataFormatter();
+
+            String stuId = formatter.formatCellValue(row.getCell(0));
+            String name = formatter.formatCellValue(row.getCell(1));
+
+            if(!stuId.isEmpty() && !name.isEmpty()){
+                FeeStudent feeStudent = new FeeStudent(stuId, name);
+                result.add(feeStudent);
+            }
+
+        }
+        return result;
+    }
 }
