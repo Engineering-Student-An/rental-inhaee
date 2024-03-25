@@ -74,9 +74,10 @@ public class RentalController {
     @PostMapping("/rental/findOne/{rentalId}/finish")
     public String finishRental(@PathVariable("rentalId") Long rentalId, Model model) {
         if(ChronoUnit.DAYS.between(rentalService.findRentalByRentalId(rentalId).getRentalDate(), LocalDate.now()) > 3){
-            model.addAttribute("errorMessage", "연체중인 물품의 반납은 관리자를 통해 가능합니다. \n(관리자 번호) ");
-            model.addAttribute("nextUrl", "/rental/myRentalList");
-            return "error/errorMessage";
+            model.addAttribute("errorMessage", "연체중인 물품의 반납은 관리자를 통해 가능합니다.");
+            model.addAttribute("nextUrl", "/rental/findOne");
+            model.addAttribute("newUrl", "https://pf.kakao.com/_CxjxlxiM");
+            return "error/errorMessageNewTab";
         }
         rentalService.finishRental(rentalId);
 
