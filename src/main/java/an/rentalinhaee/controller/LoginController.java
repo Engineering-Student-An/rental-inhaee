@@ -78,12 +78,8 @@ public class LoginController {
     }
 
     @GetMapping("/join/complete")
-    public String joinComplete(@RequestParam("stuId")String stuId,
-                               @RequestParam("name")String name,
-                               @RequestParam("password")String password,
-                               @RequestParam("passwordCheck")String passwordCheck,
-                               @RequestParam("phoneNumber")String phoneNumber, Model model) {
-        JoinRequest joinRequest = new JoinRequest(stuId, name, password, passwordCheck, phoneNumber);
+    public String joinComplete(@ModelAttribute("joinRequest")JoinRequest joinRequest, Model model) {
+
         studentService.join(joinRequest);
 
         model.addAttribute("errorMessage", "회원가입 완료되었습니다.");
