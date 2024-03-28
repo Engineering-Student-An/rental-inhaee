@@ -2,10 +2,7 @@ package an.rentalinhaee.controller;
 
 import an.rentalinhaee.domain.Student;
 import an.rentalinhaee.domain.StudentRole;
-import an.rentalinhaee.domain.dto.ChangePasswordRequest;
-import an.rentalinhaee.domain.dto.EmailForm;
-import an.rentalinhaee.domain.dto.JoinRequest;
-import an.rentalinhaee.domain.dto.LoginRequest;
+import an.rentalinhaee.domain.dto.*;
 import an.rentalinhaee.service.EmailService;
 import an.rentalinhaee.service.FeeStudentService;
 import an.rentalinhaee.service.StudentService;
@@ -84,33 +81,73 @@ public class LoginController {
     private final EmailService emailService;
 
     @GetMapping("/join/verify")
-    public String verifyEmail(Model model) {
+    public String verifyEmail(Model model, HttpSession session) {
 
+        session.setAttribute("joinRequest", (JoinRequest) session.getAttribute("joinRequest"));
         model.addAttribute("emailForm", new EmailForm());
+        model.addAttribute("isSent", false);
+        model.addAttribute("verifyCodeForm", new VerifyCodeForm());
 
         return "home/join/verifyEmail";
     }
 
     @PostMapping("/join/verify")
-    public String sendEmail(@ModelAttribute EmailForm emailForm) {
+    public String sendEmail(@ModelAttribute EmailForm emailForm,
+                            @ModelAttribute VerifyCodeForm verifyCodeForm,
+                            BindingResult bindingResult, HttpSession session, Model model) {
 
+        String email = emailForm.email;
+        if(email.isEmpty()) {
+            bindingResult.addError(new FieldError("emailForm",
+                    "email", "이메일 주소를 입력해주세요!"));
+        }
+        else if(!email.contains("@") || !email.contains(".")) {
+            bindingResult.addError(new FieldError("emailForm",
+                    "email", "이메일 주소가 올바르지 않습니다!"));
+        }
+        if(bindingResult.hasErrors()) {
+            return "home/join/verifyEmail";
+        }
 
-        System.out.println("!!");
-        emailService.sendEmail(emailForm.email);
+        String verifyCode = emailService.sendEmail(emailForm.email);
+        model.addAttribute("isSent", true);
 
-        return "home/home";
+        session.setAttribute("joinRequest", (JoinRequest) session.getAttribute("joinRequest"));
+        session.setAttribute("verifyCode", verifyCode);
+        return "home/join/verifyEmail";
     }
 
-    @GetMapping("/join/complete")
-    public String joinComplete(Model model) {
+    @PostMapping("/join/verify/code")
+    public String verifyCodeCheck(@ModelAttribute("verifyCodeForm") VerifyCodeForm verifyCodeForm,
+                                  HttpSession session, BindingResult bindingResult, Model model) {
 
-//        studentService.join(joinRequest);
+        // 메일 보낸 인증 문자
+        String verifyCode = (String) session.getAttribute("verifyCode");
 
-        model.addAttribute("errorMessage", "회원가입 완료되었습니다.");
-        model.addAttribute("nextUrl", "/");
+        // 인증 문자 입력 했는지 검증
+        if(verifyCodeForm.getCode().isEmpty()) {
+            bindingResult.addError(new FieldError("code",
+                    "code", "인증 문자를 입력해주세요!"));
+        }
+
+        // 인증 문자와 동일한지 검증
+        if(!verifyCodeForm.getCode().equals(verifyCode)) {
+            model.addAttribute("errorMessage", "인증 문자가 일치하지 않습니다! 다시 시도해주세요!");
+            model.addAttribute("nextUrl", "/join/verify");
+            return "error/errorMessage";
+        }
+
+        // 회원가입
+        JoinRequest joinRequest = (JoinRequest) session.getAttribute("joinRequest");
+        studentService.join(joinRequest);
+
+        model.addAttribute("errorMessage", "회원가입이 완료되었습니다! 로그인 페이지로 돌아갑니다.");
+        model.addAttribute("nextUrl", "/login");
         return "error/errorMessage";
 
     }
+
+
     @GetMapping("/login")
     public String loginPage(Model model) {
         model.addAttribute("loginRequest", new LoginRequest());

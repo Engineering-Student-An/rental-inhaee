@@ -19,7 +19,7 @@ public class EmailService {
     private final JavaMailSender javaMailSender;
     private final SpringTemplateEngine templateEngine;
 
-    public void sendEmail(String receiver) {
+    public String sendEmail(String receiver) {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
         try{
@@ -31,9 +31,12 @@ public class EmailService {
             mimeMessageHelper.setSubject("PULSE 대여 사업 가입 이메일 인증");
 
             // 메일의 내용 설정
-            mimeMessageHelper.setText(setContext(createVerifyCode()), true);
+            String verifyCode = createVerifyCode();
+            mimeMessageHelper.setText(setContext(verifyCode), true);
 
             javaMailSender.send(mimeMessage);
+
+            return verifyCode;
 
 //            log.info("메일 발송 성공!");
         } catch (Exception e) {
