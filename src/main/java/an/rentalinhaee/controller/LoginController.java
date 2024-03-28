@@ -197,6 +197,7 @@ public class LoginController {
 
         model.addAttribute("changePasswordRequest", new ChangePasswordRequest());
         model.addAttribute("phoneNumber", studentService.findStudent(loginStuId(httpSession)).getPhoneNumber());
+        model.addAttribute("email", studentService.findStudent(loginStuId(httpSession)).getEmail());
         return "home/changePassword";
     }
 

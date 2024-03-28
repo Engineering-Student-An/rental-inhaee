@@ -7,10 +7,12 @@
 
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
-    <h2>학번  [[${student.stuId}]]</h2>
-    <h2>이름  <span th:text="${student.name}"></span></h2>
+    <h2>학번&nbsp;&nbsp;&nbsp;&nbsp;[[${student.stuId}]]</h2>
+    <h2>이름&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${student.name}"></span></h2>
+    <br>
+    <h4>전화번호&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${student.phoneNumber}"></span></h4>
     <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h2>전화번호 <span th:text="${student.phoneNumber}"></span></h2>
+        <h4>이메일 주소&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${student.email}"></span></h4>
         <a href="#" th:href="@{/student/list}" class="btn btn-primary" role="button">Back</a>
     </div>
 
