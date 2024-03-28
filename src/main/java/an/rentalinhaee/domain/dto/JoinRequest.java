@@ -25,13 +25,14 @@ public class JoinRequest {
 
     private StudentRole role = StudentRole.USER;
     // 비밀번호 암호화 X
-    public Student toEntity(){
+    public Student toEntity(String email){
         return Student.builder()
                 .stuId(this.stuId)
                 .name(this.name)
                 .password(this.password)
                 .phoneNumber(this.phoneNumber)
                 .role(role)
+                .email(email)
                 .build();
     }
 

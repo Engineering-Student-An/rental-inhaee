@@ -93,24 +93,27 @@ public class LoginController {
 
     @PostMapping("/join/verify")
     public String sendEmail(@ModelAttribute EmailForm emailForm,
+                            BindingResult bindingResult,
                             @ModelAttribute VerifyCodeForm verifyCodeForm,
-                            BindingResult bindingResult, HttpSession session, Model model) {
+                            HttpSession session, Model model) {
 
-        String email = emailForm.email;
+        String email = emailForm.getEmail();
         if(email.isEmpty()) {
             bindingResult.addError(new FieldError("emailForm",
                     "email", "이메일 주소를 입력해주세요!"));
-        }
-        else if(!email.contains("@") || !email.contains(".")) {
+        } else if(!email.contains("@") || !email.contains(".")) {
             bindingResult.addError(new FieldError("emailForm",
                     "email", "이메일 주소가 올바르지 않습니다!"));
         }
+
         if(bindingResult.hasErrors()) {
+            session.setAttribute("joinRequest", (JoinRequest) session.getAttribute("joinRequest"));
             return "home/join/verifyEmail";
         }
 
-        String verifyCode = emailService.sendEmail(emailForm.email);
+        String verifyCode = emailService.sendEmail(emailForm.getEmail());
         model.addAttribute("isSent", true);
+
 
         session.setAttribute("joinRequest", (JoinRequest) session.getAttribute("joinRequest"));
         session.setAttribute("verifyCode", verifyCode);
@@ -119,16 +122,11 @@ public class LoginController {
 
     @PostMapping("/join/verify/code")
     public String verifyCodeCheck(@ModelAttribute("verifyCodeForm") VerifyCodeForm verifyCodeForm,
-                                  HttpSession session, BindingResult bindingResult, Model model) {
+                                  @RequestParam("email") String email,
+                                  HttpSession session, Model model) {
 
         // 메일 보낸 인증 문자
         String verifyCode = (String) session.getAttribute("verifyCode");
-
-        // 인증 문자 입력 했는지 검증
-        if(verifyCodeForm.getCode().isEmpty()) {
-            bindingResult.addError(new FieldError("code",
-                    "code", "인증 문자를 입력해주세요!"));
-        }
 
         // 인증 문자와 동일한지 검증
         if(!verifyCodeForm.getCode().equals(verifyCode)) {
@@ -137,9 +135,10 @@ public class LoginController {
             return "error/errorMessage";
         }
 
-        // 회원가입
+        // 인증 문자 동일하면 회원가입
         JoinRequest joinRequest = (JoinRequest) session.getAttribute("joinRequest");
-        studentService.join(joinRequest);
+        System.out.println("email = " + email);
+        studentService.join(joinRequest, email);
 
         model.addAttribute("errorMessage", "회원가입이 완료되었습니다! 로그인 페이지로 이동합니다.");
         model.addAttribute("nextUrl", "/login");

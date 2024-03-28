@@ -25,19 +25,14 @@ public class StudentService {
     private final BoardRepository boardRepository;
     private final ReplyRepository replyRepository;
 
-    /**
-     * 학번 중복 검증
-     * True면 중복
-     */
+    // 학번 중복 검증
     public boolean checkStuIdDuplicate(String stuId){
         return studentRepository.existsByStuId(stuId);
     }
 
-    /**
-     * 회원가입
-     */
-    public void join(JoinRequest joinRequest){
-        studentRepository.save(joinRequest.toEntity());
+    // 회원가입
+    public void join(JoinRequest joinRequest, String email){
+        studentRepository.save(joinRequest.toEntity(email));
     }
 
     // 비밀번호 변경
@@ -96,9 +91,7 @@ public class StudentService {
 
     }
 
-    /**
-     * 로그인
-     */
+    // 로그인
     public Student login(LoginRequest loginRequest) {
         Student student = studentRepository.findByStuId(loginRequest.getStuId());
 

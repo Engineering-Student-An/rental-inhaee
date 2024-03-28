@@ -18,4 +18,5 @@ public interface StudentRepository extends JpaRepository <Student, Long> {
 
     // 모든 학생 찾음
     Page<Student> findAll(Pageable pageable);
+
 }

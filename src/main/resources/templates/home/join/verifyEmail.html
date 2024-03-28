@@ -15,32 +15,30 @@
     <h3>이메일 검증</h3>
     <br>
     <form th:method="post" th:action="|/join/verify|" th:object="${emailForm}" >
-        <label th:for="email">이메일 주소</label>
-        <div style="display: flex; align-items: center;">
+
+        <div>
+            <label th:for="email">이메일 주소</label>
             <input type="text" th:field="*{email}" th:errorclass="error-input" class="form-control"
-                   placeholder="이메일 주소를 입력하세요. (예시 : test@gmail.com)" style="width: 600px;">
+                   placeholder="이메일 주소를 입력하세요. (예시 : test@gmail.com)">
             <div class="error-class" th:errors="*{email}"></div>
-
-            <button type="submit" class="btn btn-outline-secondary btn-sm">인증</button>
         </div>
+
         <br/><br/>
+        <button type="submit" class="btn btn-outline-secondary btn-sm">인증</button>
+
     </form>
 
 
-    <form th:if="${isSent == true}" th:method="post" th:action="|/join/verify/code|" th:object="${verifyCodeForm}">
-        <label th:for="code">인증 문자</label>
-        <div style="display: flex; align-items: center;">
+    <form th:if="${isSent == true}" th:method="post" th:action="|/join/verify/code?email=${emailForm.getEmail()}|" th:object="${verifyCodeForm}">
+        <div>
+            <label th:for="code">인증 문자</label>
             <input type="text" th:field="*{code}" th:errorclass="error-input" class="form-control"
-                   placeholder="인증 문자를 입력하세요.">
-            <div class="error-class" th:errors="*{code}"></div>
-
-            <button type="submit" class="btn btn-outline-secondary btn-sm">확인</button>
+                   placeholder="입력한 이메일로 전송된 인증 문자를 입력하세요.">
         </div>
+
         <br/><br/>
+        <button type="submit" class="btn btn-outline-secondary btn-sm">확인</button>
     </form>
-
-
-
 
     <br>
     <div th:replace="fragments/footer :: footer"></div>
