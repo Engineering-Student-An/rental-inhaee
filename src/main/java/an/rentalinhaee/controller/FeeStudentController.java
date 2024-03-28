@@ -73,7 +73,27 @@ public class FeeStudentController {
     }
 
     @PostMapping("/student/feeList/upload")
-    public String uploadExcelFile(@RequestParam("excelFile")MultipartFile file) throws IOException {
+    public String uploadExcelFile(@RequestParam("excelFile")MultipartFile file, Model model) throws IOException {
+
+        // 업로드 파일이 존재하는지 검증
+        if(file == null || file.isEmpty()){
+            model.addAttribute("errorMessage", "선택된 파일이 없습니다!");
+            model.addAttribute("nextUrl", "/student/feeList");
+
+            return "error/errorMessage";
+        }
+
+        // 업로드 된 파일 명
+        String fileName = file.getOriginalFilename();
+
+        // 파일 명이 .xlsx , .xls 로 끝나는지 (=엑셀파일인지) 검증
+        if (fileName != null && !fileName.endsWith(".xls") && !fileName.endsWith(".xlsx")) {
+            model.addAttribute("errorMessage", "엑셀 파일을 업로드해주세요!");
+            model.addAttribute("nextUrl", "/student/feeList");
+
+            return "error/errorMessage";
+        }
+
 
         List<FeeStudent> feeStudents = ReadExcel.uploadExcel(file);
         feeStudentService.deleteAll();
