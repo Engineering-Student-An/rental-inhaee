@@ -141,7 +141,7 @@ public class LoginController {
         JoinRequest joinRequest = (JoinRequest) session.getAttribute("joinRequest");
         studentService.join(joinRequest);
 
-        model.addAttribute("errorMessage", "회원가입이 완료되었습니다! 로그인 페이지로 돌아갑니다.");
+        model.addAttribute("errorMessage", "회원가입이 완료되었습니다! 로그인 페이지로 이동합니다.");
         model.addAttribute("nextUrl", "/login");
         return "error/errorMessage";
 

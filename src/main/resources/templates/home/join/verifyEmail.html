@@ -26,7 +26,8 @@
         <br/><br/>
     </form>
 
-    <form th:method="post" th:action="|/join/verify/code|" th:object="${verifyCodeForm}">
+
+    <form th:if="${isSent == true}" th:method="post" th:action="|/join/verify/code|" th:object="${verifyCodeForm}">
         <label th:for="code">인증 문자</label>
         <div style="display: flex; align-items: center;">
             <input type="text" th:field="*{code}" th:errorclass="error-input" class="form-control"
