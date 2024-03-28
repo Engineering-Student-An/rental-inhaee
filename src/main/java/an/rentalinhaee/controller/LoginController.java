@@ -3,8 +3,10 @@ package an.rentalinhaee.controller;
 import an.rentalinhaee.domain.Student;
 import an.rentalinhaee.domain.StudentRole;
 import an.rentalinhaee.domain.dto.ChangePasswordRequest;
+import an.rentalinhaee.domain.dto.EmailForm;
 import an.rentalinhaee.domain.dto.JoinRequest;
 import an.rentalinhaee.domain.dto.LoginRequest;
+import an.rentalinhaee.service.EmailService;
 import an.rentalinhaee.service.FeeStudentService;
 import an.rentalinhaee.service.StudentService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,12 +38,13 @@ public class LoginController {
     @GetMapping("/join")
     public String joinPage(Model model) {
         model.addAttribute("joinRequest", new JoinRequest());
-        return "home/join";
+        return "home/join/join";
     }
 
     @PostMapping("/join")
     public String join(@Valid @ModelAttribute JoinRequest joinRequest,
-                       BindingResult bindingResult, Model model) {
+                       BindingResult bindingResult,
+                       HttpSession session, Model model) {
         if (studentService.checkStuIdDuplicate(joinRequest.getStuId())) {
             bindingResult.addError(new FieldError("joinRequest",
                     "stuId", "이미 가입되어 있습니다!"));
@@ -70,17 +73,38 @@ public class LoginController {
 
 
         if (bindingResult.hasErrors()) {
-            return "home/join";
+            return "home/join/join";
         }
-        model.addAttribute("joinRequest", joinRequest);
-        return "home/joinMessage";
+        model.addAttribute("joinRequest.phoneNumber", joinRequest.getPhoneNumber());
+        session.setAttribute("joinRequest", joinRequest);
+        return "home/join/joinMessage";
 
     }
 
-    @GetMapping("/join/complete")
-    public String joinComplete(@ModelAttribute("joinRequest")JoinRequest joinRequest, Model model) {
+    private final EmailService emailService;
 
-        studentService.join(joinRequest);
+    @GetMapping("/join/verify")
+    public String verifyEmail(Model model) {
+
+        model.addAttribute("emailForm", new EmailForm());
+
+        return "home/join/verifyEmail";
+    }
+
+    @PostMapping("/join/verify")
+    public String sendEmail(@ModelAttribute EmailForm emailForm) {
+
+
+        System.out.println("!!");
+        emailService.sendEmail(emailForm.email);
+
+        return "home/home";
+    }
+
+    @GetMapping("/join/complete")
+    public String joinComplete(Model model) {
+
+//        studentService.join(joinRequest);
 
         model.addAttribute("errorMessage", "회원가입 완료되었습니다.");
         model.addAttribute("nextUrl", "/");

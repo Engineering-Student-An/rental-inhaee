@@ -12,8 +12,8 @@
         &nbsp;
         <p>예를 선택하시면 이메일 인증 단계로 넘어갑니다.</p>
 
-        <a th:href="@{/join/complete(joinRequest=${joinRequest})}" class="btn btn-outline-primary">예</a>
-        <a th:href="@{/join}" class="btn btn-outline-danger">아니오</a>
+        <a th:href="@{/join/verify(joinRequest=${joinRequest})}" class="btn btn-outline-primary">예</a>
+        <a th:href="@{/templates/home/join}" class="btn btn-outline-danger">아니오</a>
         <p></p>
     </div>
 
