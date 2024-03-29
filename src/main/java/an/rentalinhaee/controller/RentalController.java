@@ -92,8 +92,17 @@ public class RentalController {
             model.addAttribute("newUrl", "https://pf.kakao.com/_CxjxlxiM");
             return "error/errorMessageNewTab";
         }
-        rentalService.finishRental(rentalId);
 
+        model.addAttribute("errorMessage", "해당 물품을 반납 처리 하시겠습니까?\n반납이 이루어지지 않았을 경우, 불이익이 주어질 수 있습니다!");
+
+        model.addAttribute("yesUrl","/rental/findOne/" + rentalId + "/finish/confirm");
+        model.addAttribute("noUrl","/rental/findOne");
+        return "error/yesOrNoMessage";
+    }
+
+    @GetMapping("/rental/findOne/{rentalId}/finish/confirm")
+    public String finishRentalConfirm(@PathVariable("rentalId") Long rentalId) {
+        rentalService.finishRental(rentalId);
         return "redirect:/rental/findOne";
     }
 
