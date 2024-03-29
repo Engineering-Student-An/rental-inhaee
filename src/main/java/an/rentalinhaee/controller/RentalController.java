@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 @Controller
@@ -38,13 +40,9 @@ public class RentalController {
     }
 
     @PostMapping("/rental")
-    public String rental(/*@RequestParam("itemId") Long itemId,*/
-                        @RequestParam("category") String category,
-                        Model model) {
+    public String rental(@RequestParam("category") String category, Model model) {
 
 
-
-        System.out.println("category = " + category);
         model.addAttribute("selectedCategory", category);
         model.addAttribute("categories", itemService.findCategories());
 
@@ -67,7 +65,10 @@ public class RentalController {
         }
         rentalService.rental(stuId, itemId);
 
-        return "redirect:/";
+        model.addAttribute("errorMessage", "물품 대여 신청을 완료했습니다.\n" + LocalDateTime.now().plusDays(3).format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) + "까지 반납을 완료해주세요." +
+                "\n그 이후에 반납 시 연체료가 부가됩니다!");
+        model.addAttribute("nextUrl", "/");
+        return "error/errorMessage";
     }
 
     @GetMapping("/rental/findOne")
@@ -86,11 +87,6 @@ public class RentalController {
         } else{
             rentalList = rentalService.findRentals(rentalSearch, pageRequest);
         }
-
-
-
-//        Page<Rental> myRentalList =
-//                rentalService.findMyRentalList(studentService.findStudent((String) model.getAttribute("loginStuId")).getId(), pageRequest);
 
         model.addAttribute("myRentalList", rentalList);
 
