@@ -18,19 +18,18 @@
             <div class="d-flex justify-content-between align-items-start">
                 <div class="inline-elements">
                     <div class="form-group mb-2">
-                        <input type="text" th:field="*{category}" class="form-control" placeholder="카테고리" /></div>
+                        <input type="text" th:field="*{category}" class="form-control" placeholder="물품 카테고리" /></div>
                     &nbsp;
                     <div class="form-group mb-2">
-                        <input type="text" th:field="*{name}" class="form-control" placeholder="이름" /></div>
+                        <input type="text" th:field="*{name}" class="form-control" placeholder="물품 이름" /></div>
                     &nbsp;
-                    <button type="submit" class="btn btn-primary mb-2">검색</button>
+                    <button type="submit" class="btn btn-outline-primary mb-2">검색</button>
                 </div>
-                <a href="/admin/item/new" class="btn btn-outline-primary" role="button">물품 추가</a>
+                <a href="/admin/item/new" class="btn btn-outline-success" role="button">물품 추가</a>
 
             </div>
-
-
         </form>
+        <br><br>
 
         <table class="table table-striped">
             <thead> <tr>
@@ -45,10 +44,10 @@
                 <td th:text="${item.allStockQuantity}"></td>
                 <td th:if="${loginStuId} == ADMIN">
                     <div class="text-end">
-                        <a href="#" th:href="@{/admin/item/{id}/edit (id=${item.id})}" class="btn btn-primary" role="button">수정</a>
+                        <a href="#" th:href="@{/admin/item/{id}/edit (id=${item.id})}" class="btn btn-outline-primary" role="button">수정</a>
                         &nbsp;
                         <a href="#" onclick="return confirm('물품 삭제 시 해당 물품의 대여 기록도 삭제 됩니다. \n정말 물품을 삭제하겠습니까?');"
-                           th:href="@{/admin/item/{id}/delete (id=${item.id})}" class="btn btn-danger" role="button">삭제</a>
+                           th:href="@{/admin/item/{id}/delete (id=${item.id})}" class="btn btn-outline-danger" role="button">삭제</a>
                     </div>
 
                 </td>
