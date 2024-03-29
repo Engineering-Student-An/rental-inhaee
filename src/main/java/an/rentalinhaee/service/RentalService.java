@@ -25,7 +25,7 @@ public class RentalService {
     public Long rental(String stuId, Long itemId) {
         // 엔티티 조회
         Student student = studentRepository.findByStuId(stuId);
-        Item item = itemRepository.findOne(itemId);
+        Item item = itemRepository.findItemById(itemId);
 
         // 대여 생성
         Rental rental = Rental.createRental(student, item);

@@ -18,7 +18,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,23 +28,41 @@ public class RentalController {
     private final ItemService itemService;
 
     @GetMapping("/rental")
-    public String createForm(Model model, HttpSession httpSession) {
+    public String createForm(Model model) {
 
-        String stuId = (String) httpSession.getAttribute("loginStuId");
-        model.addAttribute("stuId", stuId);
+        model.addAttribute("categories", itemService.findCategories());
+        model.addAttribute("items", itemService.findAllItems());
 
-        List<Item> itemList = itemService.findAllItems();
-        model.addAttribute("itemList", itemList);
+        return "rental/rentalForm";
+
+    }
+
+    @PostMapping("/rental")
+    public String rental(/*@RequestParam("itemId") Long itemId,*/
+                        @RequestParam("category") String category,
+                        Model model) {
+
+
+
+        System.out.println("category = " + category);
+        model.addAttribute("selectedCategory", category);
+        model.addAttribute("categories", itemService.findCategories());
+
+
+        for (Item item : itemService.findItemsByCategory(category)) {
+            System.out.println("item.getName() = " + item.getName());
+        }
+        // 카테고리에 속한 아이템 추가
+        model.addAttribute("itemsByCategory", itemService.findItemsByCategory(category));
 
         return "rental/rentalForm";
     }
 
-    @PostMapping("/rental")
-    public String rental(@RequestParam("itemId") Long itemId, Model model) {
+    @PostMapping("/rental/complete")
+    public String rentalComplete(@RequestParam("itemId") Long itemId, Model model) {
 
         String stuId = (String) model.getAttribute("loginStuId");
         Long studentId = studentService.findStudent(stuId).getId();
-
 
         if(rentalService.existsByStudentIdAndItemId(studentId, itemId)){
             model.addAttribute("errorMessage", "현재 대여중인 물품은 추가로 대여할 수 없습니다!\n반납 후 대여하세요!");
@@ -53,6 +70,7 @@ public class RentalController {
             return "error/errorMessage";
         }
         rentalService.rental(stuId, itemId);
+
         return "redirect:/";
     }
 

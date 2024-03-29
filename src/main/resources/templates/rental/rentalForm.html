@@ -1,51 +1,113 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header" />
+<head th:replace="fragments/header :: header"></head>
+<style>
+    #buttonGroup {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1%; /* 버튼 사이의 간격을 위해 사용 */
+    }
+    #buttonGroup > div {
+        flex: 0 0 30%; /* flex-grow, flex-shrink, flex-basis */
+        margin-bottom: 10px; /* 버튼 아래 간격 */
+    }
+    .btn {
+        width: 100%; /* 부모 div의 전체 너비를 차지하도록 설정 */
+    }
+</style>
+
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
     <h3>물품 대여 신청</h3><br>
 
-    <form role="form" action="/rental" method="post">
+    <h5>카테고리 선택</h5>
+    <form id="categoryForm" role="form" action="/rental" method="post">
         <div class="form-group">
-            <label for="item">대여 물품</label>
-            <select name="itemId" id="item" class="form-control">
-                <option value="">물품 선택</option>
-
-                <option th:each="item : ${itemList}" th:if="${item.stockQuantity > 0}" th:value="${item.id}">
-                    <span th:text="${item.category + (item.name != '' ? ') ' + item.name : '')}"></span>
-                    <span th:text="${'    ' + item.stockQuantity + '개'}"></span>
+            <select id="category" name="category" class="form-control">
+                <option value="" disabled  th:selected="${selectedCategory == null}">카테고리를 선택해주세요.</option>
+                <option th:each="category : ${categories}"
+                        th:value="${category}"
+                        th:text="${category}"
+                        th:selected="${category == selectedCategory}">
                 </option>
-
             </select>
         </div>
-        <br><br>
-        <button type="submit" class="btn btn-outline-info" id="submitBtn" disabled>대여 신청</button>
-
     </form>
+    <br><br>
+
+    <form th:if="${itemsByCategory != null}" action="/rental/complete" method="post">
+        <div th:if="${itemsByCategory.size() == 1}">
+            <h5>[[${selectedCategory}]] 대여 정보</h5>
+            <hr>
+        </div>
+        <div th:unless="${itemsByCategory.size() == 1}">
+            <h5>[[${selectedCategory}]] 내의 물품</h5>
+            <hr>
+        </div>
+
+        <div id="buttonGroup">
+            <div th:each="item : ${itemsByCategory}">
+                <div>
+                    <button class="btn btn-outline-primary" type="submit" name="itemId" th:value="${item.id}">
+                        <div th:if="${item.name != ''}">
+                            <span th:text="${item.name}">이름</span><br>
+                        </div>
+                        <div th:unless="${item.name != ''}">
+                            <span  th:text="${item.category}">이름</span><br>
+                        </div>
+
+                        <span th:text="'대여 가능 수량 / 총 재고 수량'"></span><br>
+                        <span th:text="${item.stockQuantity} + '개 / ' + ${item.allStockQuantity} + '개'"></span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+
+
     <br>
-    <div th:replace="fragments/footer :: footer" />
+
+    <div th:replace="fragments/footer :: footer"></div>
 </div> <!-- /container -->
+
 </body>
 
+<!--셀렉트 박스 변경 감지-->
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var selectElement = document.getElementById('item');
-        var submitButton = document.getElementById('submitBtn');
-
-        selectElement.addEventListener('change', function() {
-            // 사용자가 유효한 옵션을 선택했는지 확인
-            var selectedValue = this.value;
-            if(selectedValue) {
-                // 유효한 옵션을 선택한 경우, 버튼을 활성화
-                submitButton.disabled = false;
-            } else {
-                // 유효한 옵션을 선택하지 않은 경우, 버튼을 비활성화
-                submitButton.disabled = true;
-            }
-        });
+    document.getElementById('category').addEventListener('change', function() {
+        document.getElementById('categoryForm').submit();
     });
 </script>
+
+
+
+
+
+<!--<script>-->
+<!--    document.addEventListener('DOMContentLoaded', function () {-->
+<!--        var selectElement = document.getElementById('item');-->
+<!--        var submitButton = document.getElementById('submitBtn');-->
+
+<!--        selectElement.addEventListener('change', function() {-->
+<!--            // 사용자가 유효한 옵션을 선택했는지 확인-->
+<!--            var selectedValue = this.value;-->
+<!--            if(selectedValue) {-->
+<!--                // 유효한 옵션을 선택한 경우, 버튼을 활성화-->
+<!--                submitButton.disabled = false;-->
+<!--            } else {-->
+<!--                // 유효한 옵션을 선택하지 않은 경우, 버튼을 비활성화-->
+<!--                submitButton.disabled = true;-->
+<!--            }-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+
+
+
+
 
 </html>

@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -24,7 +24,7 @@ public class ItemService {
 
     @Transactional
     public void updateItem(Long itemId, String name, int allStockQuantity, String category){
-        Item item = itemRepository.findOne(itemId);
+        Item item = itemRepository.findItemById(itemId);
         item.updateInfo(name, allStockQuantity, category);
     }
 
@@ -33,7 +33,8 @@ public class ItemService {
     @Transactional
     public void deleteItem(Long itemId){
         rentalRepository.deleteRentalByItem_Id(itemId);
-        itemRepository.deleteItem(itemId);
+
+        itemRepository.delete(itemRepository.findItemById(itemId));
     }
 
     public List<Item> findAllItems() {
@@ -41,7 +42,21 @@ public class ItemService {
     }
 
     public Item findOneItem(Long itemId){
-        return itemRepository.findOne(itemId);
+        return itemRepository.findItemById(itemId);
     }
 
+    public Set<String> findCategories () {
+
+        Set<String> categories = new HashSet<>();
+
+        for (Item item : itemRepository.findAll()) {
+            categories.add(item.getCategory());
+        }
+
+        return categories;
+    }
+
+    public List<Item> findItemsByCategory(String category) {
+        return itemRepository.findItemByCategory(category);
+    }
 }
