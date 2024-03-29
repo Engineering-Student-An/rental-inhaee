@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: header}">
+<head th:replace="~{fragments/header :: header}"></head>
 <style>
     .table {
         table-layout: fixed;
@@ -77,11 +77,11 @@
         <div class="border p-3" style="white-space: pre-line; word-break: break-all" th:text="${board.content}"></div><br><br>
         <div class="d-flex justify-content-end">
             <div th:if="${loginStuId == board.stuId}">
-                <a th:href="@{/board/{id}/edit(id=${board.id})}" class="btn btn-outline-primary" role="button">수정</a>
+                <a th:href="@{/board/{id}/edit(id=${board.id})}" class="btn btn-outline-primary btn-sm" role="button">수정</a>
             </div>
             <div th:if="${loginStuId == board.stuId || loginStuId == 'ADMIN'}">
                 <a href="#" onclick="return confirm('게시글을 삭제하시겠습니까?');"
-                   th:href="@{/board/{id}/delete(id=${board.id})}" class="btn btn-outline-danger mx-1" role="button">삭제</a>
+                   th:href="@{/board/{id}/delete(id=${board.id})}" class="btn btn-outline-danger btn-sm mx-1" role="button">삭제</a>
             </div>
 
 
@@ -89,7 +89,7 @@
             <div>
                 <a th:href="@{/board/{id}/like(id=${id})}" class="btn btn-link" role="button"
                    th:onclick="${board.isLike(loginStuId) == true} ? @{return confirm('해당 게시글의 좋아요를 취소 하시겠습니까?');} : ''">
-                    <img th:src="${board.isLike(loginStuId) == true} ? @{'/thumbsUp2.png'} : @{'/thumbsUp.png'}"
+                    <img th:src="${board.isLike(loginStuId) == true} ? @{'/images/thumbsUp2.png'} : @{'/images/thumbsUp.png'}"
                          th:alt="${board.isLike(loginStuId) == true} ? '좋아요 취소' : '좋아요'">
                 </a>
             </div>
@@ -105,7 +105,7 @@
                 <div class="error-class" th:errors="*{content}"></div>
             </div>
 
-            <button type="submit" class="btn btn-outline-primary">작성</button><br>
+            <button type="submit" class="btn btn-outline-primary  btn-sm">작성</button><br>
         </form>
 
         <table class="table">
