@@ -29,7 +29,7 @@
 
             </div>
         </form>
-        <br><br>
+        <br>
 
         <table class="table table-striped">
             <thead> <tr>
@@ -45,7 +45,6 @@
                 <td th:if="${loginStuId} == ADMIN">
                     <div class="text-end">
                         <a href="#" th:href="@{/admin/item/{id}/edit (id=${item.id})}" class="btn btn-outline-primary" role="button">수정</a>
-                        &nbsp;
                         <a href="#" onclick="return confirm('물품 삭제 시 해당 물품의 대여 기록도 삭제 됩니다. \n정말 물품을 삭제하겠습니까?');"
                            th:href="@{/admin/item/{id}/delete (id=${item.id})}" class="btn btn-outline-danger" role="button">삭제</a>
                     </div>
@@ -56,6 +55,26 @@
         </table>
     </div>
     <br>
+
+    <div style="text-align: center">
+        <button class="btn btn-outline-dark btn-sm" th:disabled="${items.getNumber()}==0"
+                th:onclick="|location.href='@{/admin/item/list(page=${1}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
+            <<</button>
+        <button class="btn btn-outline-dark btn-sm" th:disabled="${!items.hasPrevious()}"
+                th:onclick="|location.href='@{/admin/item/list(page=${items.getNumber()}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
+            <</button>
+        &nbsp; &nbsp;
+        <span>[[${items.getNumber()+1}]] / [[${items.getTotalElements() == 0 ? 1 : items.getTotalPages()}]] page</span>
+        &nbsp; &nbsp;
+        <button class="btn btn-outline-dark btn-sm" th:disabled="${!items.hasNext()}"
+                th:onclick="|location.href='@{/admin/item/list(page=${items.getNumber() + 2}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
+            ></button>
+        <button class="btn btn-outline-dark btn-sm" th:disabled="${!items.hasNext()}"
+                th:onclick="|location.href='@{/admin/item/list(page=${items.getTotalPages()}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
+            >></button>
+    </div>
+    <br>
+
     <div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->
 </body>
