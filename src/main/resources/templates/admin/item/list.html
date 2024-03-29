@@ -1,11 +1,36 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header" />
+
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <div>
-        <a href="/admin/item/new" class="btn btn-outline-primary" role="button">물품 추가</a>
+
+
+        <form th:object="${itemSearch}" class="form-inline">
+            <style>
+                .inline-elements {
+                    display: flex;
+                    align-items: center;
+                }
+            </style>
+            <div class="d-flex justify-content-between align-items-start">
+                <div class="inline-elements">
+                    <div class="form-group mb-2">
+                        <input type="text" th:field="*{category}" class="form-control" placeholder="카테고리" /></div>
+                    &nbsp;
+                    <div class="form-group mb-2">
+                        <input type="text" th:field="*{name}" class="form-control" placeholder="이름" /></div>
+                    &nbsp;
+                    <button type="submit" class="btn btn-primary mb-2">검색</button>
+                </div>
+                <a href="/admin/item/new" class="btn btn-outline-primary" role="button">물품 추가</a>
+
+            </div>
+
+
+        </form>
 
         <table class="table table-striped">
             <thead> <tr>

@@ -4,6 +4,8 @@ import an.rentalinhaee.domain.Item;
 import an.rentalinhaee.repository.ItemRepository;
 import an.rentalinhaee.repository.RentalRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,4 +61,8 @@ public class ItemService {
     public List<Item> findItemsByCategory(String category) {
         return itemRepository.findItemByCategory(category);
     }
+
+    public Page<Item> findAllItems(Pageable pageable) { return itemRepository.findAll(pageable); }
+
+    public Page<Item> findItemsByCategoryAndName(String category, String name, Pageable pageable) { return itemRepository.findItemsByCategoryContainingAndNameContaining(category, name, pageable); }
 }
