@@ -1,6 +1,7 @@
 package an.rentalinhaee.controller;
 
 import an.rentalinhaee.domain.Rental;
+import an.rentalinhaee.domain.Student;
 import an.rentalinhaee.repository.RentalSearch;
 import an.rentalinhaee.service.ItemService;
 import an.rentalinhaee.service.RentalService;
@@ -71,15 +72,27 @@ public class RentalController {
 
     @GetMapping("/rental/findOne")
     public String rentalList(@RequestParam(required = false, defaultValue = "1", value = "page") int page,
+                             @ModelAttribute("rentalSearch") RentalSearch rentalSearch,
                              Model model) {
 
+        Student student = studentService.findStudent((String) model.getAttribute("loginStuId"));
+
+        rentalSearch.setStuId(student.getStuId());
+
         PageRequest pageRequest = PageRequest.of(page-1, 10, Sort.by("status").and(Sort.by("rentalDate")));
+        Page<Rental> rentalList;
+        if(rentalSearch.getRentalStatus() == null){
+            rentalList = rentalService.findMyRentalList(student.getId(), pageRequest);
+        } else{
+            rentalList = rentalService.findRentals(rentalSearch, pageRequest);
+        }
 
 
-        Page<Rental> myRentalList =
-                rentalService.findMyRentalList(studentService.findStudent((String) model.getAttribute("loginStuId")).getId(), pageRequest);
 
-        model.addAttribute("myRentalList", myRentalList);
+//        Page<Rental> myRentalList =
+//                rentalService.findMyRentalList(studentService.findStudent((String) model.getAttribute("loginStuId")).getId(), pageRequest);
+
+        model.addAttribute("myRentalList", rentalList);
 
         return "rental/findOne";
     }

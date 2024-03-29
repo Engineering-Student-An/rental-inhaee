@@ -8,6 +8,28 @@
 
     <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
 
+    <form th:object="${rentalSearch}" class="form-inline">
+        <style>
+            .inline-elements {
+                display: flex;
+                align-items: center;
+            }
+        </style>
+
+        <div class="inline-elements">
+            <div class="form-group mx-sm-1 mb-2">
+                <select th:field="*{rentalStatus}" class="form-control"><option value="">대여 상태</option>
+                    <option th:each="status : ${T(an.rentalinhaee.domain.RentalStatus).values()}"
+                            th:value="${status}"
+                            th:text="${status.getDisplayName()}">option
+                    </option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-outline-primary btn-sm mb-2">검색</button>
+        </div>
+    </form>
+    <br>
+
     <div>
         <table class="table table-striped">
             <thead>
