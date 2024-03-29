@@ -50,7 +50,7 @@
         <div id="buttonGroup">
             <div th:each="item : ${itemsByCategory}">
                 <div>
-                    <button class="btn btn-outline-primary" type="submit" name="itemId" th:value="${item.id}">
+                    <button class="btn btn-outline-primary" type="submit" name="itemId" th:value="${item.id}" th:disabled="${item.stockQuantity == 0}">
                         <div th:if="${item.name != ''}">
                             <span th:text="${item.name}">이름</span><br>
                         </div>
