@@ -1,6 +1,5 @@
 package an.rentalinhaee.controller;
 
-import an.rentalinhaee.domain.Item;
 import an.rentalinhaee.domain.Rental;
 import an.rentalinhaee.repository.RentalSearch;
 import an.rentalinhaee.service.ItemService;
@@ -48,10 +47,6 @@ public class RentalController {
         model.addAttribute("selectedCategory", category);
         model.addAttribute("categories", itemService.findCategories());
 
-
-        for (Item item : itemService.findItemsByCategory(category)) {
-            System.out.println("item.getName() = " + item.getName());
-        }
         // 카테고리에 속한 아이템 추가
         model.addAttribute("itemsByCategory", itemService.findItemsByCategory(category));
 

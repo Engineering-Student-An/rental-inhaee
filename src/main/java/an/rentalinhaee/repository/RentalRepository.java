@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 @Repository
@@ -23,7 +24,7 @@ public interface RentalRepository extends JpaRepository<Rental, Long> {
     // student로 여러개 조회
     Page<Rental> findRentalsByStudent_Id(Long id, Pageable pageable);
 
-    Boolean existsByStudent_IdAndItemIdAndStatusNot(Long studentId, Long itemId, RentalStatus status);
+    Boolean existsByStudent_IdAndItemIdAndStatusNotIn(Long student_id, Long item_id, Collection<RentalStatus> status);
 
     Page<Rental> findRentalsByStudentStuIdContaining(String stuId, Pageable pageable);
 
