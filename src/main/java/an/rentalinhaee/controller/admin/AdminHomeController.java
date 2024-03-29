@@ -1,4 +1,4 @@
-package an.rentalinhaee.controller;
+package an.rentalinhaee.controller.admin;
 
 import an.rentalinhaee.domain.Rule;
 import an.rentalinhaee.domain.dto.ChangeRuleRequest;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/admin")
 @RequiredArgsConstructor
-public class AdminController {
+public class AdminHomeController {
 
     private final BoardService boardService;
     private final RuleRepository ruleRepository;
