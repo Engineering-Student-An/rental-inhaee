@@ -97,17 +97,17 @@
     </div>
 
     <div style="text-align: center">
-        <button class="btn btn-outline-info" th:disabled="${rentalList.getNumber()}==0"
+        <button class="btn btn-outline-dark btn-sm" th:disabled="${rentalList.getNumber()}==0"
                 th:onclick="|location.href='@{/student/{stuId}/find(page=${1}, stuId=${rentalSearch.stuId}, rentalStatus=${rentalSearch.rentalStatus}) }'|">
             <<</button>
-        <button class="btn btn-outline-info" th:disabled="${!rentalList.hasPrevious()}"
+        <button class="btn btn-outline-dark btn-sm" th:disabled="${!rentalList.hasPrevious()}"
                 th:onclick="|location.href='@{/student/{stuId}/find(page=${rentalList.getNumber()}, stuId=${rentalSearch.stuId}, rentalStatus=${rentalSearch.rentalStatus}) }'|">
             <</button>
         <span>[[${rentalList.getNumber()+1}]] / [[${rentalList.getTotalElements() == 0 ? 1 : rentalList.getTotalPages()}]] page</span>
-        <button class="btn btn-outline-info" th:disabled="${!rentalList.hasNext()}"
+        <button class="btn btn-outline-dark btn-sm" th:disabled="${!rentalList.hasNext()}"
                 th:onclick="|location.href='@{/student/{stuId}/find(page=${rentalList.getNumber() + 2}, stuId=${rentalSearch.stuId}, rentalStatus=${rentalSearch.rentalStatus})}'|">
             ></button>
-        <button class="btn btn-outline-info" th:disabled="${!rentalList.hasNext()}"
+        <button class="btn btn-outline-dark btn-sm" th:disabled="${!rentalList.hasNext()}"
                 th:onclick="|location.href='@{/student/{stuId}/find(page=${rentalList.getTotalPages()}, stuId=${rentalSearch.stuId}, rentalStatus=${rentalSearch.rentalStatus})}|">
             >></button>
     </div>
