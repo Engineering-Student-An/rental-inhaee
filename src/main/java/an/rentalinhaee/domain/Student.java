@@ -42,4 +42,8 @@ public class Student {
         this.stuId = stuId;
         this.name = name;
     }
+
+    public void editEmail(String email) {
+        this.email = email;
+    }
 }

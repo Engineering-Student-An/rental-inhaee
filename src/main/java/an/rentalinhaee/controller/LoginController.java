@@ -107,8 +107,8 @@ public class LoginController {
                     "email", "이메일 주소가 올바르지 않습니다!"));
         }
 
+        session.setAttribute("joinRequest", (JoinRequest) session.getAttribute("joinRequest"));
         if(bindingResult.hasErrors()) {
-            session.setAttribute("joinRequest", (JoinRequest) session.getAttribute("joinRequest"));
             return "home/join/verifyEmail";
         }
 
@@ -116,7 +116,6 @@ public class LoginController {
         model.addAttribute("isSent", true);
 
 
-        session.setAttribute("joinRequest", (JoinRequest) session.getAttribute("joinRequest"));
         session.setAttribute("verifyCode", verifyCode);
         return "home/join/verifyEmail";
     }

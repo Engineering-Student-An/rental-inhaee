@@ -41,6 +41,10 @@ public class StudentService {
         student.editPassword(request.getChangePassword());
     }
 
+    public void changeEmail(String stuId, String email) {
+        Student student = studentRepository.findByStuId(stuId);
+        student.editEmail(email);
+    }
 
     private final BoardService boardService;
     private final ReplyService replyService;

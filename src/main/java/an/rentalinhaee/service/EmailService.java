@@ -28,7 +28,7 @@ public class EmailService {
             // 메일을 받을 수신자 설정
             mimeMessageHelper.setTo(receiver);
             // 메일의 제목 설정
-            mimeMessageHelper.setSubject("PULSE 대여 사업 가입 이메일 인증");
+            mimeMessageHelper.setSubject("PULSE 대여 사업 이메일 인증");
 
             // 메일의 내용 설정
             String verifyCode = createVerifyCode();

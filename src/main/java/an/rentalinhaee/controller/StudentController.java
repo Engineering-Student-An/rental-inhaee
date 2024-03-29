@@ -3,6 +3,7 @@ package an.rentalinhaee.controller;
 import an.rentalinhaee.domain.Rental;
 import an.rentalinhaee.domain.Student;
 import an.rentalinhaee.domain.dto.ChangePasswordRequest;
+import an.rentalinhaee.domain.dto.EmailForm;
 import an.rentalinhaee.repository.RentalSearch;
 import an.rentalinhaee.repository.StudentSearch;
 import an.rentalinhaee.service.EmailService;
@@ -122,7 +123,6 @@ public class StudentController {
     public String changePasswordForm(@Valid @ModelAttribute("request") ChangePasswordRequest request, BindingResult bindingResult,
                                      HttpSession httpSession, Model model) {
 
-        System.out.println("@@@@@@@@@@");
         Student student = studentService.findStudent((String) httpSession.getAttribute("loginStuId"));
         String password = student.getPassword();
 
@@ -140,7 +140,6 @@ public class StudentController {
             return "student/changePassword";
         }
 
-        System.out.println("!!!!!!!!!!!");
         String stuId = student.getStuId();
         studentService.changePassword(stuId, request);
 
@@ -150,13 +149,62 @@ public class StudentController {
 
 
     }
-//    @PostMapping("/changePassword")
-//    public String changePassword(
-//                                 ) {
 
-//
+    @GetMapping("/changeInfo/email")
+    public String changeEmail(Model model) {
 
-//    }
+        model.addAttribute("emailForm", new EmailForm());
+        model.addAttribute("isSent", false);
+        return "student/changeEmail";
+    }
+
+    @PostMapping("/changeInfo/email")
+    public String changeEmailSend(@ModelAttribute EmailForm emailForm,
+                                  BindingResult bindingResult, Model model, HttpSession session) {
+
+        String email = emailForm.getEmail();
+        if(email.isEmpty()) {
+            bindingResult.addError(new FieldError("emailForm",
+                    "email", "이메일 주소를 입력해주세요!"));
+        } else if(!email.contains("@") || !email.contains(".")) {
+            bindingResult.addError(new FieldError("emailForm",
+                    "email", "이메일 주소가 올바르지 않습니다!"));
+        }
+
+        if(bindingResult.hasErrors()) {
+            return "student/changeEmail";
+        }
+
+        String verifyCode = emailService.sendEmail(emailForm.getEmail(), "email/emailChangeEmail");
+        model.addAttribute("isSent", true);
+
+        session.setAttribute("verifyCode", verifyCode);
+        return "student/changeEmail";
+    }
+
+    @PostMapping("/changeInfo/email/verify")
+    public String verifyCodeCheck(@RequestParam("email") String email,
+                                  @RequestParam("code") String code,
+                                  HttpSession session, Model model) {
+
+
+        // 메일 보낸 인증 문자
+        String verifyCode = (String) session.getAttribute("verifyCode");
+
+        // 인증 문자와 동일한지 검증
+        if(!code.equals(verifyCode)) {
+            model.addAttribute("errorMessage", "인증 문자가 일치하지 않습니다! 다시 시도해주세요!");
+            model.addAttribute("nextUrl", "/changeInfo/email");
+            return "error/errorMessage";
+        }
+
+        studentService.changeEmail((String) model.getAttribute("loginStuId"), email);
+
+        model.addAttribute("errorMessage", "이메일이 변경되었습니다!");
+        model.addAttribute("nextUrl", "/changeInfo");
+        return "error/errorMessage";
+
+    }
 
     @GetMapping("/student/list")
     public String list(@ModelAttribute("studentSearch") StudentSearch studentSearch,
