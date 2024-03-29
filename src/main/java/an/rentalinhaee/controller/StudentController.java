@@ -55,7 +55,7 @@ public class StudentController {
 
         Student student = studentService.findStudent(stuId);
         if(rentalSearch.getStuId()==null) rentalSearch.setStuId(stuId);
-        PageRequest pageRequest = PageRequest.of(page - 1, 10, Sort.by("status", "rentalDate").descending());
+        PageRequest pageRequest = PageRequest.of(page - 1, 10, Sort.by("status").and(Sort.by("rentalDate")));
         Page<Rental> rentalList;
         if(rentalSearch.getRentalStatus() == null){
             rentalList = rentalService.findMyRentalList(student.getId(), pageRequest);
