@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html lang="ko">
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: header}">
-
+<head th:replace="~{fragments/header :: header}"></head>
+<style>
+    .inline-elements {
+        display: flex;
+        align-items: center;
+    }
+</style>
 <body>
 <div class="container">
     <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
@@ -11,27 +16,26 @@
     <hr/>
 
     <form th:method="post" th:action="|/changeInfo/email|" th:object="${emailForm}" >
-        <div>
-            <label th:for="email">이메일 주소</label>
+        <label th:for="email">이메일 주소</label>
+        <div class="inline-elements">
             <input type="text" th:field="*{email}" th:errorclass="error-input" class="form-control"
-                   placeholder="이메일 주소를 입력하세요. (예시 : test@gmail.com)">
-            <div class="error-class" th:errors="*{email}"></div>
+                   placeholder="이메일 주소를 입력하세요. (예시 : test@gmail.com)" style="width: 60%">
+            &nbsp;
+            <button type="submit" class="btn btn-outline-secondary btn-sm">인증</button>
         </div>
+        <div class="error-class" th:errors="*{email}"></div>
 
-        <br/><br/>
-        <button type="submit" class="btn btn-outline-secondary btn-sm">인증</button>
 
     </form>
-
-
+    <br>
     <form th:if="${isSent}" th:method="post" th:action="|/changeInfo/email/verify?email=${emailForm.getEmail()}|">
-        <div>
-            <label th:for="code">인증 문자</label>
-            <input type="text" th:id="code" th:name="code" class="form-control" placeholder="입력한 이메일로 전송된 인증 문자를 입력하세요.">
+        <label th:for="code">인증 문자</label>
+        <div class="inline-elements">
+            <input type="text" th:id="code" th:name="code" class="form-control" placeholder="입력한 이메일로 전송된 인증 문자를 입력하세요." style="width: 60%">
+            &nbsp;
+            <button type="submit" class="btn btn-outline-secondary btn-sm">확인</button>
         </div>
 
-        <br/><br/>
-        <button type="submit" class="btn btn-outline-secondary btn-sm">확인</button>
     </form>
 
     <br>
