@@ -124,7 +124,7 @@
                 <td>
                     <a th:href="@{/reply/{id}/like(id=${reply.id}, boardId=${board.id})}" class="btn btn-link btn-sm" role="button"
                        th:onclick="${reply.isLike(loginStuId) == true} ? @{return confirm('해당 댓글의 좋아요를 취소 하시겠습니까?');} : ''">
-                        <img th:src="@{/thumbsUp.png}">
+                        <img th:src="@{/images/thumbsUp.png}">
                         <span th:text="${reply.likeNumber.size()}">
                     </a>
                 </td>
