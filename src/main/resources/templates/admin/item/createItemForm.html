@@ -1,10 +1,10 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header" />
+<head th:replace="~{fragments/header :: header}">
 <body>
 
 <div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
     <h3>대여 물품 추가</h3><br>
     <form th:action="@{/admin/item/new}" th:object="${form}" method="post">
         <div class="form-group">
@@ -25,8 +25,7 @@
         <button type="submit" class="btn btn-primary">Submit</button><br>
     </form>
     <br>
-    <div th:replace="fragments/footer :: footer" />
-
+    <div th:replace="~{fragments/footer :: footer}"></div>
 </div> <!-- /container -->
 
 

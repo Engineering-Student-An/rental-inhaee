@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header">
-    <title>인하대 전자공학과 학생회</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
+<head th:replace="~{fragments/header :: header}">
 
 <body>
 <div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
 
 <!--    <div class="jumbotron">-->
     <h2>로그인</h2>
@@ -34,7 +31,7 @@
         <button type="button" th:onclick="|location.href='/join'|" class="btn btn-secondary">회원 가입</button> <br/><br/>
     </form>
     <br>
-    <div th:replace="fragments/footer :: footer" />
+    <div th:replace="~{fragments/footer :: footer}"></div>
 </div> <!-- /container -->
 </body>
 </html>

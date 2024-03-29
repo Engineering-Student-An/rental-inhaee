@@ -1,9 +1,10 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header"></head>
+<head th:replace="~{fragments/header :: header}">
 <body>
 <div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
+
 
     <div>
         <form class="form-inline">
@@ -81,7 +82,7 @@
             >></button>
     </div>
     <br>
-    <div th:replace="fragments/footer :: footer"></div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
 </div> <!-- /container -->
 

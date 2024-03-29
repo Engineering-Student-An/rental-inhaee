@@ -1,10 +1,10 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header" />
+<head th:replace="~{fragments/header :: header}">
 <body>
 
 <div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
     <script th:inline="javascript">
         window.onload = function (){
             var nextUrl = [[${nextUrl}]];
@@ -20,7 +20,8 @@
             window.open(newUrl, '_blank');
         }
     </script>
-    <div th:replace="fragments/footer :: footer" />
+    <br>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
 </div> <!-- /container -->
 

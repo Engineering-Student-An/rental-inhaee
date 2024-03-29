@@ -1,9 +1,12 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header">
-    <title>인하대 전자공학과 학생회 대여 사업</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
+<!--<head th:replace="fragments/header :: header">-->
+<!--    <title>인하대 전자공학과 학생회 대여 사업</title>-->
+<!--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />-->
+<!--</head>-->
+<head th:replace="~{fragments/header :: header}">
+
+
 <style>
     .shorten {
         display: inline-block;
@@ -16,7 +19,7 @@
 
 <body>
 <div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
 
 
     <div class="jumbotron">
@@ -122,7 +125,7 @@
         </div>
     </div>
     <br>
-    <div th:replace="fragments/footer :: footer" />
+    <div th:replace="~{fragments/footer :: footer}"></div>
 </div> <!-- /container -->
 </body>
 </html>

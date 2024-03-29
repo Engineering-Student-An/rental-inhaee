@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
-<head th:replace="fragments/header :: header"></head>
+<head th:replace="~{fragments/header :: header}">
 <body>
 <div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
 
     <h3>필독 사항 수정</h3><br>
     <form th:method="post" th:action="|/admin/editAnnouncement|" th:object="${request}">
@@ -21,7 +21,7 @@
         <button type="submit" class="btn btn-primary">수정</button> <br>
     </form>
     <br>
-    <div th:replace="fragments/footer :: footer"></div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 </div>
 </body>
 </html>

@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header"></head>
+<head th:replace="~{fragments/header :: header}">
+
 <style>
     #buttonGroup {
         display: flex;
@@ -18,7 +19,8 @@
 
 <body>
 <div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
+
 
     <h3>물품 대여 신청</h3><br>
 
@@ -67,11 +69,8 @@
         </div>
     </form>
 
-
-
     <br>
-
-    <div th:replace="fragments/footer :: footer"></div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 </div> <!-- /container -->
 
 </body>
