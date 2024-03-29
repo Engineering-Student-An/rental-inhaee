@@ -62,7 +62,7 @@
                 <th>대여 상태</th>
                 <th>대여 일자</th>
                 <th>반납 일자</th>
-                <th>연체 여부 (연체 일 당 500원)</th>
+                <th>연체료 (연체 일 당 500원)</th>
                 <th></th>
             </tr>
             </thead>
@@ -74,21 +74,21 @@
                 <td th:unless="${item.item.name != ''}" th:text="${item.item.category}"></td>
                 <td>
                     <a th:if="${item.status.name() == 'FINISH'}" th:text="'반납 완료'"></a>
+                    <a th:if="${item.status.name() == 'FINISH_OVERDUE'}" th:text="'연체'" style="color: red; font-weight: bold"></a>
                     <a th:if="${item.status.name() == 'OVERDUE'}" th:text="'연체 중'" style="color: red; font-weight: bold"></a>
                     <a th:if="${item.status.name() == 'ING'}" th:text="'대여 중'"></a>
                 </td>
                 <td th:text="${item.rentalDate}"></td>
                 <td>
-                    <a th:unless="${item.status.name() == 'ING'}" th:text="${item.finishRentalDate}"></a>
+                    <a th:if="${item.status.name() == 'FINISH'}" th:text="${item.finishRentalDate}"></a>
+                    <a th:if="${item.status.name() == 'FINISH_OVERDUE'}" th:text="${item.finishRentalDate}" style="color: red"></a>
 
-                    <a th:unless="${item.status.name() == 'FINISH'}" href="#" onclick="return confirm('물품 반납 및 연체료 수납을 확인 해 주세요.\n반납 처리 하시겠습니까?');"
+                    <a th:unless="${item.status.name() == 'FINISH' || item.status.name() == 'FINISH_OVERDUE'}" href="#" onclick="return confirm('물품 반납 및 연체료 수납을 확인 해 주세요.\n반납 처리 하시겠습니까?');"
                        th:href="'javascript:adminCancel('+${item.id}+', \''+${student.stuId}+'\')'" class="btn btn-danger">물품 반납</a>
                 </td>
                 <td>
-                    <a th:if="${item.status.name() == 'OVERDUE'}" th:text="'연체료 ' + ((${T(java.time.temporal.ChronoUnit).DAYS.between(item.rentalDate, T(java.time.LocalDate).now())}-3) * 500) + '원'"></a>
-
-
-
+                    <a th:if="${item.status.name() == 'OVERDUE'}" th:text="'현재까지 연체료 ' + ((${T(java.time.temporal.ChronoUnit).DAYS.between(item.rentalDate, T(java.time.LocalDate).now())}-3) * 500) + '원'"></a>
+                    <a th:if="${item.status.name() == 'FINISH_OVERDUE'}" th:text="'연체료 ' + ((${T(java.time.temporal.ChronoUnit).DAYS.between(item.rentalDate, item.finishRentalDate)}-3) * 500) + '원 납부'"></a>
                 </td>
             </tr>
 

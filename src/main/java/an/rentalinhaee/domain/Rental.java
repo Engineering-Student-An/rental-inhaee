@@ -62,7 +62,12 @@ public class Rental {
     public void finish(){
         this.setFinishRentalDate(LocalDate.now());
         setRentalDateDiff();
-        this.setStatus(RentalStatus.FINISH);
+
+        if(this.status == RentalStatus.OVERDUE) {
+            this.setStatus(RentalStatus.FINISH_OVERDUE);
+        } else {
+            this.setStatus(RentalStatus.FINISH);
+        }
 
         item.addStock();
     }
