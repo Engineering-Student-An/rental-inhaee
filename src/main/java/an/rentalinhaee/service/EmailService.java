@@ -19,7 +19,7 @@ public class EmailService {
     private final JavaMailSender javaMailSender;
     private final SpringTemplateEngine templateEngine;
 
-    public String sendEmail(String receiver) {
+    public String sendEmail(String receiver, String type) {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
         try{
@@ -32,7 +32,7 @@ public class EmailService {
 
             // 메일의 내용 설정
             String verifyCode = createVerifyCode();
-            mimeMessageHelper.setText(setContext(verifyCode), true);
+            mimeMessageHelper.setText(setContext(verifyCode, type), true);
 
             javaMailSender.send(mimeMessage);
 
@@ -62,9 +62,9 @@ public class EmailService {
         return key.toString();
     }
 
-    public String setContext(String verifyCode) {
+    public String setContext(String verifyCode, String type) {
         Context context = new Context();
         context.setVariable("verifyCode", verifyCode);
-        return templateEngine.process("home/join/email", context);
+        return templateEngine.process(type, context);
     }
 }

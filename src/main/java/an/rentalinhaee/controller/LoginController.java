@@ -42,6 +42,7 @@ public class LoginController {
     public String join(@Valid @ModelAttribute JoinRequest joinRequest,
                        BindingResult bindingResult,
                        HttpSession session, Model model) {
+
         if (studentService.checkStuIdDuplicate(joinRequest.getStuId())) {
             bindingResult.addError(new FieldError("joinRequest",
                     "stuId", "이미 가입되어 있습니다!"));
@@ -85,8 +86,8 @@ public class LoginController {
 
         session.setAttribute("joinRequest", (JoinRequest) session.getAttribute("joinRequest"));
         model.addAttribute("emailForm", new EmailForm());
-        model.addAttribute("isSent", false);
         model.addAttribute("verifyCodeForm", new VerifyCodeForm());
+        model.addAttribute("isSent", false);
 
         return "home/join/verifyEmail";
     }
@@ -111,7 +112,7 @@ public class LoginController {
             return "home/join/verifyEmail";
         }
 
-        String verifyCode = emailService.sendEmail(emailForm.getEmail());
+        String verifyCode = emailService.sendEmail(emailForm.getEmail(), "email/joinEmail");
         model.addAttribute("isSent", true);
 
 
@@ -190,53 +191,7 @@ public class LoginController {
 
         return "redirect:/";
     }
-    @GetMapping("/changePassword")
-    public String changePassword(Model model, HttpServletRequest httpServletRequest) {
 
-        HttpSession httpSession = httpServletRequest.getSession(true);
-
-        model.addAttribute("changePasswordRequest", new ChangePasswordRequest());
-        model.addAttribute("phoneNumber", studentService.findStudent(loginStuId(httpSession)).getPhoneNumber());
-        model.addAttribute("email", studentService.findStudent(loginStuId(httpSession)).getEmail());
-        return "home/changePassword";
-    }
-
-    @PostMapping("/changePassword")
-    public String changePassword(@RequestParam("loginStuId") String stuId,
-                                @RequestParam("loginName") String name,
-                                @Valid @ModelAttribute ChangePasswordRequest request,
-                                BindingResult bindingResult, Model model) {
-
-        String password = studentService.findStudent(stuId).getPassword();
-
-
-        if(!request.getCurrentPassword().equals(password)){
-            bindingResult.addError(new FieldError("request",
-                    "currentPassword", "현재 비밀번호와 동일하지 않습니다!"));
-        }
-
-        if(request.getChangePassword().equals(password)){
-            bindingResult.addError(new FieldError("request",
-                    "changePassword", "현재 비밀번호와 동일하게 변경 불가합니다!"));
-        }
-
-        if (!request.getChangePassword().equals(request.getChangePasswordCheck())) {
-            bindingResult.addError(new FieldError("request",
-                    "changePassword", "비밀번호가 동일하지 않습니다!"));
-            bindingResult.addError(new FieldError("request",
-                    "changePasswordCheck", "비밀번호가 동일하지 않습니다!"));
-        }
-
-        if (bindingResult.hasErrors()) {
-            return "home/changePassword";
-        }
-
-        studentService.changePassword(stuId, request);
-        if(stuId.equals("ADMIN")){
-            return "redirect:/admin";
-        }
-        return "redirect:/";
-    }
 
     @ModelAttribute("loginStuId")
     public String loginStuId(HttpSession httpSession) {

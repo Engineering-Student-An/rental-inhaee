@@ -9,8 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ChangePasswordRequest {
-    @NotBlank(message = "비밀번호가 비어있습니다.")
-    private String currentPassword;
+
     @NotBlank(message = "비밀번호가 비어있습니다.")
     private String changePassword;
     private String changePasswordCheck;

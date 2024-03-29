@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+
+<body>
+<div class="container">
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
+
+    <!--    <div class="jumbotron">-->
+    <h2>개인정보</h2>
+    <hr>
+    <a>학번</a>
+    <a>[[${loginStuId}]]</a>
+    <br><br>
+    <a>이름</a>
+    <a>[[${loginName}]]</a>
+    <br><br>
+    <a>전화번호</a>
+    <a>[[${phoneNumber}]]</a>
+    <br><br>
+    <a>이메일 주소</a>
+    <a>[[${email}]]</a>
+    &nbsp;&nbsp;<button class="btn btn-outline-warning btn-sm">변경</button>
+    <br>
+    <br><br>
+    <br>
+    <h2>비밀번호 변경</h2>
+    <hr>
+
+    <a>현재 비밀번호</a><br>
+    <form th:method="post" th:action="|/changeInfo/verify/password|" class="form-inline">
+        <style>
+            .inline-elements {
+                display: flex;
+                align-items: center;
+            }
+        </style>
+        <div class="inline-elements">
+            <div class="form-group">
+                <input th:disabled="${isPasswordChecked}" type="password" th:id="password" th:name="password"  class="form-control"
+                       th:attr="placeholder=${isPasswordChecked} ? '비밀번호가 동일합니다' : '현재 비밀번호를 입력하세요'">
+            </div> &nbsp;
+            <button th:disabled="${isPasswordChecked}" type="submit" class="btn btn-outline-secondary btn-sm">입력</button>
+            <div>
+                &nbsp; &nbsp; &nbsp;
+                <img th:src="${isPasswordChecked} ? @{/images/check.png} : @{/images/checkX.png}"
+                     alt="${isPasswordChecked} ? '체크' : '체크x'">
+            </div>
+        </div>
+    </form>
+    <br>
+    <a>이메일 인증</a><br>
+    <form th:method="post" th:action="|/changeInfo/verify/email|" class="form-inline">
+        <style>
+            .inline-elements {
+                display: flex;
+                align-items: center;
+            }
+        </style>
+        <div class="inline-elements">
+            <div class="form-group">
+                <input disabled class="form-control" th:placeholder="${email}" >
+                <input type="hidden" th:id="email" th:name="email" th:value="${email}">
+            </div> &nbsp;
+            <button th:disabled="${!isPasswordChecked}" type="submit" class="btn btn-outline-secondary btn-sm">인증</button>
+
+        </div>
+    </form>
+
+    <form th:method="post" th:action="|/changeInfo/verify/email/code|" class="form-inline">
+        <style>
+            .inline-elements {
+                display: flex;
+                align-items: center;
+            }
+        </style>
+        <div class="inline-elements">
+            <div class="form-group">
+                <input th:disabled="${!isEmailSent}" th:id="code" th:name="code"  class="form-control"
+                       placeholder="이메일로 전송된 인증 문자를 입력하세요">
+            </div> &nbsp;
+            <button th:disabled="${!isEmailSent}" type="submit" class="btn btn-outline-secondary btn-sm">인증</button>
+            <div>
+                &nbsp; &nbsp; &nbsp;
+                <img th:src="${isEmailChecked} ? @{/images/check.png} : @{/images/checkX.png}"
+                     alt="${isPasswordChecked} ? '체크' : '체크x'">
+            </div>
+        </div>
+    </form>
+
+    <!-- isEmailChecked가 true일 때 -->
+    <a href="/changeInfo/changePassword" class="btn btn-outline-secondary" th:if="${isEmailChecked}">다음으로</a>
+    <!-- isEmailChecked가 false일 때 -->
+    <span class="btn btn-outline-secondary disabled-link" th:if="${!isEmailChecked}">다음으로</span>
+
+
+    <br>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</div> <!-- /container -->
+</body>
+</html>
+
+
+<style>
+    .error-class {
+        color: red;
+    }
+    .error-input {
+        border-color: red;
+    }
+</style>

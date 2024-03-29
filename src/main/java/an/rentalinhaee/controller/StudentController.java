@@ -2,23 +2,25 @@ package an.rentalinhaee.controller;
 
 import an.rentalinhaee.domain.Rental;
 import an.rentalinhaee.domain.Student;
+import an.rentalinhaee.domain.dto.ChangePasswordRequest;
 import an.rentalinhaee.repository.RentalSearch;
 import an.rentalinhaee.repository.StudentSearch;
+import an.rentalinhaee.service.EmailService;
 import an.rentalinhaee.service.FeeStudentService;
 import an.rentalinhaee.service.RentalService;
 import an.rentalinhaee.service.StudentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
@@ -27,6 +29,134 @@ public class StudentController {
 
     private final StudentService studentService;
     private final RentalService rentalService;
+
+    @GetMapping("/changeInfo")
+    public String changeInfo(Model model, HttpServletRequest httpServletRequest) {
+
+        HttpSession httpSession = httpServletRequest.getSession(true);
+
+        model.addAttribute("phoneNumber", studentService.findStudent(loginStuId(httpSession)).getPhoneNumber());
+        model.addAttribute("email", studentService.findStudent(loginStuId(httpSession)).getEmail());
+
+        model.addAttribute("isPasswordChecked", false);
+        model.addAttribute("isEmailChecked", false);
+        model.addAttribute("isEmailSent", false);
+
+        return "student/changeInfo";
+    }
+
+    @PostMapping("/changeInfo/verify/password")
+    public String changePassword(@RequestParam("password") String password,
+                                 HttpServletRequest httpServletRequest,
+                                 Model model){
+
+        HttpSession httpSession = httpServletRequest.getSession(true);
+
+        String stuId = (String) model.getAttribute("loginStuId");
+        String currentPassword = studentService.findStudent(stuId).getPassword();
+
+        if(!password.equals(currentPassword)) {
+            model.addAttribute("errorMessage", "현재 비밀번호와 동일하지 않습니다!");
+            model.addAttribute("nextUrl", "/changeInfo");
+
+            return "error/errorMessage";
+        }
+
+        model.addAttribute("phoneNumber", studentService.findStudent(loginStuId(httpSession)).getPhoneNumber());
+        model.addAttribute("email", studentService.findStudent(loginStuId(httpSession)).getEmail());
+
+        model.addAttribute("isPasswordChecked", true);
+        model.addAttribute("isEmailSent", false);
+        model.addAttribute("isEmailChecked", false);
+
+        return "student/changeInfo";
+    }
+
+    private final EmailService emailService;
+    @PostMapping("/changeInfo/verify/email")
+    public String verifyEmail(@RequestParam("email") String email, HttpSession httpSession, Model model) {
+
+
+        model.addAttribute("phoneNumber", studentService.findStudent(loginStuId(httpSession)).getPhoneNumber());
+        model.addAttribute("email", studentService.findStudent(loginStuId(httpSession)).getEmail());
+
+        model.addAttribute("isPasswordChecked", true);
+        model.addAttribute("isEmailSent", true);
+        model.addAttribute("isEmailChecked", false);
+
+        String verifyCode = emailService.sendEmail(email, "email/passwordEmail");
+
+        httpSession.setAttribute("verifyCode", verifyCode);
+
+        return "student/changeInfo";
+    }
+
+    @PostMapping("/changeInfo/verify/email/code")
+    public String verifyEmailCode(@RequestParam("code") String code, HttpSession httpSession, Model model) {
+
+        String verifyCode = (String) httpSession.getAttribute("verifyCode");
+        if(!code.equals(verifyCode)) {
+            model.addAttribute("errorMessage", "인증 문자가 일치하지 않습니다!");
+            model.addAttribute("nextUrl", "/changeInfo");
+            return "error/errorMessage";
+        }
+
+
+        model.addAttribute("phoneNumber", studentService.findStudent(loginStuId(httpSession)).getPhoneNumber());
+        model.addAttribute("email", studentService.findStudent(loginStuId(httpSession)).getEmail());
+
+        model.addAttribute("isPasswordChecked", true);
+        model.addAttribute("isEmailSent", true);
+        model.addAttribute("isEmailChecked", true);
+        return "student/changeInfo";
+    }
+
+    @GetMapping("/changeInfo/changePassword")
+    public String changePasswordNext(Model model) {
+
+        model.addAttribute("request", new ChangePasswordRequest());
+        return "student/changePassword";
+    }
+
+    @PostMapping("/changeInfo/changePassword")
+    public String changePasswordForm(@Valid @ModelAttribute("request") ChangePasswordRequest request, BindingResult bindingResult,
+                                     HttpSession httpSession, Model model) {
+
+        System.out.println("@@@@@@@@@@");
+        Student student = studentService.findStudent((String) httpSession.getAttribute("loginStuId"));
+        String password = student.getPassword();
+
+        if(request.getChangePassword().equals(password)){
+            bindingResult.addError(new FieldError("request",
+                    "changePassword", "현재 비밀번호와 동일하게 변경 불가합니다!"));
+        } else if (!request.getChangePassword().equals(request.getChangePasswordCheck())) {
+            bindingResult.addError(new FieldError("request",
+                    "changePassword", "비밀번호가 동일하지 않습니다!"));
+            bindingResult.addError(new FieldError("request",
+                    "changePasswordCheck", "비밀번호가 동일하지 않습니다!"));
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "student/changePassword";
+        }
+
+        System.out.println("!!!!!!!!!!!");
+        String stuId = student.getStuId();
+        studentService.changePassword(stuId, request);
+
+        model.addAttribute("errorMessage", "비밀번호가 변경되었습니다!");
+        model.addAttribute("nextUrl", "/changeInfo");
+        return "error/errorMessage";
+
+
+    }
+//    @PostMapping("/changePassword")
+//    public String changePassword(
+//                                 ) {
+
+//
+
+//    }
 
     @GetMapping("/student/list")
     public String list(@ModelAttribute("studentSearch") StudentSearch studentSearch,
