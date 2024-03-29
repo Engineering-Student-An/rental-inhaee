@@ -28,9 +28,12 @@
     <a>[[${phoneNumber}]]</a>
     <br><br>
     <a>이메일 주소</a>
-    <a>[[${email}]]</a>
-    &nbsp;&nbsp;
-    <a href="/changeInfo/email" class="btn btn-outline-warning btn-sm">변경</a>
+    <div class="inline-elements">
+        <input disabled th:value="${email}" class="form-control" style="width: 60%">
+        &nbsp;
+        <a href="/changeInfo/email" class="btn btn-outline-warning btn-sm">변경</a>
+    </div>
+
     <br>
     <br><br>
     <br>

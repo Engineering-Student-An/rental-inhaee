@@ -163,6 +163,12 @@ public class StudentController {
                                   BindingResult bindingResult, Model model, HttpSession session) {
 
         String email = emailForm.getEmail();
+
+        if(email.equals(studentService.findStudent((String) model.getAttribute("loginStuId")).getEmail())) {
+            bindingResult.addError(new FieldError("emailForm",
+                    "email", "현재 이메일 주소와 동일합니다!"));
+        }
+
         if(email.isEmpty()) {
             bindingResult.addError(new FieldError("emailForm",
                     "email", "이메일 주소를 입력해주세요!"));
