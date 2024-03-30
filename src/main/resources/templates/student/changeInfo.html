@@ -53,12 +53,15 @@
                 입력
             </button>
 
-
-            <div>
+            <div th:if="${isPasswordChecked}">
                 &nbsp; &nbsp; &nbsp;
-                <img th:src="${isPasswordChecked} ? @{/images/check.png} : @{/images/checkX.png}"
-                     alt="${isPasswordChecked} ? '체크' : '체크x'">
+                <img th:src="@{/images/check.png}" alt="체크">
             </div>
+            <div th:unless="${isPasswordChecked}">
+                &nbsp; &nbsp; &nbsp;
+                <img th:src="@{/images/checkX.png}" alt="체크x">
+            </div>
+
         </div>
     </form>
     <br>
@@ -95,10 +98,13 @@
                 <button type="submit"
                         th:class="${isEmailChecked} ? 'btn btn-success btn-sm' : 'btn btn-outline-danger btn-sm'">인증</button>
             </div>
-            <div>
+            <div th:if="${isPasswordChecked}">
                 &nbsp; &nbsp; &nbsp;
-                <img th:src="${isEmailChecked} ? @{/images/check.png} : @{/images/checkX.png}"
-                     alt="${isPasswordChecked} ? '체크' : '체크x'">
+                <img th:src="@{/images/check.png}" alt="체크">
+            </div>
+            <div th:unless="${isPasswordChecked}">
+                &nbsp; &nbsp; &nbsp;
+                <img th:src="@{/images/checkX.png}" alt="체크x">
             </div>
         </div>
     </form>
