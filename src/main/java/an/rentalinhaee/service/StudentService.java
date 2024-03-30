@@ -14,6 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 
 @Service
 @Transactional
@@ -55,10 +58,14 @@ public class StudentService {
     public boolean delete(String stuId) {
         Student findStudent = studentRepository.findByStuId(stuId);
 
-        if(!rentalRepository.existsByStudent_IdAndStatusNot(findStudent.getId(), RentalStatus.FINISH)) {
+        Collection<RentalStatus> statuses = new ArrayList<>();
+        statuses.add(RentalStatus.FINISH);
+        statuses.add(RentalStatus.FINISH_OVERDUE);
+
+        if(!rentalRepository.existsByStudent_IdAndStatusNotIn(findStudent.getId(), statuses)) {
 
             // 대여 기록 삭제
-            for (Rental rental : rentalRepository.findRentalsByStudent_IdAndStatus(findStudent.getId(), RentalStatus.FINISH)) {
+            for (Rental rental : rentalRepository.findRentalsByStudent_IdAndStatusIn(findStudent.getId(), statuses)) {
                 rentalRepository.delete(rental);
             }
 

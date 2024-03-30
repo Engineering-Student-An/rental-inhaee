@@ -37,4 +37,7 @@ public interface RentalRepository extends JpaRepository<Rental, Long> {
 
     List<Rental> findRentalsByStudent_IdAndStatus(Long id, RentalStatus status);
 
+    boolean existsByStudent_IdAndStatusNotIn(Long id, Collection<RentalStatus> status);
+
+    List<Rental> findRentalsByStudent_IdAndStatusIn(Long id, Collection<RentalStatus> status);
 }

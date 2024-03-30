@@ -30,8 +30,6 @@ public class ItemService {
         item.updateInfo(name, allStockQuantity, category);
     }
 
-
-    // orphan removal 로 바꿀 순 없는가?
     @Transactional
     public void deleteItem(Long itemId){
         rentalRepository.deleteRentalByItem_Id(itemId);

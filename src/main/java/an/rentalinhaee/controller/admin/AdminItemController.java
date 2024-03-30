@@ -104,7 +104,9 @@ public class AdminItemController {
 
     @GetMapping("/item/{itemId}/delete")
     public String deleteItem(@PathVariable(value = "itemId") Long itemId, Model model){
+
         Item item = itemService.findOneItem(itemId);
+
         if(item.getStockQuantity() != item.getAllStockQuantity()){
             model.addAttribute("errorMessage", "현재 대여중인 물품은 삭제할 수 없습니다!");
             model.addAttribute("nextUrl", "/admin/item/list");
