@@ -1,10 +1,7 @@
 package an.rentalinhaee.controller;
 
 import an.rentalinhaee.domain.Student;
-import an.rentalinhaee.domain.dto.EmailForm;
-import an.rentalinhaee.domain.dto.JoinRequest;
-import an.rentalinhaee.domain.dto.LoginRequest;
-import an.rentalinhaee.domain.dto.VerifyCodeForm;
+import an.rentalinhaee.domain.dto.*;
 import an.rentalinhaee.repository.RuleRepository;
 import an.rentalinhaee.service.BoardService;
 import an.rentalinhaee.service.EmailService;
@@ -56,9 +53,6 @@ public class HomeController {
 
             model.addAttribute("recentBoard", boardService.findRecentBoard());
             model.addAttribute("hotBoard", boardService.findHotBoard());
-//            session.setAttribute("loginStudent", loginStudent);
-//            model.addAttribute("loginStuId", loginStudent.getStuId());
-//            model.addAttribute("loginName", loginStudent.getName());
         }
         return "home/home";
     }
@@ -223,6 +217,93 @@ public class HomeController {
         }
 
         return "redirect:/";
+    }
+
+    @GetMapping("/findPassword")
+    public String findPasswordForm(Model model) {
+        model.addAttribute("isStuIdInput", false);
+        model.addAttribute("stuId", "");
+        model.addAttribute("email", "");
+        model.addAttribute("isEmailSent", false);
+        model.addAttribute("isEmailChecked", false);
+        return "home/findPassword";
+    }
+
+    @PostMapping("/findPassword")
+    public String findPassword(@RequestParam("stuId") String stuId, Model model) {
+        System.out.println("stuId = " + stuId);
+        model.addAttribute("isStuIdInput", true);
+        model.addAttribute("stuId", stuId);
+        model.addAttribute("email", studentService.findStudent(stuId).getEmail());
+        model.addAttribute("isEmailSent", false);
+        model.addAttribute("isEmailChecked", false);
+        return "home/findPassword";
+
+    }
+
+    @PostMapping("/findPassword/{stuId}/email")
+    public String sendEmail(@PathVariable("stuId") String stuId, @RequestParam("email") String email, Model model, HttpSession session) {
+
+        String verifyCode = emailService.sendEmail(email, "email/passwordEditEmail");
+        System.out.println("verifyCode = " + verifyCode);
+        model.addAttribute("isStuIdInput", true);
+        model.addAttribute("email", studentService.findStudent(stuId).getEmail());
+        model.addAttribute("isEmailSent", true);
+        model.addAttribute("isEmailChecked", false);
+        session.setAttribute("verifyCode", verifyCode);
+        return "home/findPassword";
+    }
+
+    @PostMapping("/findPassword/{stuId}/email/verify")
+    public String verifyEmail(@PathVariable("stuId") String stuId, @RequestParam("code") String code, HttpSession session, Model model) {
+
+        String verifyCode = (String) session.getAttribute("verifyCode");
+        model.addAttribute("isStuIdInput", true);
+        model.addAttribute("email", studentService.findStudent(stuId).getEmail());
+        model.addAttribute("isEmailSent", true);
+
+
+        if(!code.equals(verifyCode)) {
+            model.addAttribute("errorMessage", "인증 문자가 일치하지 않습니다! 다시 시도해주세요!");
+            model.addAttribute("nextUrl", "/findPassword");
+            return "error/errorMessage";
+        }
+
+        model.addAttribute("isEmailChecked", true);
+        return "home/findPassword";
+    }
+
+
+
+    @GetMapping("/findPassword/{stuId}/reset")
+    public String resetPasswordForm(@PathVariable("stuId") String stuId, Model model) {
+
+        model.addAttribute("request", new ChangePasswordRequest());
+        return "home/resetPassword";
+    }
+
+    @PostMapping("/findPassword/{stuId}/reset")
+    public String resetPassword(@PathVariable("stuId") String stuId,
+                                @Valid @ModelAttribute("request") ChangePasswordRequest request,
+                                BindingResult bindingResult, Model model) {
+
+        Student student = studentService.findStudent(stuId);
+
+        if (!request.getChangePassword().equals(request.getChangePasswordCheck())) {
+            bindingResult.addError(new FieldError("request",
+                    "changePassword", "비밀번호가 동일하지 않습니다!"));
+            bindingResult.addError(new FieldError("request",
+                    "changePasswordCheck", "비밀번호가 동일하지 않습니다!"));
+        }
+        if (bindingResult.hasErrors()) {
+            return "home/resetPassword";
+        }
+
+        studentService.changePassword(stuId, request);
+
+        model.addAttribute("errorMessage", "비밀번호가 변경되었습니다!\n변경된 비밀번호로 로그인 해주세요.");
+        model.addAttribute("nextUrl", "/");
+        return "error/errorMessage";
     }
 
     @ModelAttribute("loginStudent")
