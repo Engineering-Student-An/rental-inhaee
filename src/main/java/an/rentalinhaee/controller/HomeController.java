@@ -309,7 +309,7 @@ public class HomeController {
         studentService.changePassword(stuId, request);
 
         model.addAttribute("errorMessage", "비밀번호가 변경되었습니다!\n변경된 비밀번호로 로그인 해주세요.");
-        model.addAttribute("nextUrl", "/");
+        model.addAttribute("nextUrl", "/login");
         return "error/errorMessage";
     }
 
