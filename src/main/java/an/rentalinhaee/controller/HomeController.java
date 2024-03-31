@@ -221,22 +221,31 @@ public class HomeController {
 
     @GetMapping("/findPassword")
     public String findPasswordForm(Model model) {
-        model.addAttribute("isStuIdInput", false);
+
         model.addAttribute("stuId", "");
         model.addAttribute("email", "");
-        model.addAttribute("isEmailSent", false);
-        model.addAttribute("isEmailChecked", false);
+
+        findPasswordModel(model, false, false, false);
         return "home/findPassword";
     }
 
+
+
     @PostMapping("/findPassword")
     public String findPassword(@RequestParam("stuId") String stuId, Model model) {
-        System.out.println("stuId = " + stuId);
-        model.addAttribute("isStuIdInput", true);
+
+        Student student = studentService.findStudent(stuId);
+
+        if(student == null) {
+            model.addAttribute("errorMessage", "해당 학번으로 가입된 계정이 없습니다.\n회원가입을 진행해주세요!\n'확인'을 누르면 회원가입 페이지로 이동합니다.");
+            model.addAttribute("yesUrl", "/join");
+            model.addAttribute("noUrl", "/findPassword");
+            return "error/yesOrNoMessage";
+        }
+
         model.addAttribute("stuId", stuId);
-        model.addAttribute("email", studentService.findStudent(stuId).getEmail());
-        model.addAttribute("isEmailSent", false);
-        model.addAttribute("isEmailChecked", false);
+        model.addAttribute("email", student.getEmail());
+        findPasswordModel(model, true, false, false);
         return "home/findPassword";
 
     }
@@ -245,11 +254,11 @@ public class HomeController {
     public String sendEmail(@PathVariable("stuId") String stuId, @RequestParam("email") String email, Model model, HttpSession session) {
 
         String verifyCode = emailService.sendEmail(email, "email/passwordEditEmail");
-        System.out.println("verifyCode = " + verifyCode);
-        model.addAttribute("isStuIdInput", true);
+
         model.addAttribute("email", studentService.findStudent(stuId).getEmail());
-        model.addAttribute("isEmailSent", true);
-        model.addAttribute("isEmailChecked", false);
+
+        findPasswordModel(model, true, true, false);
+
         session.setAttribute("verifyCode", verifyCode);
         return "home/findPassword";
     }
@@ -258,10 +267,7 @@ public class HomeController {
     public String verifyEmail(@PathVariable("stuId") String stuId, @RequestParam("code") String code, HttpSession session, Model model) {
 
         String verifyCode = (String) session.getAttribute("verifyCode");
-        model.addAttribute("isStuIdInput", true);
         model.addAttribute("email", studentService.findStudent(stuId).getEmail());
-        model.addAttribute("isEmailSent", true);
-
 
         if(!code.equals(verifyCode)) {
             model.addAttribute("errorMessage", "인증 문자가 일치하지 않습니다! 다시 시도해주세요!");
@@ -269,7 +275,8 @@ public class HomeController {
             return "error/errorMessage";
         }
 
-        model.addAttribute("isEmailChecked", true);
+        findPasswordModel(model, true, true, true);
+
         return "home/findPassword";
     }
 
@@ -304,6 +311,12 @@ public class HomeController {
         model.addAttribute("errorMessage", "비밀번호가 변경되었습니다!\n변경된 비밀번호로 로그인 해주세요.");
         model.addAttribute("nextUrl", "/");
         return "error/errorMessage";
+    }
+
+    private static void findPasswordModel(Model model, boolean isStuIdInput, boolean isEmailSent, boolean isEmailChecked) {
+        model.addAttribute("isStuIdInput", isStuIdInput);
+        model.addAttribute("isEmailSent", isEmailSent);
+        model.addAttribute("isEmailChecked", isEmailChecked);
     }
 
     @ModelAttribute("loginStudent")
