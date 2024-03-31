@@ -11,6 +11,7 @@ import an.rentalinhaee.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ public class StudentService {
     private final RentalRepository rentalRepository;
     private final BoardRepository boardRepository;
     private final ReplyRepository replyRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     // 학번 중복 검증
     public boolean checkStuIdDuplicate(String stuId){
@@ -35,6 +37,8 @@ public class StudentService {
 
     // 회원가입
     public void join(JoinRequest joinRequest, String email){
+        joinRequest.setPassword(bCryptPasswordEncoder.encode(joinRequest.getPassword()));
+
         studentRepository.save(joinRequest.toEntity(email));
     }
 

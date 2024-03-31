@@ -1,17 +1,23 @@
 package an.rentalinhaee.controller.admin;
 
 import an.rentalinhaee.domain.Rule;
+import an.rentalinhaee.domain.Student;
 import an.rentalinhaee.domain.dto.ChangeRuleRequest;
 import an.rentalinhaee.repository.RuleRepository;
 import an.rentalinhaee.service.BoardService;
 import an.rentalinhaee.service.RuleService;
+import an.rentalinhaee.service.StudentService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin")
@@ -23,13 +29,20 @@ public class AdminHomeController {
     private final RuleService ruleService;
 
     @GetMapping({"/", ""})
-    public String adminHome(Model model, @SessionAttribute(name = "loginStuId", required = false) String stuId) {
+    public String adminHome(HttpSession session, Model model) {
 
 
-        Rule ann = ruleRepository.findAnnouncementById(1L);
-        model.addAttribute("ann", ann);
+        String loginStuId = SecurityContextHolder.getContext().getAuthentication().getName();
+        Student loginStudent = studentService.findStudent(loginStuId);
 
-        model.addAttribute("recentBoard", boardService.findRecentBoard());
+
+        if (loginStudent != null) {
+            model.addAttribute("ann", ruleRepository.findAnnouncementById(1L));
+
+            model.addAttribute("recentBoard", boardService.findRecentBoard());
+
+            session.setAttribute("loginStudent", session.getAttribute("loginStudent"));
+        }
 
         return "admin/home";
     }
@@ -71,17 +84,13 @@ public class AdminHomeController {
         return "redirect:/admin/";
     }
 
-    @ModelAttribute("loginStuId")
-    public String loginStuId(HttpSession httpSession) {
+    private final StudentService studentService;
 
-        if(httpSession.getAttribute("loginStuId") != null) return httpSession.getAttribute("loginStuId").toString();
-        return null;
-
-    }
-
-    @ModelAttribute("loginName")
-    public String loginName(HttpSession httpSession) {
-        if(httpSession.getAttribute("loginStuId") != null) return httpSession.getAttribute("loginName").toString();
+    @ModelAttribute("loginStudent")
+    public Student loginStudent(HttpSession session) {
+        if(session.getAttribute("loginStudent") != null) {
+            return (Student) session.getAttribute("loginStudent");
+        }
         return null;
     }
 }

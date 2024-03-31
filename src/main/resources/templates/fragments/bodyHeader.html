@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="UTF-8">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <div class="header" th:fragment="bodyHeader">
     <ul class="nav nav-pills pull-right">
 
     </ul>
     <div class="d-flex justify-content-between">
         <div style="text-align: left">
-            <a th:if="${loginStuId == 'ADMIN'}" href="/admin"><img th:src="@{/images/home.png}" alt="home" /></a>
-            <a th:unless="${loginStuId == 'ADMIN'}" href="/"><img th:src="@{/images/home.png}" alt="home" /></a>
+            <a th:if="${loginStudent != null and loginStudent.getRole().toString() == 'ADMIN'}" href="/admin"><img th:src="@{/images/home.png}" alt="home" /></a>
+            <a th:if="${loginStudent == null or loginStudent.getRole().toString() != 'ADMIN'}" href="/"><img th:src="@{/images/home.png}" alt="home" /></a>
         </div>
 
         <div class="dropdown">
@@ -15,15 +17,15 @@
                 내 정보
             </button>
             <div class="dropdown-menu p-3 text-muted" style="max-width: 200px;">
-                <div th:if="${loginStuId == null}">
+                <div th:if="${loginStudent == null}">
                     <p>
                         로그인 후<br/>
                         이용 가능 합니다!
                     </p>
                 </div>
-                <div th:if="${loginStuId != null}">
-                    <p> [[${loginStuId}]] <br>
-                        [[${loginName}]] 님<br>
+                <div th:if="${loginStudent != null}">
+                    <p> [[${loginStudent.stuId}]] <br>
+                        [[${loginStudent.name}]] 님<br>
                         환영합니다!
                     </p>
                     <p class="mb-0"></p>
@@ -41,8 +43,9 @@
 
     <div style="text-align: center">
         <h1><a href="https://www.inha.ac.kr" target="_blank"><img th:src="@{/images/inhalogo.png}" alt="인하대 로고" /></a>
-            <a th:if="${loginStuId == 'ADMIN'}" href="/admin" class="text-decoration-none text-light-emphasis" >전자공학과 학생회 대여 사업</a>
-            <a th:unless="${loginStuId == 'ADMIN'}" href="/" class="text-decoration-none text-light-emphasis" >전자공학과 학생회 대여 사업</a>
+
+            <a th:if="${loginStudent != null and loginStudent.getRole().toString() == 'ADMIN'}" href="/admin" class="text-decoration-none text-light-emphasis" >전자공학과 학생회 대여 사업</a>
+            <a th:if="${loginStudent == null or loginStudent.getRole().toString() != 'ADMIN'}" href="/" class="text-decoration-none text-light-emphasis" >전자공학과 학생회 대여 사업</a>
             <a href="https://pf.kakao.com/_CxjxlxiM" target="_blank"><img th:src="@{/images/inhaeelogo.png}" alt="학생회 로고" /></a> </h1>
     </div>
 </div>

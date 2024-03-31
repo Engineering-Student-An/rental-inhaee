@@ -1,6 +1,7 @@
 package an.rentalinhaee.controller.admin;
 
 import an.rentalinhaee.domain.Item;
+import an.rentalinhaee.domain.Student;
 import an.rentalinhaee.domain.dto.ItemForm;
 import an.rentalinhaee.repository.ItemSearch;
 import an.rentalinhaee.service.ItemService;
@@ -117,17 +118,11 @@ public class AdminItemController {
         return "redirect:/admin/item/list";
     }
 
-    @ModelAttribute("loginStuId")
-    public String loginStuId(HttpSession httpSession) {
-
-        if(httpSession.getAttribute("loginStuId") != null) return httpSession.getAttribute("loginStuId").toString();
-        return null;
-
-    }
-
-    @ModelAttribute("loginName")
-    public String loginName(HttpSession httpSession) {
-        if(httpSession.getAttribute("loginStuId") != null) return httpSession.getAttribute("loginName").toString();
+    @ModelAttribute("loginStudent")
+    public Student loginStudent(HttpSession session) {
+        if(session.getAttribute("loginStudent") != null) {
+            return (Student) session.getAttribute("loginStudent");
+        }
         return null;
     }
 }

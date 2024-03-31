@@ -1,7 +1,8 @@
-package an.rentalinhaee.controller;
+package an.rentalinhaee.controller.admin;
 
 import an.rentalinhaee.ReadExcel;
 import an.rentalinhaee.domain.FeeStudent;
+import an.rentalinhaee.domain.Student;
 import an.rentalinhaee.repository.StudentSearch;
 import an.rentalinhaee.service.FeeStudentService;
 import jakarta.servlet.http.HttpSession;
@@ -10,10 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -21,6 +19,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/admin")
 public class FeeStudentController {
 
     private final FeeStudentService feeStudentService;
@@ -45,7 +44,7 @@ public class FeeStudentController {
         model.addAttribute("studentSearch", studentSearch);
 
 
-        return"student/feeList";
+        return"/admin/student/feeList";
     }
 
     @GetMapping("/student/feeList/add")
@@ -57,11 +56,11 @@ public class FeeStudentController {
             feeStudentService.save(new FeeStudent(stuId, name));
         } else {    // 학번 or 이름 비어있는 경우
             model.addAttribute("errorMessage", "학번과 이름에 공백이 있는지 확인해주세요!");
-            model.addAttribute("nextUrl", "/student/feeList");
+            model.addAttribute("nextUrl", "/admin/student/feeList");
             return "error/errorMessage";
         }
 
-        return "redirect:/student/feeList";
+        return "redirect:/admin/student/feeList";
     }
 
     @PostMapping("/student/feeList/delete")
@@ -69,7 +68,7 @@ public class FeeStudentController {
         for (String stuId : stuIdList) {
             feeStudentService.delete(stuId);
         }
-        return "redirect:/student/feeList";
+        return "redirect:/admin/student/feeList";
     }
 
     @PostMapping("/student/feeList/upload")
@@ -78,7 +77,7 @@ public class FeeStudentController {
         // 업로드 파일이 존재하는지 검증
         if(file == null || file.isEmpty()){
             model.addAttribute("errorMessage", "선택된 파일이 없습니다!");
-            model.addAttribute("nextUrl", "/student/feeList");
+            model.addAttribute("nextUrl", "/admin/student/feeList");
 
             return "error/errorMessage";
         }
@@ -89,7 +88,7 @@ public class FeeStudentController {
         // 파일 명이 .xlsx , .xls 로 끝나는지 (=엑셀파일인지) 검증
         if (fileName != null && !fileName.endsWith(".xls") && !fileName.endsWith(".xlsx")) {
             model.addAttribute("errorMessage", "엑셀 파일을 업로드해주세요!");
-            model.addAttribute("nextUrl", "/student/feeList");
+            model.addAttribute("nextUrl", "/admin/student/feeList");
 
             return "error/errorMessage";
         }
@@ -101,20 +100,14 @@ public class FeeStudentController {
             feeStudentService.save(feeStudent);
         }
 
-        return "redirect:/student/feeList";
+        return "redirect:/admin/student/feeList";
     }
 
-    @ModelAttribute("loginStuId")
-    public String loginStuId(HttpSession httpSession) {
-
-        if(httpSession.getAttribute("loginStuId") != null) return httpSession.getAttribute("loginStuId").toString();
-        return null;
-
-    }
-
-    @ModelAttribute("loginName")
-    public String loginName(HttpSession httpSession) {
-        if(httpSession.getAttribute("loginStuId") != null) return httpSession.getAttribute("loginName").toString();
+    @ModelAttribute("loginStudent")
+    public Student loginStudent(HttpSession session) {
+        if(session.getAttribute("loginStudent") != null) {
+            return (Student) session.getAttribute("loginStudent");
+        }
         return null;
     }
 }

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:replace="~{fragments/header :: header}">
 
 <body>
@@ -9,7 +9,7 @@
 
 <!--    <div class="jumbotron">-->
     <h2>로그인</h2>
-    <form th:method="post" th:action="|/login|" th:object="${loginRequest}">
+    <form th:method="post" th:action="|@{/login}|" th:object="${loginRequest}">
 
         <br>
         <div>

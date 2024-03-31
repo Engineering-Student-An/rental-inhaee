@@ -2,6 +2,7 @@ package an.rentalinhaee.controller;
 
 import an.rentalinhaee.domain.Board;
 import an.rentalinhaee.domain.Reply;
+import an.rentalinhaee.domain.Student;
 import an.rentalinhaee.domain.dto.BoardForm;
 import an.rentalinhaee.domain.dto.ReplyForm;
 import an.rentalinhaee.service.BoardService;
@@ -75,7 +76,8 @@ public class BoardController {
         if(boardForm.isNotice()){
             boardForm.setTitle("[공지] " + boardForm.getTitle() );
         }
-        Board board = new Board((String) httpSession.getAttribute("loginStuId"), (String) httpSession.getAttribute("loginName"),
+        Student student = (Student) model.getAttribute("loginStudent");
+        Board board = new Board(student.getStuId() , student.getName(),
                  boardForm.getTitle(), boardForm.getContent(), LocalDateTime.now(),  boardForm.isNotice());
 
         boardService.saveBoard(board);
@@ -95,8 +97,8 @@ public class BoardController {
     }
 
     @GetMapping("/board/{id}/like")
-    public String likeBoard(@PathVariable("id") Long id, HttpSession httpSession) {
-        String stuId = (String) httpSession.getAttribute("loginStuId");
+    public String likeBoard(@PathVariable("id") Long id, HttpSession httpSession, Model model) {
+        String stuId = ((Student) model.getAttribute("loginStudent")).getStuId();
 
         boardService.like(id, stuId);
 
@@ -134,7 +136,8 @@ public class BoardController {
     }
 
     @PostMapping("/board/{id}/reply/new")
-    public String createReply(@PathVariable("id") Long boardId, RedirectAttributes redirectAttributes, ReplyForm form, HttpSession httpSession, BindingResult bindingResult) {
+    public String createReply(@PathVariable("id") Long boardId, RedirectAttributes redirectAttributes, ReplyForm form, HttpSession httpSession, BindingResult bindingResult,
+                              Model model) {
 
         if(!StringUtils.hasText(form.getContent())) {
             bindingResult.addError(new FieldError("form", "content", "내용을 입력하세요"));
@@ -144,8 +147,8 @@ public class BoardController {
             redirectAttributes.addFlashAttribute("form", form);
             return "redirect:/board/" + boardId;
         }
-        Reply reply = replyService.reply((String) httpSession.getAttribute("loginStuId"), (String) httpSession.getAttribute("loginName"),
-                form.getContent(), boardId);
+        Student student = (Student) model.getAttribute("loginStudent");
+        Reply reply = replyService.reply(student.getStuId(), student.getName(), form.getContent(), boardId);
         reply.setBoard(boardService.findOne(boardId));
 
         return "redirect:/board/" + boardId;
@@ -161,9 +164,10 @@ public class BoardController {
 
     @GetMapping("/reply/{id}/like")
     public String likeReply(@RequestParam("boardId") Long boardId,
-                            @PathVariable("id") Long replyId, HttpSession httpSession) {
+                            @PathVariable("id") Long replyId, HttpSession httpSession, Model model) {
 
-        replyService.like(replyId, (String) httpSession.getAttribute("loginStuId"));
+        Student student = (Student) model.getAttribute("loginStudent");
+        replyService.like(replyId, student.getStuId());
         return "redirect:/board/" + boardId;
     }
 
@@ -174,24 +178,18 @@ public class BoardController {
         PageRequest pageRequest;
         pageRequest = PageRequest.of(page - 1, 10, Sort.by("writeTime").descending());
 
-        String stuId = (String) httpSession.getAttribute("loginStuId");
-        Page<Board> boards = boardService.findByStuId(pageRequest, stuId);
+        Student student = (Student) model.getAttribute("loginStudent");
+        Page<Board> boards = boardService.findByStuId(pageRequest, student.getStuId());
         model.addAttribute("boards", boards);
 
         return "board/myList";
     }
 
-    @ModelAttribute("loginStuId")
-    public String loginStuId(HttpSession httpSession) {
-
-        if(httpSession.getAttribute("loginStuId") != null) return httpSession.getAttribute("loginStuId").toString();
-        return null;
-
-    }
-
-    @ModelAttribute("loginName")
-    public String loginName(HttpSession httpSession) {
-        if(httpSession.getAttribute("loginStuId") != null) return httpSession.getAttribute("loginName").toString();
+    @ModelAttribute("loginStudent")
+    public Student loginStudent(HttpSession session) {
+        if(session.getAttribute("loginStudent") != null) {
+            return (Student) session.getAttribute("loginStudent");
+        }
         return null;
     }
 }

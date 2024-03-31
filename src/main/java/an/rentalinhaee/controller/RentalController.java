@@ -55,8 +55,9 @@ public class RentalController {
     @PostMapping("/rental/complete")
     public String rentalComplete(@RequestParam("itemId") Long itemId, Model model) {
 
-        String stuId = (String) model.getAttribute("loginStuId");
-        Long studentId = studentService.findStudent(stuId).getId();
+        Student student = (Student) model.getAttribute("loginStudent");
+        Long studentId = student.getId();
+        String stuId = student.getStuId();
 
         if(rentalService.existsByStudentIdAndItemId(studentId, itemId)){
             model.addAttribute("errorMessage", "현재 대여중인 물품은 추가로 대여할 수 없습니다!\n반납 후 대여하세요!");
@@ -76,7 +77,7 @@ public class RentalController {
                              @ModelAttribute("rentalSearch") RentalSearch rentalSearch,
                              Model model) {
 
-        Student student = studentService.findStudent((String) model.getAttribute("loginStuId"));
+        Student student = (Student) model.getAttribute("loginStudent");
 
         rentalSearch.setStuId(student.getStuId());
 
@@ -123,30 +124,11 @@ public class RentalController {
         return "redirect:/student/{stuId}/find";
     }
 
-    @GetMapping("/rental/list")
-    public String allList(@ModelAttribute("rentalSearch") RentalSearch rentalSearch,
-                          @RequestParam(required = false, defaultValue = "1", value = "page") int page,
-                          Model model){
-
-        PageRequest pageRequest = PageRequest.of(page-1, 10, Sort.by("status").descending());
-
-        Page<Rental> rentalByStuIdStatusItem = rentalService.findRentalByStuId_Status_Item(rentalSearch, pageRequest);
-        model.addAttribute("rentals", rentalByStuIdStatusItem);
-
-        return "rental/list";
-    }
-
-    @ModelAttribute("loginStuId")
-    public String loginStuId(HttpSession httpSession) {
-
-        if(httpSession.getAttribute("loginStuId") != null) return httpSession.getAttribute("loginStuId").toString();
-        return null;
-
-    }
-
-    @ModelAttribute("loginName")
-    public String loginName(HttpSession httpSession) {
-        if(httpSession.getAttribute("loginStuId") != null) return httpSession.getAttribute("loginName").toString();
+    @ModelAttribute("loginStudent")
+    public Student loginStudent(HttpSession session) {
+        if(session.getAttribute("loginStudent") != null) {
+            return (Student) session.getAttribute("loginStudent");
+        }
         return null;
     }
 }

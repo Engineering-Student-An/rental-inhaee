@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <!--<head th:replace="fragments/header :: header">-->
 <!--    <title>인하대 전자공학과 학생회 대여 사업</title>-->
 <!--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />-->
@@ -26,7 +26,7 @@
 
 
         <br>
-        <div th:if="${loginStuId == null}">
+        <div th:if="${loginStudent == null}">
             <h3>로그인 후 이용 가능합니다!</h3>
             <br>
             <a th:href="@{/login}" class="btn btn-outline-primary" role="button">로그인</a>
@@ -37,7 +37,7 @@
 
         </div>
 
-        <div th:unless="${loginStuId == null}">
+        <div th:unless="${loginStudent == null}">
             <div class="d-flex justify-content-between align-items-center">
                 <h2>[[${ann.title}]]</h2>
             </div>

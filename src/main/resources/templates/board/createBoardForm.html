@@ -8,7 +8,7 @@
     <h3>게시글 작성</h3><br>
 
     <form th:method="post" th:action="|/board/new|" th:object="${boardForm}">
-        <div th:if="${loginStuId == 'ADMIN'}">
+        <div th:if="${loginStudent.getRole().toString() == 'ADMIN'}">
             <label th:for="notice">공지</label>
             <input type="checkbox" th:field="*{notice}" class="checkboxes">
         </div>

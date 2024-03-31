@@ -1,5 +1,6 @@
 package an.rentalinhaee.controller;
 
+import an.rentalinhaee.domain.Student;
 import an.rentalinhaee.repository.ItemSearch;
 import an.rentalinhaee.service.ItemService;
 import jakarta.servlet.http.HttpSession;
@@ -37,17 +38,12 @@ public class ItemController {
         return "item/list";
     }
 
-    @ModelAttribute("loginStuId")
-    public String loginStuId(HttpSession httpSession) {
 
-        if(httpSession.getAttribute("loginStuId") != null) return httpSession.getAttribute("loginStuId").toString();
-        return null;
-
-    }
-
-    @ModelAttribute("loginName")
-    public String loginName(HttpSession httpSession) {
-        if(httpSession.getAttribute("loginStuId") != null) return httpSession.getAttribute("loginName").toString();
+    @ModelAttribute("loginStudent")
+    public Student loginStudent(HttpSession session) {
+        if(session.getAttribute("loginStudent") != null) {
+            return (Student) session.getAttribute("loginStudent");
+        }
         return null;
     }
 }

@@ -76,10 +76,10 @@
 
         <div class="border p-3" style="white-space: pre-line; word-break: break-all" th:text="${board.content}"></div><br><br>
         <div class="d-flex justify-content-end">
-            <div th:if="${loginStuId == board.stuId}">
+            <div th:if="${loginStudent.getStuId() == board.stuId}">
                 <a th:href="@{/board/{id}/edit(id=${board.id})}" class="btn btn-outline-primary btn-sm" role="button">수정</a>
             </div>
-            <div th:if="${loginStuId == board.stuId || loginStuId == 'ADMIN'}">
+            <div th:if="${loginStudent.getStuId() == board.stuId || loginStudent.getRole().toString() == 'ADMIN'}">
                 <a href="#" onclick="return confirm('게시글을 삭제하시겠습니까?');"
                    th:href="@{/board/{id}/delete(id=${board.id})}" class="btn btn-outline-danger btn-sm mx-1" role="button">삭제</a>
             </div>
@@ -88,9 +88,9 @@
 
             <div>
                 <a th:href="@{/board/{id}/like(id=${id})}" class="btn btn-link" role="button"
-                   th:onclick="${board.isLike(loginStuId) == true} ? @{return confirm('해당 게시글의 좋아요를 취소 하시겠습니까?');} : ''">
-                    <img th:src="${board.isLike(loginStuId) == true} ? @{'/images/thumbsUp2.png'} : @{'/images/thumbsUp.png'}"
-                         th:alt="${board.isLike(loginStuId) == true} ? '좋아요 취소' : '좋아요'">
+                   th:onclick="${board.isLike(loginStudent.getStuId()) == true} ? @{return confirm('해당 게시글의 좋아요를 취소 하시겠습니까?');} : ''">
+                    <img th:src="${board.isLike(loginStudent.getStuId()) == true} ? @{'/images/thumbsUp2.png'} : @{'/images/thumbsUp.png'}"
+                         th:alt="${board.isLike(loginStudent.getStuId()) == true} ? '좋아요 취소' : '좋아요'">
                 </a>
             </div>
 
@@ -115,16 +115,19 @@
                     <span class="line-break">
                         <span th:text="${reply.stuId}"></span><br>
                         <span th:text="${reply.name}"></span>
-                        <div th:if="${loginStuId == reply.stuId || loginStuId == 'ADMIN'}" style="display: flex">
+                        <div th:if="${loginStudent.getStuId() == reply.stuId || loginStudent.getRole().toString() == 'ADMIN'}" style="display: flex">
                             <a href="#" onclick="return confirm('댓글을 삭제하시겠습니까?');"
                                th:href="@{/board/{id}/reply/{replyId}/delete(id=${id}, replyId=${reply.id})}" class="btn btn-outline-danger btn-sm" role="button">삭제</a>
                         </div>
                     </span>
                 </td>
                 <td>
+
                     <a th:href="@{/reply/{id}/like(id=${reply.id}, boardId=${board.id})}" class="btn btn-link btn-sm" role="button"
-                       th:onclick="${reply.isLike(loginStuId) == true} ? @{return confirm('해당 댓글의 좋아요를 취소 하시겠습니까?');} : ''">
-                        <img th:src="@{/images/thumbsUp.png}">
+                       th:onclick="${reply.isLike(loginStudent.getStuId()) == true} ? @{return confirm('해당 댓글의 좋아요를 취소 하시겠습니까?');} : ''">
+                        <img th:src="${reply.isLike(loginStudent.getStuId()) == true} ? @{'/images/thumbsUp2.png'} : @{'/images/thumbsUp.png'}"
+                             th:alt="${reply.isLike(loginStudent.getStuId()) == true} ? '좋아요 취소' : '좋아요'">
+
                         <span th:text="${reply.likeNumber.size()}">
                     </a>
                 </td>
