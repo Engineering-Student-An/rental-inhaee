@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -71,16 +72,25 @@ public class AdminStudentController {
 
 
 
-    @GetMapping("/student/{stuId}/delete")
-    public String deleteStudent(@PathVariable("stuId") String stuId, Model model) {
-        if(studentService.delete(stuId)) {
-            model.addAttribute("errorMessage", "계정 삭제가 완료되었습니다.\n대여 정보, 게시글, 댓글이 모두 삭제되었습니다.");
-            model.addAttribute("nextUrl", "/student/list");
-        } else {
-            model.addAttribute("errorMessage", "대여중인 물품을 모두 반납하고 계정 삭제를 진행해주세요!");
-            model.addAttribute("nextUrl", "/student/" + stuId + "/find");
+    @PostMapping("/student/{stuId}/delete")
+    public String deleteStudent(@PathVariable("stuId") String stuId, @RequestParam("password") String password, Model model) {
 
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        if(studentService.passwordCheck(((Student) model.getAttribute("loginStudent")).getStuId() ,password)){
+            if(studentService.delete(stuId)) {
+                model.addAttribute("errorMessage", "계정 삭제가 완료되었습니다.\n대여 정보, 게시글, 댓글이 모두 삭제되었습니다.");
+                model.addAttribute("nextUrl", "/admin/student/list");
+            } else {
+                model.addAttribute("errorMessage", "대여중인 물품을 모두 반납하고 계정 삭제를 진행해주세요!");
+                model.addAttribute("nextUrl", "/admin/student/" + stuId);
+
+            }
+        } else {
+            model.addAttribute("errorMessage", "비밀번호가 일치하지 않습니다!");
+            model.addAttribute("nextUrl", "/admin/student/" + stuId);
         }
+
         return "error/errorMessage";
 
     }

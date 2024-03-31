@@ -42,6 +42,12 @@ public class StudentService {
         studentRepository.save(joinRequest.toEntity(email));
     }
 
+    public boolean passwordCheck(String stuId, String password) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        return encoder.matches(password, studentRepository.findByStuId(stuId).getPassword());
+    }
+
     // 비밀번호 변경
     public void changePassword(String stuId, ChangePasswordRequest request) {
         Student student = studentRepository.findByStuId(stuId);
@@ -55,7 +61,6 @@ public class StudentService {
 
     private final BoardService boardService;
     private final ReplyService replyService;
-    private final RentalService rentalService;
 
     // 회원 탈퇴
     @Transactional

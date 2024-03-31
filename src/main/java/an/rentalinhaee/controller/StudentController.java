@@ -45,21 +45,18 @@ public class StudentController {
 
     @PostMapping("/changeInfo/verify/password")
     public String changePassword(@RequestParam("password") String password,
-                                 HttpServletRequest httpServletRequest,
                                  Model model){
 
-        HttpSession httpSession = httpServletRequest.getSession(true);
+        Student student = (Student) model.getAttribute("loginStudent");
 
-        String stuId = (String) model.getAttribute("loginStuId");
-        String currentPassword = studentService.findStudent(stuId).getPassword();
 
-        if(!password.equals(currentPassword)) {
+        if(!studentService.passwordCheck(student.getStuId(), password)) {
             model.addAttribute("errorMessage", "현재 비밀번호와 동일하지 않습니다!");
             model.addAttribute("nextUrl", "/changeInfo");
 
             return "error/errorMessage";
         }
-        Student student = (Student) model.getAttribute("loginStudent");
+
 
         model.addAttribute("phoneNumber", student.getPhoneNumber());
         model.addAttribute("email", student.getEmail());
