@@ -51,7 +51,7 @@ public class StudentService {
     // 비밀번호 변경
     public void changePassword(String stuId, ChangePasswordRequest request) {
         Student student = studentRepository.findByStuId(stuId);
-        student.editPassword(request.getChangePassword());
+        student.editPassword(bCryptPasswordEncoder.encode(request.getChangePassword()));
     }
 
     public void changeEmail(String stuId, String email) {

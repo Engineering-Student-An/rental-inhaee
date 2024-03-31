@@ -4,9 +4,7 @@ import an.rentalinhaee.domain.Student;
 import an.rentalinhaee.domain.dto.ChangePasswordRequest;
 import an.rentalinhaee.domain.dto.EmailForm;
 import an.rentalinhaee.service.EmailService;
-import an.rentalinhaee.service.RentalService;
 import an.rentalinhaee.service.StudentService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,16 +23,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class StudentController {
 
     private final StudentService studentService;
-    private final RentalService rentalService;
 
     @GetMapping("/changeInfo")
-    public String changeInfo(Model model, HttpServletRequest httpServletRequest) {
+    public String changeInfo(Model model) {
 
-        HttpSession httpSession = httpServletRequest.getSession(true);
 
         Student student = (Student) model.getAttribute("loginStudent");
-        model.addAttribute("phoneNumber", student.getPhoneNumber());
-        model.addAttribute("email", student.getEmail());
 
         model.addAttribute("isPasswordChecked", false);
         model.addAttribute("isEmailChecked", false);
@@ -49,17 +43,12 @@ public class StudentController {
 
         Student student = (Student) model.getAttribute("loginStudent");
 
-
         if(!studentService.passwordCheck(student.getStuId(), password)) {
             model.addAttribute("errorMessage", "현재 비밀번호와 동일하지 않습니다!");
             model.addAttribute("nextUrl", "/changeInfo");
 
             return "error/errorMessage";
         }
-
-
-        model.addAttribute("phoneNumber", student.getPhoneNumber());
-        model.addAttribute("email", student.getEmail());
 
         model.addAttribute("isPasswordChecked", true);
         model.addAttribute("isEmailSent", false);
@@ -73,9 +62,6 @@ public class StudentController {
     public String verifyEmail(@RequestParam("email") String email, HttpSession httpSession, Model model) {
 
         Student student = (Student) model.getAttribute("loginStudent");
-
-        model.addAttribute("phoneNumber", student.getPhoneNumber());
-        model.addAttribute("email", student.getEmail());
 
         model.addAttribute("isPasswordChecked", true);
         model.addAttribute("isEmailSent", true);
@@ -100,10 +86,6 @@ public class StudentController {
 
         Student student = (Student) model.getAttribute("loginStudent");
 
-
-        model.addAttribute("phoneNumber", student.getPhoneNumber());
-        model.addAttribute("email", student.getEmail());
-
         model.addAttribute("isPasswordChecked", true);
         model.addAttribute("isEmailSent", true);
         model.addAttribute("isEmailChecked", true);
@@ -118,13 +100,12 @@ public class StudentController {
     }
 
     @PostMapping("/changeInfo/changePassword")
-    public String changePasswordForm(@Valid @ModelAttribute("request") ChangePasswordRequest request, BindingResult bindingResult,
-                                     HttpSession httpSession, Model model) {
+    public String changePasswordForm(@Valid @ModelAttribute("request") ChangePasswordRequest request,
+                                     BindingResult bindingResult, Model model) {
 
-        Student student = studentService.findStudent((String) httpSession.getAttribute("loginStuId"));
-        String password = student.getPassword();
+        Student student = (Student) model.getAttribute("loginStudent");
 
-        if(request.getChangePassword().equals(password)){
+        if(studentService.passwordCheck(student.getStuId(), request.getChangePassword())){
             bindingResult.addError(new FieldError("request",
                     "changePassword", "현재 비밀번호와 동일하게 변경 불가합니다!"));
         } else if (!request.getChangePassword().equals(request.getChangePasswordCheck())) {
@@ -133,7 +114,6 @@ public class StudentController {
             bindingResult.addError(new FieldError("request",
                     "changePasswordCheck", "비밀번호가 동일하지 않습니다!"));
         }
-
         if (bindingResult.hasErrors()) {
             return "student/changePassword";
         }

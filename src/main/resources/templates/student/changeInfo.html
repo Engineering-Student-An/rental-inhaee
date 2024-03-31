@@ -19,17 +19,17 @@
     <h2>개인정보</h2>
     <hr>
     <a>학번</a>
-    <a>[[${loginStuId}]]</a>
+    <a>[[${loginStudent.stuId}]]</a>
     <br><br>
     <a>이름</a>
-    <a>[[${loginName}]]</a>
+    <a>[[${loginStudent.name}]]</a>
     <br><br>
     <a>전화번호</a>
-    <a>[[${phoneNumber}]]</a>
+    <a>[[${loginStudent.phoneNumber}]]</a>
     <br><br>
     <a>이메일 주소</a>
     <div class="inline-elements">
-        <input disabled th:value="${email}" class="form-control" style="width: 60%">
+        <input disabled th:value="${loginStudent.email}" class="form-control" style="width: 60%">
         &nbsp;
         <a href="/changeInfo/email" class="btn btn-outline-warning btn-sm">변경</a>
     </div>
@@ -70,8 +70,8 @@
     <form th:method="post" th:action="|/changeInfo/verify/email|" class="form-inline">
 
         <div class="inline-elements">
-            <input disabled class="form-control input-large" th:placeholder="${email}" style="width: 60%">
-            <input type="hidden" th:id="email" th:name="email" th:value="${email}">
+            <input disabled class="form-control input-large" th:placeholder="${loginStudent.email}" style="width: 60%">
+            <input type="hidden" th:id="email" th:name="email" th:value="${loginStudent.email}">
             &nbsp;
             <div th:if="${!isPasswordChecked}">
                 <button disabled type="submit" class="btn btn-outline-secondary btn-sm">메일 전송</button>
