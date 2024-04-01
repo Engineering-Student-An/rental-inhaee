@@ -313,6 +313,15 @@ public class HomeController {
         return "error/errorMessage";
     }
 
+    @GetMapping("/login/error")
+    public String loginError(Model model) {
+
+        model.addAttribute("errorMessage", "일치하는 회원 정보가 없습니다.\n로그인 정보를 확인해주세요.");
+        model.addAttribute("nextUrl", "/login");
+
+        return "error/errorMessage";
+    }
+
     private static void findPasswordModel(Model model, boolean isStuIdInput, boolean isEmailSent, boolean isEmailChecked) {
         model.addAttribute("isStuIdInput", isStuIdInput);
         model.addAttribute("isEmailSent", isEmailSent);

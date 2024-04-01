@@ -16,7 +16,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/", "/login", "/findPassword/**", "/join/**","/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/", "/login/**", "/findPassword/**", "/join/**","/css/**", "/js/**", "/images/**").permitAll()
                         .requestMatchers("/admin/**").hasRole(StudentRole.ADMIN.name())
                         // ** : 와일드카드, hasAnyRole => 여러 개의 role 설정 가능
                         .requestMatchers("**").hasAnyRole(StudentRole.ADMIN.name(), StudentRole.USER.name())
@@ -27,12 +27,14 @@ public class SecurityConfig {
                 .formLogin((auth) -> auth.loginPage("/login")
 
                         .loginProcessingUrl("/login")
-                        .failureUrl("/login")
+//                        .failureUrl("/login")
                         .defaultSuccessUrl("/", true)
                         .usernameParameter("stuId")
                         .passwordParameter("password")
                         .permitAll()
                         .successHandler(new CustomAuthenticationSuccessHandler())
+                        .failureHandler(new CustomAuthenticationFailureHandler()) // 커스텀 실패 핸들러 설정
+
                 );
 
         // 로그아웃 URL 설정
