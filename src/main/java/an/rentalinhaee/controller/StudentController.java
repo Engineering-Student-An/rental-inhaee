@@ -30,6 +30,8 @@ public class StudentController {
 
         Student student = (Student) model.getAttribute("loginStudent");
 
+        System.out.println("student.getEmail() = " + student.getEmail());
+
         model.addAttribute("isPasswordChecked", false);
         model.addAttribute("isEmailChecked", false);
         model.addAttribute("isEmailSent", false);
@@ -161,7 +163,7 @@ public class StudentController {
         }
 
         String authCode = emailService.createVerifyCode();
-        emailService.sendEmail(email, authCode, "email/passwordEmail");
+        emailService.sendEmail(email, authCode, "email/emailChangeEmail");
 
         session.setAttribute("verifyCode", authCode);
         model.addAttribute("isSent", true);
@@ -186,7 +188,7 @@ public class StudentController {
         }
 
         Student loginStudent = (Student) model.getAttribute("loginStudent");
-        studentService.changeEmail(loginStudent.getStuId(), email);
+        loginStudent.editEmail(email);
 
         model.addAttribute("errorMessage", "이메일이 변경되었습니다!");
         model.addAttribute("nextUrl", "/changeInfo");

@@ -181,35 +181,6 @@ public class HomeController {
         return "home/login";
     }
 
-//    @PostMapping("/login")
-//    public String login(@ModelAttribute LoginRequest loginRequest, BindingResult bindingResult,
-//                        HttpServletRequest httpServletRequest, Model model) {
-//
-//        Student student = studentService.login(loginRequest);
-//
-//        if (student == null) {
-//            bindingResult.reject("loginFail", "학번 또는 비밀번호가 틀립니다!");
-//        }
-//
-//        if (bindingResult.hasErrors()) {
-//            return "home/login";
-//        }
-//
-//        httpServletRequest.getSession().invalidate();
-//        HttpSession httpSession = httpServletRequest.getSession(true);
-//
-//        httpSession.setAttribute("loginStuId", student.getStuId());
-//        httpSession.setAttribute("loginName", student.getName());
-//        httpSession.setMaxInactiveInterval(60 * 60);    // 로그인 기간 1시간 설정
-//
-//
-//
-//        if(student.getRole() == StudentRole.ADMIN) {
-//            return "redirect:/admin";
-//        }
-//        return "redirect:/";
-//    }
-
     @GetMapping("/logout")
     public String logout(HttpServletRequest httpServletRequest) {
 
@@ -256,7 +227,7 @@ public class HomeController {
     public String sendEmail(@PathVariable("stuId") String stuId, @RequestParam("email") String email, Model model, HttpSession session) {
 
         String authCode = emailService.createVerifyCode();
-        emailService.sendEmail(email, authCode, "email/passwordEmail");
+        emailService.sendEmail(email, authCode, "email/passwordEditEmail");
 
         session.setAttribute("verifyCode", authCode);
 
