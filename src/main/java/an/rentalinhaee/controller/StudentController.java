@@ -67,9 +67,10 @@ public class StudentController {
         model.addAttribute("isEmailSent", true);
         model.addAttribute("isEmailChecked", false);
 
-        String verifyCode = emailService.sendEmail(email, "email/passwordEmail");
+        String authCode = emailService.createVerifyCode();
+        emailService.sendEmail(email, authCode, "email/passwordEmail");
 
-        httpSession.setAttribute("verifyCode", verifyCode);
+        httpSession.setAttribute("verifyCode", authCode);
 
         return "student/changeInfo";
     }
@@ -142,7 +143,7 @@ public class StudentController {
 
         String email = emailForm.getEmail();
 
-        if(email.equals(studentService.findStudent((String) model.getAttribute("loginStuId")).getEmail())) {
+        if(email.equals(((Student) model.getAttribute("loginStudent")).getEmail())) {
             bindingResult.addError(new FieldError("emailForm",
                     "email", "현재 이메일 주소와 동일합니다!"));
         }
@@ -159,10 +160,12 @@ public class StudentController {
             return "student/changeEmail";
         }
 
-        String verifyCode = emailService.sendEmail(emailForm.getEmail(), "email/emailChangeEmail");
+        String authCode = emailService.createVerifyCode();
+        emailService.sendEmail(email, authCode, "email/passwordEmail");
+
+        session.setAttribute("verifyCode", authCode);
         model.addAttribute("isSent", true);
 
-        session.setAttribute("verifyCode", verifyCode);
         return "student/changeEmail";
     }
 
@@ -182,7 +185,8 @@ public class StudentController {
             return "error/errorMessage";
         }
 
-        studentService.changeEmail((String) model.getAttribute("loginStuId"), email);
+        Student loginStudent = (Student) model.getAttribute("loginStudent");
+        studentService.changeEmail(loginStudent.getStuId(), email);
 
         model.addAttribute("errorMessage", "이메일이 변경되었습니다!");
         model.addAttribute("nextUrl", "/changeInfo");

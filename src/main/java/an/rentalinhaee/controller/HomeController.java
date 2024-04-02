@@ -137,11 +137,13 @@ public class HomeController {
             return "home/join/verifyEmail";
         }
 
-        String verifyCode = emailService.sendEmail(emailForm.getEmail(), "email/joinEmail");
+        String authCode = emailService.createVerifyCode();
+        emailService.sendEmail(email, authCode, "email/passwordEmail");
+        session.setAttribute("verifyCode", authCode);
+
         model.addAttribute("isSent", true);
 
 
-        session.setAttribute("verifyCode", verifyCode);
         return "home/join/verifyEmail";
     }
 
@@ -253,13 +255,16 @@ public class HomeController {
     @PostMapping("/findPassword/{stuId}/email")
     public String sendEmail(@PathVariable("stuId") String stuId, @RequestParam("email") String email, Model model, HttpSession session) {
 
-        String verifyCode = emailService.sendEmail(email, "email/passwordEditEmail");
+        String authCode = emailService.createVerifyCode();
+        emailService.sendEmail(email, authCode, "email/passwordEmail");
+
+        session.setAttribute("verifyCode", authCode);
+
 
         model.addAttribute("email", studentService.findStudent(stuId).getEmail());
 
         findPasswordModel(model, true, true, false);
 
-        session.setAttribute("verifyCode", verifyCode);
         return "home/findPassword";
     }
 

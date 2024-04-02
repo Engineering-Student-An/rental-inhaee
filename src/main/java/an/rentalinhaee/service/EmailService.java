@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -19,7 +20,8 @@ public class EmailService {
     private final JavaMailSender javaMailSender;
     private final SpringTemplateEngine templateEngine;
 
-    public String sendEmail(String receiver, String type) {
+    @Async
+    public void sendEmail(String receiver, String authCode, String type) {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
         try{
@@ -31,12 +33,9 @@ public class EmailService {
             mimeMessageHelper.setSubject("PULSE 대여 사업 이메일 인증");
 
             // 메일의 내용 설정
-            String verifyCode = createVerifyCode();
-            mimeMessageHelper.setText(setContext(verifyCode, type), true);
+            mimeMessageHelper.setText(setContext(authCode, type), true);
 
             javaMailSender.send(mimeMessage);
-
-            return verifyCode;
 
 //            log.info("메일 발송 성공!");
         } catch (Exception e) {
