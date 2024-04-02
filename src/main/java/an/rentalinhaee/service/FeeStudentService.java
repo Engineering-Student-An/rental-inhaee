@@ -27,6 +27,11 @@ public class FeeStudentService {
         return feeStudentRepository.findAll(pageable);
     }
 
+    public boolean checkFeeStudentDuplicate(String stuID) {
+        return feeStudentRepository.existsByStuId(stuID);
+    }
+
+
     @Transactional
     public void save(FeeStudent feeStudent) {
         feeStudentRepository.save(feeStudent);

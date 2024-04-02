@@ -40,6 +40,7 @@
             <thead>
             <tr>
                 <th>대여 일자</th>
+                <th>반납 일자</th>
                 <th>대여 물품</th>
                 <th>대여 상태</th>
                 <th>대여 학생 학번</th>
@@ -49,11 +50,15 @@
             <tbody>
             <tr th:each="rental : ${rentals}">
                 <td th:text="${rental.rentalDate}"></td>
+                <td th:text="${rental.finishRentalDate}"></td>
                 <td th:unless="${rental.item.name == ''}" th:text="${rental.item.name}"></td>
                 <td th:if="${rental.item.name == ''}" th:text="${rental.item.category}"></td>
-                <td th:if="${rental.status.name() == 'FINISH'}" th:text="'반납 완료'"></td>
-                <td th:if="${rental.status.name() == 'ING'}" th:text="'대여 중'"></td>
-                <td th:if="${rental.status.name() == 'OVERDUE'}" th:text="'연체 중'" style="color: red; font-weight: bold"></td>
+                <td>
+                    <a th:if="${rental.status.name() == 'FINISH'}" th:text="'반납 완료'"></a>
+                    <a th:if="${rental.status.name() == 'FINISH_OVERDUE'}" th:text="'반납 (연체)'" style="color: red; font-weight: bold"></a>
+                    <a th:if="${rental.status.name() == 'OVERDUE'}" th:text="'연체 중'" style="color: red; font-weight: bold"></a>
+                    <a th:if="${rental.status.name() == 'ING'}" th:text="'대여 중'"></a>
+                </td>
                 <td th:text="${rental.student.stuId}"></td>
                 <td th:text="${rental.student.name}"></td>
             </tr>

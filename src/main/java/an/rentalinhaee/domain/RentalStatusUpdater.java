@@ -17,7 +17,7 @@ public class RentalStatusUpdater {
     private final RentalRepository rentalRepository;
 
     @Transactional
-    @Scheduled(cron = "0 0 0 * * *")    // 매일 0시에 실행하게끔 스케쥴링
+    @Scheduled(cron = "0 2 14 * * *")    // 매일 0시에 실행하게끔 스케쥴링
     public void updateRentalStatus() {
         List<Rental> rentalsByStatus = rentalRepository.findRentalsByStatus(RentalStatus.ING);
         for (Rental rental : rentalsByStatus) {

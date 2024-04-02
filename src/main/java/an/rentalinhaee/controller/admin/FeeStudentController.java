@@ -50,17 +50,24 @@ public class FeeStudentController {
     @GetMapping("/student/feeList/add")
     public String createFeeStudentForm(@RequestParam("newStuId") String stuId, @RequestParam("newName") String name, Model model) {
 
-        // writeExcel
-        if(!stuId.isEmpty() && !name.isEmpty()) {
-//            WriteExcel.writeToExcel(stuId, name);
-            feeStudentService.save(new FeeStudent(stuId, name));
+        String message;
+
+        if(!stuId.isEmpty() && !name.isEmpty()) {   // 학번과 이름 모두 기입
+
+            if(feeStudentService.checkFeeStudentDuplicate(stuId)) { // 동일한 학번이 존재하는 경우
+                message = "동일한 학번이 존재합니다!";
+            } else {    // 동일한 학번이 존재하지 않는 경우
+                feeStudentService.save(new FeeStudent(stuId, name));
+                message = "학생회비 납부 명단에 추가 완료했습니다.";
+            }
+
         } else {    // 학번 or 이름 비어있는 경우
-            model.addAttribute("errorMessage", "학번과 이름에 공백이 있는지 확인해주세요!");
-            model.addAttribute("nextUrl", "/admin/student/feeList");
-            return "error/errorMessage";
+            message = "학번과 이름에 공백이 있는지 확인해주세요!";
         }
 
-        return "redirect:/admin/student/feeList";
+        model.addAttribute("errorMessage", message);
+        model.addAttribute("nextUrl", "/admin/student/feeList");
+        return "error/errorMessage";
     }
 
     @PostMapping("/student/feeList/delete")

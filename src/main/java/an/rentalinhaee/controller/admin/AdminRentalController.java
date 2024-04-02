@@ -86,7 +86,8 @@ public class AdminRentalController {
                           @RequestParam(required = false, defaultValue = "1", value = "page") int page,
                           Model model){
 
-        PageRequest pageRequest = PageRequest.of(page-1, 10, Sort.by("status").descending());
+        PageRequest pageRequest = PageRequest.of(page-1, 10, Sort.by("rentalDate").descending().and(Sort.by("status").descending()));
+
 
         Page<Rental> rentalByStuIdStatusItem = rentalService.findRentalByStuId_Status_Item(rentalSearch, pageRequest);
         model.addAttribute("rentals", rentalByStuIdStatusItem);
