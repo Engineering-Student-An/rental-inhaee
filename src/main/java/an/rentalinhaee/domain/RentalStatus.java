@@ -12,6 +12,7 @@ public enum RentalStatus {
 
     private String displayName;
 
+
     RentalStatus(String displayName) {
         this.displayName = displayName;
     }
