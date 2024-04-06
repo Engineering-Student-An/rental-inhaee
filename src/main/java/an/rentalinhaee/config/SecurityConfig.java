@@ -16,7 +16,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/", "/login/**", "/findPassword/**", "/join/**","/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/", "/login/**", "/findPassword/**", "/join/**","/css/**", "/js/**", "/images/**", "/mobile/**").permitAll()
                         .requestMatchers("/admin/**").hasRole(StudentRole.ADMIN.name())
                         // ** : 와일드카드, hasAnyRole => 여러 개의 role 설정 가능
                         .requestMatchers("**").hasAnyRole(StudentRole.ADMIN.name(), StudentRole.USER.name())
