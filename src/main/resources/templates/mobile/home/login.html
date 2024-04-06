@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="~{fragments/header :: header}"></head>
+
+<body>
+<div class="container">
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
+
+<!--    <div class="jumbotron">-->
+    <h2>로그인</h2>
+    <form th:method="post" th:action="|@{/login}|" th:object="${loginRequest}">
+
+        <br>
+        <div>
+            <label th:for="stuId">학번</label>
+            <input type="text" th:field="*{stuId}" class="form-control" placeholder="학번을 입력하세요"/>
+        </div>
+        <br/>
+        <div>
+            <label th:for="password">비밀번호</label>
+            <input type="password" th:field="*{password}" class="form-control" placeholder="비밀번호를 입력하세요"/>
+        </div>
+
+        <br/>
+
+        <button type="submit" class="btn btn-secondary">로그인</button>
+
+        <a th:href="@{/findPassword}" role="button" class="btn btn-secondary">비밀번호 찾기</a>
+        <button type="button" th:onclick="|location.href='/join'|" class="btn btn-secondary">회원 가입</button> <br/><br/>
+    </form>
+    <br>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</div> <!-- /container -->
+</body>
+</html>
