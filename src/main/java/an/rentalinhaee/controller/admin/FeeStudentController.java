@@ -44,7 +44,7 @@ public class FeeStudentController {
         model.addAttribute("studentSearch", studentSearch);
 
 
-        return"/admin/student/feeList";
+        return"admin/student/feeList";
     }
 
     @GetMapping("/student/feeList/add")
