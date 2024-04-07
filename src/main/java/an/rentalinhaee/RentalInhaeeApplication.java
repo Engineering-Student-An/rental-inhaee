@@ -9,6 +9,7 @@ import java.util.TimeZone;
 public class RentalInhaeeApplication {
 
     public static void main(String[] args) {
+        // 타임존 : Asia/Seoul 설정
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
         SpringApplication.run(RentalInhaeeApplication.class, args);
     }
