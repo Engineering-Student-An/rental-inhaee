@@ -27,7 +27,6 @@ public class SecurityConfig {
                 .formLogin((auth) -> auth.loginPage("/login")
 
                         .loginProcessingUrl("/login")
-//                        .failureUrl("/login")
                         .defaultSuccessUrl("/", true)
                         .usernameParameter("stuId")
                         .passwordParameter("password")

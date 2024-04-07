@@ -17,6 +17,11 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException {
 
+        // 사용자의 User-Agent를 통해 모바일 기기 여부 확인
+        String userAgent = request.getHeader("User-Agent").toUpperCase();
+        boolean isMobile = userAgent.contains("ANDROID") || userAgent.contains("IPHONE") || userAgent.contains("MOBILE");
+
+        // 관리자 권한 체크
         boolean isAdmin = authentication.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
 
