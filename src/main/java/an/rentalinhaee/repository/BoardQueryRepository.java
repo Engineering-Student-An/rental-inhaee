@@ -47,7 +47,7 @@ public class BoardQueryRepository {
         long limit = totalBoardCount < 5 ? totalBoardCount : 5;
 
         return query.selectFrom(board)
-                .orderBy(board.likeNumber.size().desc())
+                .orderBy(board.likeNumber.size().desc(), board.writeTime.desc())
                 .where(board.writeTime.between(LocalDateTime.now().minusDays(7), LocalDateTime.now()))
                 .where(board.likeNumber.isNotEmpty())
                 .limit(limit).fetch();
