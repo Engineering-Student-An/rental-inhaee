@@ -40,15 +40,6 @@ public class HomeController {
         String loginStuId = SecurityContextHolder.getContext().getAuthentication().getName();
         Student loginStudent = studentService.findStudent(loginStuId);
 
-
-
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-//        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-//        Iterator<? extends GrantedAuthority> iter = authorities.iterator();
-//        GrantedAuthority auth = iter.next();
-//        String role = auth.getAuthority();
-
         if (loginStudent != null) {
             model.addAttribute("ann", ruleRepository.findAnnouncementById(1L));
 
@@ -62,10 +53,21 @@ public class HomeController {
     }
 
     @GetMapping("/login")
-    public String loginPage(Model model, HttpSession session) {
+    public String loginPage(Model model) {
         model.addAttribute("loginRequest", new LoginRequest());
-        model.addAttribute("isMobile", session.getAttribute("isMobile"));
+        
+        model.addAttribute("isMobile", model.getAttribute("isMobile"));
+
         return "home/login";
+    }
+
+    @GetMapping("/login/error")
+    public String loginError(Model model) {
+
+        model.addAttribute("errorMessage", "일치하는 회원 정보가 없습니다.\n로그인 정보를 확인해주세요.");
+        model.addAttribute("nextUrl", "/");
+
+        return "error/errorMessage";
     }
 
     @GetMapping("/logout")
@@ -205,8 +207,6 @@ public class HomeController {
         return "home/findPassword";
     }
 
-
-
     @PostMapping("/findPassword")
     public String findPassword(@RequestParam("stuId") String stuId, Model model) {
 
@@ -289,15 +289,6 @@ public class HomeController {
 
         model.addAttribute("errorMessage", "비밀번호가 변경되었습니다!\n변경된 비밀번호로 로그인 해주세요.");
         model.addAttribute("nextUrl", "/login");
-        return "error/errorMessage";
-    }
-
-    @GetMapping("/login/error")
-    public String loginError(Model model) {
-
-        model.addAttribute("errorMessage", "일치하는 회원 정보가 없습니다.\n로그인 정보를 확인해주세요.");
-        model.addAttribute("nextUrl", "/login");
-
         return "error/errorMessage";
     }
 

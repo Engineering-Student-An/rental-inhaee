@@ -5,6 +5,7 @@ import an.rentalinhaee.domain.dto.ChangePasswordRequest;
 import an.rentalinhaee.domain.dto.EmailForm;
 import an.rentalinhaee.service.EmailService;
 import an.rentalinhaee.service.StudentService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,11 +27,6 @@ public class StudentController {
 
     @GetMapping("/changeInfo")
     public String changeInfo(Model model) {
-
-
-//        Student student = (Student) model.getAttribute("loginStudent");
-//
-//        System.out.println("student.getEmail() = " + student.getEmail());
 
         model.addAttribute("isPasswordChecked", false);
         model.addAttribute("isEmailChecked", false);
@@ -151,23 +147,32 @@ public class StudentController {
         model.addAttribute("errorMessage", "비밀번호가 변경되었습니다!");
         model.addAttribute("nextUrl", "/changeInfo");
         return "error/errorMessage";
-
-
     }
 
     @GetMapping("/changeInfo/email")
-    public String changeEmail(Model model) {
+    public String changeEmail(Model model, HttpServletRequest request) {
 
         model.addAttribute("emailForm", new EmailForm());
         model.addAttribute("isSent", false);
+
+        request.getSession().setAttribute("isMobile", model.getAttribute("isMobile"));
+        model.addAttribute("isMobile", model.getAttribute("isMobile"));
+
+        System.out.println("model.getAttribute(\"isMobile\") = " + model.getAttribute("isMobile"));
+        if((boolean) model.getAttribute("isMobile")) {
+            return "mobile/student/changeEmail";
+        }
+
         return "student/changeEmail";
     }
 
     @PostMapping("/changeInfo/email")
     public String changeEmailSend(@ModelAttribute EmailForm emailForm,
-                                  BindingResult bindingResult, Model model, HttpSession session) {
+                                  BindingResult bindingResult, Model model, HttpServletRequest request) {
 
         String email = emailForm.getEmail();
+        request.getSession().setAttribute("isMobile", model.getAttribute("isMobile"));
+        model.addAttribute("isMobile", model.getAttribute("isMobile"));
 
         if(email.equals(((Student) model.getAttribute("loginStudent")).getEmail())) {
             bindingResult.addError(new FieldError("emailForm",
@@ -183,15 +188,21 @@ public class StudentController {
         }
 
         if(bindingResult.hasErrors()) {
+            if((boolean) model.getAttribute("isMobile")) {
+                return "mobile/student/changeEmail";
+            }
             return "student/changeEmail";
         }
 
         String authCode = emailService.createVerifyCode();
         emailService.sendEmail(email, authCode, "email/emailChangeEmail");
 
-        session.setAttribute("verifyCode", authCode);
+        request.getSession().setAttribute("verifyCode", authCode);
         model.addAttribute("isSent", true);
 
+        if((boolean) model.getAttribute("isMobile")) {
+            return "mobile/student/changeEmail";
+        }
         return "student/changeEmail";
     }
 
@@ -200,9 +211,10 @@ public class StudentController {
                                   @RequestParam("code") String code,
                                   HttpSession session, Model model) {
 
-
         // 메일 보낸 인증 문자
         String verifyCode = (String) session.getAttribute("verifyCode");
+
+        session.setAttribute("isMobile", model.getAttribute("isMobile"));
 
         // 인증 문자와 동일한지 검증
         if(!code.equals(verifyCode)) {
