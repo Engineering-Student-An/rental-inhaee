@@ -6,7 +6,9 @@
 
 <div class="container">
 
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+
+    <h2>내 대여 목록</h2><br>
 
     <form th:object="${rentalSearch}" class="form-inline">
         <style>
@@ -16,7 +18,7 @@
             }
         </style>
 
-        <div class="inline-elements">
+        <div class="inline-elements d-flex justify-content-end">
             <div class="form-group mx-sm-1 mb-2">
                 <select th:field="*{rentalStatus}" class="form-control"><option value="">대여 상태</option>
                     <option th:each="status : ${T(an.rentalinhaee.domain.RentalStatus).values()}"
