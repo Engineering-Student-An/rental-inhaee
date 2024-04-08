@@ -35,19 +35,17 @@
 
             <div class="form-group mb-2">
                 <input type="text" th:field="*{name}" class="form-control small-font" placeholder="물품 이름" />
-                <a href="/rental" class="btn btn-outline-info btn-mobile" role="button">대여 신청</a>
+                <a href="/rental" class="btn btn-outline-info btn-mobile" role="button"><span style="white-space: nowrap;">대여 </span><span style="white-space: nowrap;">신청</span></a>
             </div>
 
         </form>
-        <br>
 
-        </div>
 
         <br>
 
-        <table class="table table-striped">
+        <table class="table table-striped small-font">
             <thead> <tr>
-                <th>카테고리</th> <th>물품 이름</th> <th>대여 가능 재고</th> <th>총 재고</th> <th></th>
+                <th><span style="white-space: nowrap;">카테고리</span></th> <th><span style="white-space: nowrap;">물품 이름</span></th> <th><span style="white-space: nowrap;">대여</span> <span style="white-space: nowrap;">가능 </span><span style="white-space: nowrap;">재고</span></th> <th><span style="white-space: nowrap;">총 </span><span style="white-space: nowrap;">재고</span></th> <th></th>
             </tr>
             </thead>
             <tbody>
@@ -61,20 +59,20 @@
         </table>
     </div>
     <br>
-    <div style="text-align: center">
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${items.getNumber()}==0"
+    <div style="text-align: center" class="small-font">
+        <button class="btn btn-outline-dark btn-mobile" th:disabled="${items.getNumber()}==0"
                 th:onclick="|location.href='@{/item/list(page=${1}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
             <<</button>
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${!items.hasPrevious()}"
+        <button class="btn btn-outline-dark btn-mobile" th:disabled="${!items.hasPrevious()}"
                 th:onclick="|location.href='@{/item/list(page=${items.getNumber()}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
             <</button>
         &nbsp; &nbsp;
-        <span>[[${items.getNumber()+1}]] / [[${items.getTotalElements() == 0 ? 1 : items.getTotalPages()}]] page</span>
+        <span>[[${items.getNumber()+1}]] / [[${items.getTotalElements() == 0 ? 1 : items.getTotalPages()}]]</span>
         &nbsp; &nbsp;
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${!items.hasNext()}"
+        <button class="btn btn-outline-dark btn-mobile" th:disabled="${!items.hasNext()}"
                 th:onclick="|location.href='@{/item/list(page=${items.getNumber() + 2}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
             ></button>
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${!items.hasNext()}"
+        <button class="btn btn-outline-dark btn-mobile" th:disabled="${!items.hasNext()}"
                 th:onclick="|location.href='@{/item/list(page=${items.getTotalPages()}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
             >></button>
     </div>
