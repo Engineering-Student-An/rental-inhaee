@@ -4,14 +4,12 @@
 
 <div class="header" th:fragment="bodyHeader">
     <ul class="nav nav-pills pull-right">
-
     </ul>
     <div class="d-flex justify-content-between">
         <div style="text-align: left">
-            <a th:if="${loginStudent != null and loginStudent.getRole().toString() == 'ADMIN'}" href="/admin"><img th:src="@{/images/home.png}" alt="home" /></a>
-            <a th:if="${loginStudent == null or loginStudent.getRole().toString() != 'ADMIN'}" href="/"><img th:src="@{/images/home.png}" alt="home" /></a>
+            <a th:if="${loginStudent != null and loginStudent.getRole().toString() == 'ADMIN'}" href="/admin"><img th:src="@{/images/home.png}" alt="home"/></a>
+            <a th:if="${loginStudent == null or loginStudent.getRole().toString() != 'ADMIN'}" href="/"><img th:src="@{/images/home.png}" alt="home"/></a>
         </div>
-
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                 내 정보
@@ -40,20 +38,17 @@
         </div>
     </div>
 
-
+<br>
     <div style="text-align: center">
 
-        <span>
-            <a href="https://www.inha.ac.kr" target="_blank"><img src="/images/logo.png" alt="인하대 로고" class="img-fluid"/></a>
-            <a href="https://pf.kakao.com/_CxjxlxiM" target="_blank"><img src="/images/inhaeelogo.png" alt="학생회 로고" class="img-fluid"/></a>
-        </span>
-        <span>
-            <a th:if="${loginStudent != null and loginStudent.getRole().toString() == 'ADMIN'}" href="/admin" class="text-decoration-none text-light-emphasis" ><h1>전자공학과 학생회 대여 사업</h1></a>
-            <a th:if="${loginStudent == null or loginStudent.getRole().toString() != 'ADMIN'}" href="/" class="text-decoration-none text-light-emphasis" ><h1>전자공학과 학생회 대여 사업</h1></a>
+        <a href="https://www.inha.ac.kr" target="_blank"><img src="/images/logo.png" alt="인하대 로고" class="img-fluid"/></a>
+        <a href="https://pf.kakao.com/_CxjxlxiM" target="_blank"><img src="/images/inhaeelogo.png" alt="학생회 로고" class="img-fluid"/></a>
+        <h1>
+            <a th:if="${loginStudent != null and loginStudent.getRole().toString() == 'ADMIN'}" href="/admin" class="text-decoration-none text-light-emphasis" >전자공학과 <span style="white-space: nowrap;">학생회</span> <span style="white-space: nowrap;">대여 사업</span></a>
+            <a th:if="${loginStudent == null or loginStudent.getRole().toString() != 'ADMIN'}" href="/" class="text-decoration-none text-light-emphasis" >전자공학과 <span style="white-space: nowrap;">학생회</span> <span style="white-space: nowrap;">대여 사업</span></a>
 
-        </span>
-
-
+        </h1>
     </div>
+    <br>
 
 </div>
