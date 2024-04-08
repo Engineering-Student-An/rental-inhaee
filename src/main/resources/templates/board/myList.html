@@ -5,7 +5,7 @@
 <div class="container">
     <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
     <div>
-        <h3>내가 쓴 게시글</h3><hr/>
+        <h3>내가 쓴 게시글</h3><br>
         <table class="table table-striped">
             <thead> <tr>
                 <th>#</th> <th>제목</th> <th><img th:src="@{/images/thumbsUp.png}"></th> <th>작성 일자</th>
@@ -38,7 +38,7 @@
                 th:onclick="|location.href='@{/board/myList(page=${boards.getNumber()}) }'|">
             <</button>
         &nbsp; &nbsp;
-        <span>[[${boards.getNumber()+1}]] / [[${boards.getTotalElements() == 0 ? 1 : boards.getTotalPages()}]] page</span>
+        <span>[[${boards.getNumber()+1}]] / [[${boards.getTotalElements() == 0 ? 1 : boards.getTotalPages()}]]</span>
         &nbsp; &nbsp;
         <button class="btn btn-outline-dark btn-sm" th:disabled="${!boards.hasNext()}"
                 th:onclick="|location.href='@{/board/myList(page=${boards.getNumber() + 2}) }'|">
