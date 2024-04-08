@@ -69,19 +69,28 @@
     </form>
     <br>
 
-    <a>이메일 인증</a><br>
+    <div class="d-flex justify-content-start">
+        <a>이메일 인증</a> &nbsp;&nbsp;
+        <div th:if="${isEmailChecked}">
+            <img th:src="@{'/images/check_m.png'}">
+        </div>
+        <div th:unless="${isEmailChecked}">
+            <img th:src="@{'/images/checkX_m.png'}">
+        </div>
+    </div>
+
     <form th:method="post" th:action="|/changeInfo/verify/email|" class="form-inline">
 
         <div class="inline-elements">
-            <input disabled class="form-control input-large" th:placeholder="${loginStudent.email}" style="width: 60%">
+            <input disabled class="form-control input-large small-font" th:placeholder="${loginStudent.email}" style="width: 80%">
             <input type="hidden" th:id="email" th:name="email" th:value="${loginStudent.email}">
             &nbsp;
             <div th:if="${!isPasswordChecked}">
-                <button disabled type="submit" class="btn btn-outline-secondary btn-sm">메일 전송</button>
+                <button disabled type="submit" class="btn btn-outline-secondary btn-mobile">전송</button>
             </div>
             <div th:if="${isPasswordChecked}">
                 <button th:disabled="${!isPasswordChecked}" type="submit"
-                        th:class="${isEmailSent} ? 'btn btn-success btn-sm' : 'btn btn-outline-danger btn-sm'">메일 전송</button>
+                        th:class="${isEmailSent} ? 'btn btn-success btn-mobile' : 'btn btn-outline-danger btn-mobile'">전송</button>
             </div>
 
         </div>
@@ -100,14 +109,6 @@
             <div th:if="${isEmailSent}">
                 <button type="submit"
                         th:class="${isEmailChecked} ? 'btn btn-success btn-sm' : 'btn btn-outline-danger btn-sm'">인증</button>
-            </div>
-            <div th:if="${isEmailChecked}">
-                &nbsp; &nbsp; &nbsp;
-                <img th:src="@{/images/check.png}">
-            </div>
-            <div th:unless="${isEmailChecked}">
-                &nbsp; &nbsp; &nbsp;
-                <img th:src="@{/images/checkX.png}">
             </div>
         </div>
     </form>
