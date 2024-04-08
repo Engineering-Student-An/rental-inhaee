@@ -92,6 +92,9 @@ public class BoardController {
         model.addAttribute("board", board);
         model.addAttribute("form", new ReplyForm());
 
+        if((boolean) model.getAttribute("isMobile")) {
+            return "mobile/board/showOne";
+        }
         return "board/showOne";
 
     }
