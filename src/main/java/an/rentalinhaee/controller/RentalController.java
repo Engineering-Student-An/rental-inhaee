@@ -34,7 +34,10 @@ public class RentalController {
 
         model.addAttribute("categories", itemService.findCategories());
         model.addAttribute("items", itemService.findAllItems());
-
+        model.addAttribute("isMobile", model.getAttribute("isMobile"));
+        if((boolean) model.getAttribute("isMobile")) {
+            return "mobile/rental/rentalForm";
+        }
         return "rental/rentalForm";
 
     }
@@ -49,6 +52,10 @@ public class RentalController {
         // 카테고리에 속한 아이템 추가
         model.addAttribute("itemsByCategory", itemService.findItemsByCategory(category));
 
+        model.addAttribute("isMobile", model.getAttribute("isMobile"));
+        if((boolean) model.getAttribute("isMobile")) {
+            return "mobile/rental/rentalForm";
+        }
         return "rental/rentalForm";
     }
 
@@ -69,6 +76,7 @@ public class RentalController {
         model.addAttribute("errorMessage", "물품 대여 신청을 완료했습니다.\n" + LocalDateTime.now().plusDays(3).format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) + "까지 반납을 완료해주세요." +
                 "\n그 이후에 반납 시 연체료가 부가됩니다!");
         model.addAttribute("nextUrl", "/");
+
         return "error/errorMessage";
     }
 
