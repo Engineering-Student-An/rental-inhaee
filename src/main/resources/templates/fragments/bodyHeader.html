@@ -42,10 +42,18 @@
 
 
     <div style="text-align: center">
-        <h1><a href="https://www.inha.ac.kr" target="_blank"><img th:src="@{/images/inhalogo.png}" alt="인하대 로고" /></a>
 
-            <a th:if="${loginStudent != null and loginStudent.getRole().toString() == 'ADMIN'}" href="/admin" class="text-decoration-none text-light-emphasis" >전자공학과 학생회 대여 사업</a>
-            <a th:if="${loginStudent == null or loginStudent.getRole().toString() != 'ADMIN'}" href="/" class="text-decoration-none text-light-emphasis" >전자공학과 학생회 대여 사업</a>
-            <a href="https://pf.kakao.com/_CxjxlxiM" target="_blank"><img th:src="@{/images/inhaeelogo.png}" alt="학생회 로고" /></a> </h1>
+        <span>
+            <a href="https://www.inha.ac.kr" target="_blank"><img src="/images/logo.png" alt="인하대 로고" class="img-fluid"/></a>
+            <a href="https://pf.kakao.com/_CxjxlxiM" target="_blank"><img src="/images/inhaeelogo.png" alt="학생회 로고" class="img-fluid"/></a>
+        </span>
+        <span>
+            <a th:if="${loginStudent != null and loginStudent.getRole().toString() == 'ADMIN'}" href="/admin" class="text-decoration-none text-light-emphasis" ><h1>전자공학과 학생회 대여 사업</h1></a>
+            <a th:if="${loginStudent == null or loginStudent.getRole().toString() != 'ADMIN'}" href="/" class="text-decoration-none text-light-emphasis" ><h1>전자공학과 학생회 대여 사업</h1></a>
+
+        </span>
+
+
     </div>
+
 </div>

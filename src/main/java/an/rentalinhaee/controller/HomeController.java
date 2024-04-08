@@ -41,6 +41,7 @@ public class HomeController {
         Student loginStudent = studentService.findStudent(loginStuId);
 
 
+
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 //        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
@@ -310,5 +311,13 @@ public class HomeController {
             return (Student) session.getAttribute("loginStudent");
         }
         return null;
+    }
+
+    @ModelAttribute("isMobile")
+    public boolean isMobile(HttpSession session) {
+        if(session.getAttribute("isMobile") != null) {
+            return (boolean) session.getAttribute("isMobile");
+        }
+        return false;
     }
 }

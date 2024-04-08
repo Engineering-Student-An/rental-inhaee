@@ -53,16 +53,12 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-mail"
 
     // Spring Mobile Device Module
-//    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
 
     //Spring Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
     testImplementation 'org.springframework.security:spring-security-test'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.0.4.RELEASE' // 사용 중인 버전에 맞게 조정
-
-
-
-
 
 
     //JUnit4 추가
