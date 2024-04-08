@@ -193,6 +193,9 @@ public class BoardController {
         Page<Board> boards = boardService.findByStuId(pageRequest, student.getStuId());
         model.addAttribute("boards", boards);
 
+        if((boolean) model.getAttribute("isMobile")) {
+            return "mobile/board/myList";
+        }
         return "board/myList";
     }
 

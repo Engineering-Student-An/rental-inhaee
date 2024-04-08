@@ -26,7 +26,7 @@
             <tr th:each="notice : ${notices}">
                 <td th:text="${notices.getNumber()*notices.getSize() + noticeStat.count}"></td>
                 <td>
-                    <a th:href="@{/board/{id}(id=${notice.id})}" th:text="${notice.title}"></a>
+                    <a th:href="@{/board/{id}(id=${notice.id})}"  th:text="${#strings.length(notice.title) > 10 ? #strings.substring(notice.title, 0, 10) + '...' : notice.title}"></a>
                 </td>
                 <div th:if="${notice.editTime == null}">
                     <td th:text="${#temporals.format(notice.writeTime, 'yyyy-MM-dd')}"></td>
