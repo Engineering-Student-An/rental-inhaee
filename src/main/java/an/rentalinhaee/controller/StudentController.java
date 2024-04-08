@@ -28,9 +28,9 @@ public class StudentController {
     public String changeInfo(Model model) {
 
 
-        Student student = (Student) model.getAttribute("loginStudent");
-
-        System.out.println("student.getEmail() = " + student.getEmail());
+//        Student student = (Student) model.getAttribute("loginStudent");
+//
+//        System.out.println("student.getEmail() = " + student.getEmail());
 
         model.addAttribute("isPasswordChecked", false);
         model.addAttribute("isEmailChecked", false);
@@ -62,6 +62,9 @@ public class StudentController {
         model.addAttribute("isEmailSent", false);
         model.addAttribute("isEmailChecked", false);
 
+        if((boolean) model.getAttribute("isMobile")) {
+            return "mobile/student/changeInfo";
+        }
         return "student/changeInfo";
     }
 

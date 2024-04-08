@@ -10,6 +10,13 @@
     .input-large {
         width: 60%;
     }
+    .btn-mobile {
+        padding: 0.25rem 0.5rem; /* 패딩 줄이기 */
+        font-size: 0.7rem; /* 폰트 사이즈 줄이기 */
+    }
+    .small-font {
+        font-size: 13px;
+    }
 </style>
 <body>
 <div class="container">
@@ -17,7 +24,7 @@
 
     <!--    <div class="jumbotron">-->
     <h2>개인정보m</h2>
-    <hr>
+    <br>
     <a>학번</a>
     <a>[[${loginStudent.stuId}]]</a>
     <br><br>
@@ -29,39 +36,35 @@
     <br><br>
     <a>이메일 주소</a>
     <div class="inline-elements">
-        <input disabled th:value="${loginStudent.email}" class="form-control" style="width: 60%">
+        <input disabled th:value="${loginStudent.email}" class="form-control small-font" style="width: 80%">
         &nbsp;
-        <a href="/changeInfo/email" class="btn btn-outline-warning btn-sm">변경</a>
+        <a href="/changeInfo/email" class="btn btn-outline-warning btn-mobile">변경</a>
+    </div>
+    <br><br><hr/><br>
+    <h2>비밀번호 변경</h2>
+    <br>
+
+    <div class="d-flex justify-content-start">
+        <a>현재 비밀번호</a> &nbsp;&nbsp;
+        <div th:if="${isPasswordChecked}">
+            <img th:src="@{'/images/check_m.png'}">
+        </div>
+        <div th:unless="${isPasswordChecked}">
+            <img th:src="@{'/images/checkX_m.png'}">
+        </div>
     </div>
 
-    <br>
-    <br><br>
-    <br>
-    <h2>비밀번호 변경</h2>
-    <hr>
-
-    <a>현재 비밀번호</a><br>
     <form th:method="post" th:action="|/changeInfo/verify/password|" class="form-inline">
 
         <div class="inline-elements">
-             <input th:disabled="${isPasswordChecked}" type="password" th:id="password" th:name="password"  class="form-control"
-                       th:attr="placeholder=${isPasswordChecked} ? '비밀번호가 동일합니다' : '현재 비밀번호를 입력하세요'" style="width: 60%">
+             <input th:disabled="${isPasswordChecked}" type="password" th:id="password" th:name="password"  class="form-control small-font"
+                       th:attr="placeholder=${isPasswordChecked} ? '비밀번호가 동일합니다' : '현재 비밀번호를 입력하세요'" style="width: 80%">
             &nbsp;
 
             <button th:disabled="${isPasswordChecked}" type="submit"
-                    th:class="${isPasswordChecked} ? 'btn btn-success btn-sm' : 'btn btn-outline-danger btn-sm'">
+                    th:class="${isPasswordChecked} ? 'btn btn-success btn-mobile' : 'btn btn-outline-danger btn-mobile'">
                 입력
             </button>
-
-            <div th:if="${isPasswordChecked}">
-                &nbsp; &nbsp; &nbsp;
-                <img th:src="@{'/images/check.png'}">
-            </div>
-            <div th:unless="${isPasswordChecked}">
-                &nbsp; &nbsp; &nbsp;
-                <img th:src="@{'/images/checkX.png'}">
-            </div>
-
         </div>
     </form>
     <br>

@@ -17,7 +17,7 @@
 
     <!--    <div class="jumbotron">-->
     <h2>개인정보</h2>
-    <hr>
+    <br>
     <a>학번</a>
     <a>[[${loginStudent.stuId}]]</a>
     <br><br>
@@ -33,12 +33,9 @@
         &nbsp;
         <a href="/changeInfo/email" class="btn btn-outline-warning btn-sm">변경</a>
     </div>
-
-    <br>
-    <br><br>
-    <br>
+<br><br><hr/><br>
     <h2>비밀번호 변경</h2>
-    <hr>
+    <br>
 
     <a>현재 비밀번호</a><br>
     <form th:method="post" th:action="|/changeInfo/verify/password|" class="form-inline">
