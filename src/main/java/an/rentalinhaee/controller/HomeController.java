@@ -61,9 +61,9 @@ public class HomeController {
     }
 
     @GetMapping("/login")
-    public String loginPage(Model model) {
+    public String loginPage(Model model, HttpSession session) {
         model.addAttribute("loginRequest", new LoginRequest());
-
+        model.addAttribute("isMobile", session.getAttribute("isMobile"));
         return "home/login";
     }
 
