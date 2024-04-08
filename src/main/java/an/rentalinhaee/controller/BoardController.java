@@ -44,6 +44,9 @@ public class BoardController {
         model.addAttribute("noticePage", noticePage);
         model.addAttribute("boardPage", boardPage);
 
+        if((boolean) model.getAttribute("isMobile")) {
+            return "mobile/board/list";
+        }
         return "board/list";
     }
 
@@ -51,6 +54,9 @@ public class BoardController {
     public String createBoardForm(Model model) {
 
         model.addAttribute("boardForm", new BoardForm());
+        if((boolean) model.getAttribute("isMobile")) {
+            return "mobile/board/createBoardForm";
+        }
         return "board/createBoardForm";
     }
 
