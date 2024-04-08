@@ -131,4 +131,12 @@ public class RentalController {
         }
         return null;
     }
+
+    @ModelAttribute("isMobile")
+    public boolean isMobile(HttpSession session) {
+        if(session.getAttribute("isMobile") != null) {
+            return (boolean) session.getAttribute("isMobile");
+        }
+        return false;
+    }
 }

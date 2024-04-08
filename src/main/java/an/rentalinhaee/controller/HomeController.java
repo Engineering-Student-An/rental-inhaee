@@ -58,6 +58,24 @@ public class HomeController {
         return "home/home";
     }
 
+    @GetMapping("/login")
+    public String loginPage(Model model) {
+        model.addAttribute("loginRequest", new LoginRequest());
+
+        return "home/login";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest httpServletRequest) {
+
+        HttpSession httpSession = httpServletRequest.getSession(true);
+        if (httpSession != null) {
+            httpSession.invalidate();
+        }
+
+        return "redirect:/";
+    }
+
     @GetMapping("/join")
     public String joinPage(Model model) {
         model.addAttribute("joinRequest", new JoinRequest());
@@ -172,25 +190,6 @@ public class HomeController {
         model.addAttribute("nextUrl", "/login");
         return "error/errorMessage";
 
-    }
-
-
-    @GetMapping("/login")
-    public String loginPage(Model model) {
-        model.addAttribute("loginRequest", new LoginRequest());
-
-        return "home/login";
-    }
-
-    @GetMapping("/logout")
-    public String logout(HttpServletRequest httpServletRequest) {
-
-        HttpSession httpSession = httpServletRequest.getSession(true);
-        if (httpSession != null) {
-            httpSession.invalidate();
-        }
-
-        return "redirect:/";
     }
 
     @GetMapping("/findPassword")
