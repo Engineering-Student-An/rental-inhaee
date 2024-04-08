@@ -1,6 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" >
 <head th:replace="~{fragments/header :: header}"></head>
+<style>
+    /* 기본 폰트 크기 설정 */
+    input::placeholder {
+        font-size: 16px; /* 데스크탑 기준 폰트 크기 */
+    }
+
+    /* 화면 너비가 768px 이하일 때 적용될 스타일 */
+    @media (max-width: 768px) {
+        input::placeholder {
+            font-size: 14px; /* 모바일 기기용 폰트 크기 */
+        }
+    }
+
+     .btn-very-small {
+         padding: 0.25rem 0.5rem; /* 패딩 줄이기 */
+         font-size: 0.7rem; /* 폰트 사이즈 줄이기 */
+         /* 필요한 경우 여기에 다른 스타일 조정 */
+     }
+
+</style>
+
 
 <body>
 <div class="container">
@@ -24,10 +45,10 @@
 
         <br/>
 
-        <button type="submit" class="btn btn-secondary">로그인</button>
+        <button type="submit" class="btn btn-outline-secondary" th:classappend="${isMobile} ? 'btn-very-small'">로그인</button>
 
-        <a th:href="@{/findPassword}" role="button" class="btn btn-secondary">비밀번호 찾기</a>
-        <button type="button" th:onclick="|location.href='/join'|" class="btn btn-secondary">회원 가입</button> <br/><br/>
+        <a th:href="@{/findPassword}" role="button" class="btn btn-outline-secondary" th:classappend="${isMobile} ? 'btn-very-small'">비밀번호 찾기</a>
+        <button type="button" th:onclick="|location.href='/join'|" class="btn btn-outline-secondary" th:classappend="${isMobile} ? 'btn-very-small'">회원 가입</button> <br/><br/>
     </form>
     <br>
     <div th:replace="~{fragments/footer :: footer}"></div>
