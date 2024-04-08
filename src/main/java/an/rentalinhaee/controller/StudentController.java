@@ -36,6 +36,12 @@ public class StudentController {
         model.addAttribute("isEmailChecked", false);
         model.addAttribute("isEmailSent", false);
 
+        model.addAttribute("isMobile", model.getAttribute("isMobile"));
+
+        if((boolean) model.getAttribute("isMobile")) {
+            return "mobile/student/changeInfo";
+        }
+
         return "student/changeInfo";
     }
 
@@ -195,7 +201,6 @@ public class StudentController {
         return "error/errorMessage";
 
     }
-
 
     @ModelAttribute("loginStudent")
     public Student loginStudent(HttpSession session) {
