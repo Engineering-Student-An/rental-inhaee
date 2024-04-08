@@ -100,15 +100,15 @@
     <form th:method="post" th:action="|/changeInfo/verify/email/code|" class="form-inline">
 
         <div class="inline-elements">
-            <input th:disabled="${!isEmailSent}" th:id="code" th:name="code"  class="form-control input-large"
-                       placeholder="이메일로 전송된 인증 문자를 입력하세요" style="width: 60%">
+            <input th:disabled="${!isEmailSent}" th:id="code" th:name="code"  class="form-control input-large small-font"
+                       placeholder="이메일로 전송된 인증 문자를 입력하세요" style="width: 80%">
             &nbsp;
             <div th:if="${!isEmailSent}">
-                <button disabled type="submit" class="btn btn-outline-secondary btn-sm">인증</button>
+                <button disabled type="submit" class="btn btn-outline-secondary btn-mobile">인증</button>
             </div>
             <div th:if="${isEmailSent}">
                 <button type="submit"
-                        th:class="${isEmailChecked} ? 'btn btn-success btn-sm' : 'btn btn-outline-danger btn-sm'">인증</button>
+                        th:class="${isEmailChecked} ? 'btn btn-success btn-mobile' : 'btn btn-outline-danger btn-mobile'">인증</button>
             </div>
         </div>
     </form>
@@ -117,9 +117,9 @@
 
     <div style="text-align: right">
         <!-- isEmailChecked가 true일 때 -->
-        <a href="/changeInfo/changePassword" class="btn btn-success" th:if="${isEmailChecked}">다음으로</a>
+        <a href="/changeInfo/changePassword" class="btn btn-success btn-sm" th:if="${isEmailChecked}">다음으로</a>
         <!-- isEmailChecked가 false일 때 -->
-        <span class="btn btn-outline-secondary disabled-link" th:if="${!isEmailChecked}">다음으로</span>
+        <span class="btn btn-outline-secondary disabled-link btn-sm" th:if="${!isEmailChecked}">다음으로</span>
     </div>
 
 
