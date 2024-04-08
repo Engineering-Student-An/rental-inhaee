@@ -35,6 +35,9 @@ public class ItemController {
         }
 
         model.addAttribute("itemSearch", itemSearch);
+        if((boolean) model.getAttribute("isMobile")) {
+            return "mobile/item/list";
+        }
         return "item/list";
     }
 
