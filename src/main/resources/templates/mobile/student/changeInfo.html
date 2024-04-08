@@ -23,7 +23,7 @@
     <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
 
     <!--    <div class="jumbotron">-->
-    <h2>개인정보m</h2>
+    <h2>개인정보</h2>
     <br>
     <a>학번</a>
     <a>[[${loginStudent.stuId}]]</a>
@@ -101,7 +101,7 @@
 
         <div class="inline-elements">
             <input th:disabled="${!isEmailSent}" th:id="code" th:name="code"  class="form-control input-large small-font"
-                       placeholder="이메일로 전송된 인증 문자를 입력하세요" style="width: 80%">
+                       placeholder="전송된 인증 문자를 입력하세요" style="width: 80%">
             &nbsp;
             <div th:if="${!isEmailSent}">
                 <button disabled type="submit" class="btn btn-outline-secondary btn-mobile">인증</button>

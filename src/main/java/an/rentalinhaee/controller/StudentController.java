@@ -115,6 +115,11 @@ public class StudentController {
     public String changePasswordNext(Model model) {
 
         model.addAttribute("request", new ChangePasswordRequest());
+
+        model.addAttribute("isMobile", model.getAttribute("isMobile"));
+        if((boolean) model.getAttribute("isMobile")) {
+            return "mobile/student/changePassword";
+        }
         return "student/changePassword";
     }
 
@@ -134,6 +139,9 @@ public class StudentController {
                     "changePasswordCheck", "비밀번호가 동일하지 않습니다!"));
         }
         if (bindingResult.hasErrors()) {
+            if((boolean) model.getAttribute("isMobile")) {
+                return "mobile/student/changePassword";
+            }
             return "student/changePassword";
         }
 
