@@ -14,7 +14,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -99,6 +98,12 @@ public class RentalController {
 
         model.addAttribute("myRentalList", rentalList);
 
+        //        model.addAttribute("isMobile", )
+
+        if((boolean) model.getAttribute("isMobile")){
+            return "mobile/rental/findOne";
+        }
+
         return "rental/findOne";
     }
 
@@ -124,13 +129,13 @@ public class RentalController {
         return "redirect:/rental/findOne";
     }
 
-    @PostMapping("/rental/finish/{rentalId}")
-    public String adminFinishRental(@PathVariable("rentalId") Long rentalId, @RequestParam String stuId, RedirectAttributes redirectAttributes) {
-        rentalService.finishRental(rentalId);
-
-        redirectAttributes.addAttribute("stuId", stuId);
-        return "redirect:/student/{stuId}/find";
-    }
+//    @PostMapping("/rental/finish/{rentalId}")
+//    public String adminFinishRental(@PathVariable("rentalId") Long rentalId, @RequestParam String stuId, RedirectAttributes redirectAttributes) {
+//        rentalService.finishRental(rentalId);
+//
+//        redirectAttributes.addAttribute("stuId", stuId);
+//        return "redirect:/student/{stuId}/find";
+//    }
 
     @ModelAttribute("loginStudent")
     public Student loginStudent(HttpSession session) {

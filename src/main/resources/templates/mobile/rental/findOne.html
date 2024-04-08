@@ -1,0 +1,178 @@
+
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+<style>
+    .table {
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    .table td:nth-child(1), .table th:nth-child(1) {
+        width: 10%; /* 첫 번째 열의 너비 */
+    }
+
+    .table td:nth-child(2), .table th:nth-child(2) {
+        width: 30%; /* 두 번째 열의 너비 */
+    }
+
+    .table td:nth-child(3), .table th:nth-child(3) {
+        width: 60%; /* 세 번째 열의 너비 */
+    }
+    .말풍선 {
+        background-color: #f2f2f2; /* 말풍선의 배경색을 설정합니다. 연한 회색입니다. */
+        border-radius: 10px; /* 말풍선의 모서리를 둥글게 만듭니다. 둥근 정도는 10px입니다. */
+        padding: 5px; /* 말풍선 내부의 내용과 테두리 사이의 여백을 설정합니다. 상하좌우 모두 10px입니다. */
+        margin-top: 1px; /* 말풍선 상단의 외부 여백을 1px로 설정합니다. */
+        margin-bottom: 5px; /* 말풍선 하단의 외부 여백을 5px로 설정합니다. */
+        word-wrap: break-word; /* 긴 단어나 URL이 말풍선의 폭을 넘어갈 때 단어를 자동으로 줄바꿈합니다. */
+    }
+
+</style>
+<style>
+    .btn-mobile {
+        padding: 0.25rem 0.5rem; /* 패딩 줄이기 */
+        font-size: 0.7rem; /* 폰트 사이즈 줄이기 */
+    }
+    .small-font {
+        font-size: 13px;
+    }
+</style>
+<body>
+
+<div class="container">
+
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+
+    <h2>내 대여 목록m</h2><br>
+
+    <form th:object="${rentalSearch}" class="form-inline">
+        <style>
+            .inline-elements {
+                display: flex;
+                align-items: center;
+            }
+        </style>
+
+        <div class="inline-elements d-flex justify-content-end">
+            <div class="form-group mx-sm-1 mb-2">
+                <select th:field="*{rentalStatus}" class="form-control small-font"><option value="">대여 상태</option>
+                    <option th:each="status : ${T(an.rentalinhaee.domain.RentalStatus).values()}"
+                            th:value="${status}"
+                            th:text="${status.getDisplayName()}">option
+                    </option>
+                </select>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-outline-primary btn-sm mb-2">검색</button>
+            </div>
+
+        </div>
+    </form>
+    <br>
+
+    <div>
+        <table class="table small-font">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>대여 물품</th>
+                <th>대여 정보</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${myRentalList}">
+                <td th:text="${myRentalList.getNumber()*myRentalList.getSize() + itemStat.count}"></td>
+
+
+                <td>
+                    <span class="line-break">
+                        <span th:if="${item.item.name == ''}" th:text="${item.item.category}"></span>
+                        <th:block th:if="${item.item.name == ''}">
+                            <br>
+                        </th:block>
+                        <span th:if="${item.item.name != ''}" th:text="${item.item.name}"></span>
+                        <th:block th:if="${item.item.name != ''}">
+                            <br>
+                            <span th:text="'(' + ${item.item.category} + ')'"></span><br>
+                        </th:block>
+                    </span>
+                </td>
+
+
+                <td>
+                    <div class="말풍선">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <a th:if="${item.status.name() == 'FINISH'}" th:text="'반납 완료'"></a>
+                                <a th:if="${item.status.name() == 'FINISH_OVERDUE'}" th:text="'반납 완료 (연체)'" style="color: red; font-weight: bold"></a>
+                                <a th:if="${item.status.name() == 'OVERDUE'}" th:text="'연체 중'" style="color: red; font-weight: bold" ></a>
+                                <a th:if="${item.status.name() == 'ING'}" th:text="'대여 중'"></a>
+                            </div>
+
+
+                            <a th:if="${item.status.name() == 'ING' || item.status.name() == 'OVERDUE'}" href="#" th:href="'javascript:cancel('+${item.id}+')'"
+                               class="btn btn-outline-danger btn-mobile">물품 반납</a>
+                        </div>
+
+                        <div th:text="${item.rentalDate} + ' ~'"/>
+                        <div>
+                            <div th:if="${item.status.name() == 'FINISH'}" th:text="${item.finishRentalDate}"></div>
+                            <div th:if="${item.status.name() == 'FINISH_OVERDUE'}" th:text="${item.finishRentalDate}" style="color: red"></div>
+                        </div>
+
+
+                        <a th:if="${item.status.name() == 'OVERDUE'}" th:text="'연체료 ' + ((${T(java.time.temporal.ChronoUnit).DAYS.between(item.rentalDate, T(java.time.LocalDate).now())}-3) * 500) + '원'"></a>
+                        <a th:if="${item.status.name() == 'FINISH_OVERDUE'}" th:text="'연체료 ' + ((${T(java.time.temporal.ChronoUnit).DAYS.between(item.rentalDate, item.finishRentalDate)}-3) * 500) + '원'"></a>
+                    </div>
+
+                </td>
+
+<!--                <td>-->
+<!--                    <a th:if="${item.status.name() == 'ING' || item.status.name() == 'OVERDUE'}" href="#" th:href="'javascript:cancel('+${item.id}+')'"-->
+<!--                       class="btn btn-outline-danger">물품 반납</a>-->
+
+<!--                </td>-->
+<!--                <td>-->
+
+<!--                </td>-->
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div style="text-align: center" class="small-font">
+        <button class="btn btn-outline-dark btn-mobile" th:disabled="${myRentalList.getNumber()}==0"
+                th:onclick="|location.href='@{/rental/findOne(page=${1}) }'|">
+            <<</button>
+        <button class="btn btn-outline-dark btn-mobile" th:disabled="${!myRentalList.hasPrevious()}"
+                th:onclick="|location.href='@{/rental/findOne(page=${myRentalList.getNumber()}) }'|">
+            <</button>
+        &nbsp; &nbsp;
+        <span>[[${myRentalList.getNumber()+1}]] / [[${myRentalList.getTotalElements() == 0 ? 1 : myRentalList.getTotalPages()}]]</span>
+        &nbsp; &nbsp;
+        <button class="btn btn-outline-dark btn-mobile" th:disabled="${!myRentalList.hasNext()}"
+                th:onclick="|location.href='@{/rental/findOne(page=${myRentalList.getNumber() + 2}) }'|">
+            ></button>
+        <button class="btn btn-outline-dark btn-mobile" th:disabled="${!myRentalList.hasNext()}"
+                th:onclick="|location.href='@{/rental/findOne(page=${myRentalList.getTotalPages()}) }'|">
+            >></button>
+    </div>
+    <br>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+</div> <!-- /container -->
+
+</body>
+<script>
+    function cancel(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "findOne/" + id + "/finish");
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+
+</html>
