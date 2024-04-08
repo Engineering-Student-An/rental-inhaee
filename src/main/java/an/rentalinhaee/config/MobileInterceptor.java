@@ -14,7 +14,6 @@ public class MobileInterceptor implements HandlerInterceptor {
 
         HttpSession session = request.getSession();
 
-        log.info("MobileInterceptor preHandle 실행");
         String userAgent = request.getHeader("User-Agent").toUpperCase();
         boolean isMobileUser = userAgent.contains("ANDROID") || userAgent.contains("TABLET") ||
                 userAgent.contains("IPAD") || userAgent.contains("MOBILE") ||
@@ -23,10 +22,8 @@ public class MobileInterceptor implements HandlerInterceptor {
 
         if(isMobileUser) {
             session.setAttribute("isMobile", true);
-            System.out.println("true임!!");
         } else {
             session.setAttribute("isMobile", false);
-            System.out.println("false임!!");
         }
 
         return true;

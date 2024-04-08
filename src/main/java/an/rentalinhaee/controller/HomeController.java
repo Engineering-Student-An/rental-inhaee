@@ -65,7 +65,7 @@ public class HomeController {
     public String loginError(Model model) {
 
         model.addAttribute("errorMessage", "일치하는 회원 정보가 없습니다.\n로그인 정보를 확인해주세요.");
-        model.addAttribute("nextUrl", "/");
+        model.addAttribute("nextUrl", "/login");
 
         return "error/errorMessage";
     }
