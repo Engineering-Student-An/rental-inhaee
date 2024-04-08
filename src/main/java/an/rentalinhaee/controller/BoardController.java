@@ -134,7 +134,9 @@ public class BoardController {
 
         model.addAttribute("boardForm", boardForm);
 
-
+        if((boolean) model.getAttribute("isMobile")) {
+            return "mobile/board/updateBoardForm";
+        }
         return "board/updateBoardForm";
     }
 
