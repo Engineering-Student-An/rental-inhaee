@@ -55,7 +55,9 @@ public class HomeController {
             model.addAttribute("recentBoard", boardService.findRecentBoard());
             model.addAttribute("hotBoard", boardService.findHotBoard());
         }
-        return "home/home";
+
+        return (boolean) model.getAttribute("isMobile") ? "mobile/home/home" : "home/home";
+
     }
 
     @GetMapping("/login")
