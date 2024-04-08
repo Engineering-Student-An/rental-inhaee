@@ -104,6 +104,10 @@ public class StudentController {
         model.addAttribute("isPasswordChecked", true);
         model.addAttribute("isEmailSent", true);
         model.addAttribute("isEmailChecked", true);
+
+        if((boolean) model.getAttribute("isMobile")) {
+            return "mobile/student/changeInfo";
+        }
         return "student/changeInfo";
     }
 
