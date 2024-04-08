@@ -19,10 +19,10 @@
     <br>
 
     <form th:method="post" th:action="|/join/verify|" th:object="${emailForm}" >
-        <label th:for="email">이메일 주소</label>
+        <label th:for="email">이메일 주소 (예시 : test@gmail.com)</label>
         <div class="inline-elements">
             <input type="text" th:field="*{email}" th:errorclass="error-input" class="form-control"
-                   placeholder="이메일 주소를 입력하세요. (예시 : test@gmail.com)" style="width: 80%">
+                   placeholder="이메일 주소를 입력하세요." style="width: 80%">
             &nbsp;
             <button type="submit" class="btn btn-outline-secondary btn-sm">인증</button>
 

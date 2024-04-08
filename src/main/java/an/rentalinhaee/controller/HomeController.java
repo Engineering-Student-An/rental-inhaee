@@ -159,7 +159,7 @@ public class HomeController {
         }
 
         String authCode = emailService.createVerifyCode();
-        emailService.sendEmail(email, authCode, "email/passwordEmail");
+        emailService.sendEmail(email, authCode, "email/joinEmail");
         session.setAttribute("verifyCode", authCode);
 
         model.addAttribute("isSent", true);
