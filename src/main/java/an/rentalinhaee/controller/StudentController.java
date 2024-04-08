@@ -72,7 +72,7 @@ public class StudentController {
     @PostMapping("/changeInfo/verify/email")
     public String verifyEmail(@RequestParam("email") String email, HttpSession httpSession, Model model) {
 
-        Student student = (Student) model.getAttribute("loginStudent");
+//        Student student = (Student) model.getAttribute("loginStudent");
 
         model.addAttribute("isPasswordChecked", true);
         model.addAttribute("isEmailSent", true);
@@ -83,6 +83,9 @@ public class StudentController {
 
         httpSession.setAttribute("verifyCode", authCode);
 
+        if((boolean) model.getAttribute("isMobile")) {
+            return "mobile/student/changeInfo";
+        }
         return "student/changeInfo";
     }
 
