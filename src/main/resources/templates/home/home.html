@@ -16,10 +16,7 @@
 <div class="container">
     <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
 
-
     <div class="jumbotron">
-
-
         <br>
         <div th:if="${loginStudent == null}">
             <h3>로그인 후 이용 가능합니다!</h3>
@@ -75,8 +72,10 @@
                         <tr th:each="board, iterStat : ${recentBoard}">
                             <td th:text="${iterStat.count}"></td>
                             <td>
-                                <a class="shorten" th:href="@{/board/{id}(id=${board.id})}" th:text="${board.title}"></a>
+                                <a class="shorten" th:href="@{/board/{id}(id=${board.id})}"
+                                   th:text="${#strings.length(board.title) > 5 ? #strings.substring(board.title, 0, 5) + '...' : board.title}"></a>
                             </td>
+
                             <td th:text="${board.likeNumber.size()}"></td>
                             <div th:if="${board.editTime == null}">
                                 <td th:text="${#temporals.format(board.writeTime, 'MM-dd HH:mm')}"></td>
@@ -103,7 +102,8 @@
                         <tr th:each="board, iterStat : ${hotBoard}">
                             <td th:text="${iterStat.count}"></td>
                             <td>
-                                <a class="shorten" th:href="@{/board/{id}(id=${board.id})}" th:text="${board.title}"></a>
+                                <a class="shorten" th:href="@{/board/{id}(id=${board.id})}"
+                                   th:text="${#strings.length(board.title) > 5 ? #strings.substring(board.title, 0, 5) + '...' : board.title}"></a>
                             </td>
                             <td th:text="${board.likeNumber.size()}"></td>
                             <div th:if="${board.editTime == null}">

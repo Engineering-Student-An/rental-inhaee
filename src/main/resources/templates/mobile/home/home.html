@@ -11,7 +11,6 @@
         text-overflow: ellipsis;
     }
 </style>
-
 <body>
 <div class="container">
     <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
@@ -79,7 +78,8 @@
                     <tr th:each="board, iterStat : ${recentBoard}">
                         <td th:text="${iterStat.count}"></td>
                         <td>
-                            <a class="shorten" th:href="@{/board/{id}(id=${board.id})}" th:text="${board.title}"></a>
+                            <a class="shorten" th:href="@{/board/{id}(id=${board.id})}"
+                               th:text="${#strings.length(board.title) > 5 ? #strings.substring(board.title, 0, 5) + '...' : board.title}"></a>
                         </td>
                         <td th:text="${board.likeNumber.size()}"></td>
                         <div th:if="${board.editTime == null}">
@@ -106,7 +106,8 @@
                     <tr th:each="board, iterStat : ${hotBoard}">
                         <td th:text="${iterStat.count}"></td>
                         <td>
-                            <a class="shorten" th:href="@{/board/{id}(id=${board.id})}" th:text="${board.title}"></a>
+                            <a class="shorten" th:href="@{/board/{id}(id=${board.id})}"
+                               th:text="${#strings.length(board.title) > 5 ? #strings.substring(board.title, 0, 5) + '...' : board.title}"></a>
                         </td>
                         <td th:text="${board.likeNumber.size()}"></td>
                         <div th:if="${board.editTime == null}">
