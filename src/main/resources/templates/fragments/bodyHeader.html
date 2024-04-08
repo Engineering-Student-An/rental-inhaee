@@ -2,16 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
+
 <div class="header" th:fragment="bodyHeader">
     <ul class="nav nav-pills pull-right">
     </ul>
+    <style>
+        .btn-very-small {
+            padding: 0.25rem 0.5rem; /* 패딩 줄이기 */
+            font-size: 0.8rem; /* 폰트 사이즈 줄이기 */
+            /* 필요한 경우 여기에 다른 스타일 조정 */
+        }
+    </style>
     <div class="d-flex justify-content-between">
         <div style="text-align: left">
-            <a th:if="${loginStudent != null and loginStudent.getRole().toString() == 'ADMIN'}" href="/admin"><img th:src="@{/images/home.png}" alt="home"/></a>
-            <a th:if="${loginStudent == null or loginStudent.getRole().toString() != 'ADMIN'}" href="/"><img th:src="@{/images/home.png}" alt="home"/></a>
+            <a th:if="${loginStudent != null and loginStudent.getRole().toString() == 'ADMIN'}" href="/admin">
+                <img th:if="${isMobile}" th:src="@{/images/home_m.png}" alt="home"/>
+                <img th:unless="${isMobile}" th:src="@{/images/home.png}" alt="home"/></a>
+            <a th:if="${loginStudent == null or loginStudent.getRole().toString() != 'ADMIN'}" href="/">
+                <img th:if="${isMobile}" th:src="@{/images/home_m.png}" alt="home"/>
+                <img th:unless="${isMobile}" th:src="@{/images/home.png}" alt="home"/></a>
         </div>
         <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                    th:classappend="${isMobile} ? 'btn-very-small'">
                 내 정보
             </button>
             <div class="dropdown-menu p-3 text-muted" style="max-width: 200px;">
@@ -34,7 +48,7 @@
                     <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
                 </div>
             </div>
-        <br><br>
+        <br>
         </div>
     </div>
 
