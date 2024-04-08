@@ -83,10 +83,10 @@
                         </td>
                         <td th:text="${board.likeNumber.size()}"></td>
                         <div th:if="${board.editTime == null}">
-                            <td th:text="${#temporals.format(board.writeTime, 'MM-dd HH:mm')}"></td>
+                            <td th:text="${#temporals.format(board.writeTime, 'MM-dd')}"></td>
                         </div>
                         <div th:unless="${board.editTime == null}">
-                            <td th:text="${#temporals.format(board.editTime, 'MM-dd HH:mm') + ' (수정)'}"></td>
+                            <td th:text="${#temporals.format(board.editTime, 'MM-dd') + ' (수정)'}"></td>
                         </div>
                     </tr>
                     </tbody>
@@ -94,7 +94,7 @@
             </div>
             <br>
             <div class="d-flex justify-content-between align-items-end">
-                <h5>최근 7일간 HOT 게시글</h5>
+                <h5>최근 7일간 HOT🔥 게시글</h5>
             </div>
             <div>
                 <table class="table table-striped">
@@ -111,10 +111,10 @@
                         </td>
                         <td th:text="${board.likeNumber.size()}"></td>
                         <div th:if="${board.editTime == null}">
-                            <td th:text="${#temporals.format(board.writeTime, 'MM-dd HH:mm')}"></td>
+                            <td th:text="${#temporals.format(board.writeTime, 'MM-dd')}"></td>
                         </div>
                         <div th:unless="${board.editTime == null}">
-                            <td th:text="${#temporals.format(board.editTime, 'MM-dd HH:mm') + ' (수정)'}"></td>
+                            <td th:text="${#temporals.format(board.editTime, 'MM-dd') + ' (수정)'}"></td>
                         </div>
                     </tr>
                     </tbody>
