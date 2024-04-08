@@ -7,6 +7,17 @@
         display: flex;
         align-items: center;
     }
+    /* 기본 폰트 크기 설정 */
+    input::placeholder {
+        font-size: 16px; /* 데스크탑 기준 폰트 크기 */
+    }
+
+    /* 화면 너비가 768px 이하일 때 적용될 스타일 */
+    @media (max-width: 768px) {
+        input::placeholder {
+            font-size: 14px; /* 모바일 기기용 폰트 크기 */
+        }
+    }
 </style>
 
 <body>
@@ -34,7 +45,7 @@
         <label th:for="code">인증 문자</label>
         <div class="inline-elements">
             <input type="text" th:field="*{code}" th:errorclass="error-input" class="form-control"
-                   placeholder="입력한 이메일로 전송된 인증 문자를 입력하세요." style="width: 80%">
+                   placeholder="전송된 인증 문자를 입력하세요." style="width: 80%">
             &nbsp;
             <button type="submit" class="btn btn-outline-secondary btn-sm">확인</button>
         </div>

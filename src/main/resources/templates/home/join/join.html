@@ -1,8 +1,20 @@
 <!DOCTYPE html>
 <html lang="ko">
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: header}">
+<head th:replace="~{fragments/header :: header}"></head>
+<style>
+    /* 기본 폰트 크기 설정 */
+    input::placeholder {
+        font-size: 16px; /* 데스크탑 기준 폰트 크기 */
+    }
 
+    /* 화면 너비가 768px 이하일 때 적용될 스타일 */
+    @media (max-width: 768px) {
+        input::placeholder {
+            font-size: 14px; /* 모바일 기기용 폰트 크기 */
+        }
+    }
+</style>
 <body>
 <div class="container">
     <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
