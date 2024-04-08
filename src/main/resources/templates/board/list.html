@@ -29,13 +29,16 @@
             <tr th:each="notice : ${notices}">
                 <td th:text="${notices.getNumber()*notices.getSize() + noticeStat.count}"></td>
                 <td>
-                    <a class="shorten" th:href="@{/board/{id}(id=${notice.id})}" th:text="${notice.title}"></a>
+                    <a th:unless="${isMobile}" class="shorten" th:href="@{/board/{id}(id=${notice.id})}" th:text="${notice.title}"></a>
+                    <a th:if="${isMobile}" class="shorten" th:href="@{/board/{id}(id=${notice.id})}" th:text="${#strings.length(notice.title) > 8 ? #strings.substring(notice.title, 0, 8) + '...' : notice.title}"></a>
+
                 </td>
                 <div th:if="${notice.editTime == null}">
-                    <td th:text="${#temporals.format(notice.writeTime, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td th:text="${#temporals.format(notice.writeTime, 'yyyy-MM-dd')}"></td>
                 </div>
                 <div th:unless="${notice.editTime == null}">
-                    <td th:text="${#temporals.format(notice.editTime, 'yyyy-MM-dd HH:mm') + ' (수정)'}"></td>
+                    <td th:if="${isMobile}" th:utext="|${#temporals.format(notice.editTime, 'yyyy-MM-dd')}<br>(수정)|"></td>
+                    <td th:unless="${isMobile}" th:text="${#temporals.format(notice.editTime, 'yyyy-MM-dd') + ' (수정)'}"></td>
                 </div>
             </tr>
             </tbody>
@@ -68,25 +71,34 @@
         <br>
         <table class="table table-striped">
             <thead> <tr>
-                <th>#</th> <th>제목</th> <th>작성자 학번</th> <th>작성자 이름</th> <th><img th:src="@{/images/thumbsUp.png}"></th> <th>작성 일자</th>
+                <th>#</th> <th>제목</th>
+                <div th:unless="${isMobile}">
+                    <th>작성자 학번</th> <th>작성자 이름</th>
+                </div>
+                 <th><img th:src="@{/images/thumbsUp.png}"></th> <th>작성 일자</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="board : ${boards}">
                 <td th:text="${boards.getNumber()*boards.getSize() + boardStat.count}"></td>
                 <td>
-                    <a class="shorten" th:href="@{/board/{id}(id=${board.id})}" th:text="${board.title}"></a>
+                    <a th:unless="${isMobile}" class="shorten" th:href="@{/board/{id}(id=${board.id})}" th:text="${#strings.length(board.title) > 10 ? #strings.substring(board.title, 0, 10) + '...' : board.title}"></a>
+                    <a th:if="${isMobile}" class="shorten" th:href="@{/board/{id}(id=${board.id})}" th:text="${#strings.length(board.title) > 8 ? #strings.substring(board.title, 0, 8) + '...' : board.title}"></a>
                 </td>
-                <td th:unless="${board.stuId=='ADMIN'}" th:text="${board.stuId}"></td>
-                <td th:if="${board.stuId=='ADMIN'}"></td>
-                <td th:unless="${board.stuId=='ADMIN'}" th:text="${board.name}"></td>
-                <td th:if="${board.stuId=='ADMIN'}"><strong>관리자</strong></td>
+                <div th:unless="${isMobile}">
+                    <td th:unless="${board.stuId=='ADMIN'}" th:text="${board.stuId}"></td>
+                    <td th:if="${board.stuId=='ADMIN'}"></td>
+                    <td th:unless="${board.stuId=='ADMIN'}" th:text="${board.name}"></td>
+                    <td th:if="${board.stuId=='ADMIN'}"><strong>관리자</strong></td>
+                </div>
+
                 <td th:text="${board.likeNumber.size()}"></td>
                 <div th:if="${board.editTime == null}">
                     <td th:text="${#temporals.format(board.writeTime, 'yyyy-MM-dd HH:mm')}"></td>
                 </div>
                 <div th:unless="${board.editTime == null}">
-                    <td th:text="${#temporals.format(board.editTime, 'yyyy-MM-dd HH:mm') + ' (수정)'}"></td>
+                    <td th:if="${isMobile}" th:utext="|${#temporals.format(board.editTime, 'yyyy-MM-dd HH:mm')}<br>(수정)|"></td>
+                    <td th:unless="${isMobile}" th:text="${#temporals.format(board.editTime, 'yyyy-MM-dd HH:mm') + ' (수정)'}"></td>
                 </div>
 
 
