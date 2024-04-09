@@ -5,7 +5,8 @@
 
 <div class="container">
 
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+    <h2>회원 정보 조회</h2><br>
 
     <h2>학번&nbsp;&nbsp;&nbsp;&nbsp;[[${student.stuId}]]</h2>
     <h2>이름&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${student.name}"></span></h2>

@@ -30,7 +30,7 @@
 <div class="container">
     <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
 
-    <h2>물품 현황 수정m</h2><br>
+    <h2>물품 현황 수정</h2><br>
     <div>
         <form th:object="${itemSearch}" class="form-inline">
             <style>
@@ -46,7 +46,7 @@
             </style>
             <div class="form-group mb-2">
                 <input type="text" th:field="*{category}" class="form-control small-font" placeholder="물품 카테고리"/>
-                <button type="submit" class="btn btn-outline-primary mb-2 btn-mobile">검색</button>
+                <button type="submit" class="btn btn-outline-primary mb-2 btn-sm">검색</button>
             </div>
 
             <div class="form-group mb-2">

@@ -4,9 +4,8 @@
 <body>
 
 <div class="container">
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
-
-
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+    <h2>회원 정보 조회</h2><br>
     <div>
         <form class="form-inline">
             <style>
@@ -28,6 +27,7 @@
         <table class="table table-striped">
             <thead>
             <tr>
+                <th>#</th>
                 <th>학번</th>
                 <th>이름</th>
                 <th>조회</th>
@@ -35,12 +35,14 @@
             </thead>
             <tbody>
             <tr th:each="student : ${students}">
+                <td th:text="${students.getNumber()*students.getSize() + studentStat.count}"></td>
                 <td th:text="${student.stuId}"></td>
                 <td th:text="${student.name}"></td>
                 <td><a href="#" th:href="@{/admin/student/{id} (id=${student.stuId})}" class="btn btn-outline-primary" role="button">조회</a></td>
             </tr>
             </tbody>
         </table>
+        <br>
     </div>
     <div style="text-align: center">
         <button class="btn btn-outline-dark btn-sm" th:disabled="${students.getNumber()}==0"

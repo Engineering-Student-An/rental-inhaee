@@ -44,6 +44,10 @@ public class AdminStudentController {
             model.addAttribute("students", studentService.findAllStudent(pageRequest));
         }
         model.addAttribute("studentSearch", studentSearch);
+
+        if((boolean) model.getAttribute("isMobile")) {
+            return "mobile/admin/student/list";
+        }
         return"admin/student/list";
     }
 
@@ -67,6 +71,10 @@ public class AdminStudentController {
         model.addAttribute("rentalList", rentalList);
         HttpSession httpSession = httpServletRequest.getSession(true);
         model.addAttribute("adminPassword", ((Student) model.getAttribute("loginStudent")).getPassword());
+
+        if ((boolean) model.getAttribute("isMobile")) {
+            return "mobile/admin/student/studentInfo";
+        }
         return "admin/student/studentInfo";
     }
 
