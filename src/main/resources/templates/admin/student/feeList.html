@@ -3,9 +3,8 @@
 <head th:replace="~{fragments/header :: header}">
 <body>
 <div class="container">
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
-
-
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+    <h2>학생회비 납부 명단 조회</h2><br>
     <div>
         <form class="form-inline">
             <style>
@@ -44,6 +43,7 @@
             </div>
         </form>
 
+        <br>
         <form id="deleteForm" th:action="@{/admin/student/feeList/delete}" method="post">
             <table class="table table-striped">
                 <thead>
@@ -98,7 +98,7 @@
         } else {
             var newTable = '<h4>학생회비 납부 학생 추가</h4>' +
                 '<div>' +
-                '<table class="table table-striped">' +
+                '<table class="table table-striped small-font">' +
                 '<thead>' +
                 '<tr>' +
                 '<th>학번</th>' +
@@ -107,14 +107,14 @@
                 '</thead>' +
                 '<tbody>' +
                 '<tr>' +
-                '<td><input type="text" class="form-control" name="newStuId" placeholder="학번 입력"></td>' +
-                '<td><input type="text" class="form-control" name="newName" placeholder="이름 입력"></td>' +
+                '<td><input type="text" class="form-control small-font" name="newStuId" placeholder="학번 입력"></td>' +
+                '<td><input type="text" class="form-control small-font" name="newName" placeholder="이름 입력"></td>' +
                 '</tr>' +
                 '</tbody>' +
                 '</table>' +
                 '</div>';
 
-            var addButton = '<button id="addButton" class="btn btn-outline-info btn-sm float-end" onclick="addStudent()">추가</button>'
+            var addButton = '<button id="addButton" class="btn btn-outline-info btn-mobile float-end" onclick="addStudent()">추가</button>'
 
             // 새로운 행을 기존 표의 tbody에 추가
             tableContainer.innerHTML += newTable + addButton;
@@ -143,8 +143,8 @@ function addWindow() {
 
 
             '<form action="/admin/student/feeList/upload" method="POST" enctype="multipart/form-data">' +
-                '<input type="file" name="excelFile">' +
-                '<input type="submit" value="업로드"/>' +
+                '<input type="file" class="btn btn-outline-secondary btn-sm" name="excelFile">' +
+                '<input type="submit" class="btn btn-outline-secondary btn-sm" value="업로드"/>' +
             '</form>' +
         '<p></p>';
 

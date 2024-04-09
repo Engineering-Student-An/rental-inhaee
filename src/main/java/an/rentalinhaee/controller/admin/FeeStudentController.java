@@ -43,7 +43,9 @@ public class FeeStudentController {
         }
         model.addAttribute("studentSearch", studentSearch);
 
-
+        if ((boolean) model.getAttribute("isMobile")) {
+            return "mobile/admin/student/feeList";
+        }
         return"admin/student/feeList";
     }
 
