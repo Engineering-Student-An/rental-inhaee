@@ -38,6 +38,10 @@ public class AdminItemController {
         }
 
         model.addAttribute("itemSearch", itemSearch);
+
+        if ((boolean) model.getAttribute("isMobile")) {
+            return "mobile/admin/item/list";
+        }
         return "admin/item/list";
     }
 

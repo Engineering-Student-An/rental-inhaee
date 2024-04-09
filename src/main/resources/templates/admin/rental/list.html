@@ -74,7 +74,7 @@
                 th:onclick="|location.href='@{/rental/list(page=${rentals.getNumber()}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
             <</button>
         &nbsp; &nbsp;
-        <span>[[${rentals.getNumber()+1}]] / [[${rentals.getTotalElements() == 0 ? 1 : rentals.getTotalPages()}]] page</span>
+        <span>[[${rentals.getNumber()+1}]] / [[${rentals.getTotalElements() == 0 ? 1 : rentals.getTotalPages()}]] </span>
         &nbsp; &nbsp;
         <button class="btn btn-outline-dark btn-sm" th:disabled="${!rentals.hasNext()}"
                 th:onclick="|location.href='@{/rental/list(page=${rentals.getNumber() + 2}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">

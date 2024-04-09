@@ -4,7 +4,7 @@
 <body>
 
 <div class="container">
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
     <h3>대여 물품 추가</h3><br>
     <form th:action="@{/admin/item/new}" th:object="${form}" method="post">
         <div class="form-group">

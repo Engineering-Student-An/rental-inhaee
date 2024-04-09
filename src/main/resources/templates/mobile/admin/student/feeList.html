@@ -72,7 +72,7 @@
                 th:onclick="|location.href='@{/admin/student/feeList(page=${students.getNumber()}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
             <</button>
         &nbsp; &nbsp;
-        <span>[[${students.getNumber()+1}]] / [[${students.getTotalElements() == 0 ? 1 : students.getTotalPages()}]] page</span>
+        <span>[[${students.getNumber()+1}]] / [[${students.getTotalElements() == 0 ? 1 : students.getTotalPages()}]] </span>
         &nbsp; &nbsp;
         <button class="btn btn-outline-dark btn-sm" th:disabled="${!students.hasNext()}"
                 th:onclick="|location.href='@{/admin/student/feeList(page=${students.getNumber() + 2}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">

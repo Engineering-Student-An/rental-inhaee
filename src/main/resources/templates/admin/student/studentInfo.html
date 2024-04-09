@@ -104,7 +104,7 @@
         <button class="btn btn-outline-dark btn-sm" th:disabled="${!rentalList.hasPrevious()}"
                 th:onclick="|location.href='@{/admin/student/{stuId}(page=${rentalList.getNumber()}, stuId=${rentalSearch.stuId}, rentalStatus=${rentalSearch.rentalStatus}) }'|">
             <</button>
-        <span>[[${rentalList.getNumber()+1}]] / [[${rentalList.getTotalElements() == 0 ? 1 : rentalList.getTotalPages()}]] page</span>
+        <span>[[${rentalList.getNumber()+1}]] / [[${rentalList.getTotalElements() == 0 ? 1 : rentalList.getTotalPages()}]] </span>
         <button class="btn btn-outline-dark btn-sm" th:disabled="${!rentalList.hasNext()}"
                 th:onclick="|location.href='@{/admin/student/{stuId}(page=${rentalList.getNumber() + 2}, stuId=${rentalSearch.stuId}, rentalStatus=${rentalSearch.rentalStatus})}'|">
             ></button>

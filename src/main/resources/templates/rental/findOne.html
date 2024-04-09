@@ -82,7 +82,7 @@
                 th:onclick="|location.href='@{/rental/findOne(page=${myRentalList.getNumber()}) }'|">
             <</button>
         &nbsp; &nbsp;
-        <span>[[${myRentalList.getNumber()+1}]] / [[${myRentalList.getTotalElements() == 0 ? 1 : myRentalList.getTotalPages()}]] page</span>
+        <span>[[${myRentalList.getNumber()+1}]] / [[${myRentalList.getTotalElements() == 0 ? 1 : myRentalList.getTotalPages()}]] </span>
         &nbsp; &nbsp;
         <button class="btn btn-outline-dark btn-sm" th:disabled="${!myRentalList.hasNext()}"
                 th:onclick="|location.href='@{/rental/findOne(page=${myRentalList.getNumber() + 2}) }'|">

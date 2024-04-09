@@ -46,7 +46,7 @@
                     th:onclick="|location.href='@{/board/list(noticePage=${notices.getNumber()}, boardPage=${boardPage}) }'|">
                 <</button>
             &nbsp; &nbsp;
-            <span>[[${notices.getNumber()+1}]] / [[${notices.getTotalElements() == 0 ? 1 : notices.getTotalPages()}]] page</span>
+            <span>[[${notices.getNumber()+1}]] / [[${notices.getTotalElements() == 0 ? 1 : notices.getTotalPages()}]] </span>
             &nbsp; &nbsp;
             <button class="btn btn-outline-dark btn-sm" th:disabled="${!notices.hasNext()}"
                     th:onclick="|location.href='@{/board/list(noticePage=${notices.getNumber() + 2}, boardPage=${boardPage}) }'|">
@@ -99,7 +99,7 @@
                 th:onclick="|location.href='@{/board/list(noticePage=${noticePage}, boardPage=${boards.getNumber()}) }'|">
             <</button>
         &nbsp; &nbsp;
-        <span>[[${boards.getNumber()+1}]] / [[${boards.getTotalElements() == 0 ? 1 : boards.getTotalPages()}]] page</span>
+        <span>[[${boards.getNumber()+1}]] / [[${boards.getTotalElements() == 0 ? 1 : boards.getTotalPages()}]] </span>
         &nbsp; &nbsp;
         <button class="btn btn-outline-dark btn-sm" th:disabled="${!boards.hasNext()}"
                 th:onclick="|location.href='@{/board/list(noticePage=${noticePage}, boardPage=${boards.getNumber() + 2}) }'|">

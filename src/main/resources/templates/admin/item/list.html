@@ -4,10 +4,10 @@
 
 <body>
 <div class="container">
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+
+    <h2>물품 현황 수정</h2><br>
     <div>
-
-
         <form th:object="${itemSearch}" class="form-inline">
             <style>
                 .inline-elements {
@@ -64,7 +64,7 @@
                 th:onclick="|location.href='@{/admin/item/list(page=${items.getNumber()}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
             <</button>
         &nbsp; &nbsp;
-        <span>[[${items.getNumber()+1}]] / [[${items.getTotalElements() == 0 ? 1 : items.getTotalPages()}]] page</span>
+        <span>[[${items.getNumber()+1}]] / [[${items.getTotalElements() == 0 ? 1 : items.getTotalPages()}]]</span>
         &nbsp; &nbsp;
         <button class="btn btn-outline-dark btn-sm" th:disabled="${!items.hasNext()}"
                 th:onclick="|location.href='@{/admin/item/list(page=${items.getNumber() + 2}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
