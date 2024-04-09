@@ -44,6 +44,10 @@ public class AdminHomeController {
             session.setAttribute("loginStudent", session.getAttribute("loginStudent"));
         }
 
+        if ((boolean) model.getAttribute("isMobile")) {
+            return "mobile/admin/home";
+        }
+
         return "admin/home";
     }
 

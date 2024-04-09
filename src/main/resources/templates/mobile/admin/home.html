@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}">
+
+<body>
+<div class="container">
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+    <div class="jumbotron">
+        <h3>관리자 전용 페이지m</h3>
+
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>[[${ann.title}]]</h2>
+            <a th:href="@{/admin/editAnnouncement}" class="btn btn-link" role="button">
+                <img th:src="@{/images/edit.png}" alt="수정">
+            </a>
+
+        </div>
+        <hr/>
+        <div class="text-bg-danger">
+            <div class="text-start">
+                <h3><div th:utext="${#strings.replace(ann.content, '\n', '<br/>')}"></div></h3>
+            </div>
+        </div><br><br>
+
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>관리자 도구</h2>
+        </div>
+        <hr/>
+
+        <div>
+            <a th:href="@{/admin/item/list}" class="btn btn-outline-primary" role="button" style="width: 70%">물품 현황 수정</a><br>
+        </div>
+        <br>
+        <div>
+            <a th:href="@{/admin/student/list}" class="btn btn-outline-primary" role="button">회원 정보 조회</a><br>
+
+        </div>
+        <br>
+        <div>
+            <a th:href="@{/admin/rental/list}" class="btn btn-outline-primary" role="button">대여 현황 조회</a><br>
+
+        </div><br>
+        <div>
+            <a th:href="@{/admin/student/feeList}" class="btn btn-outline-primary" role="button">학생회비 납부 명단 조회</a><br>
+        </div>
+        <br> <br>
+
+        <div class="d-flex justify-content-between align-items-end">
+            <h2>게시판</h2>
+            <a th:href="@{/board/list}" class="btn btn-sm" role="button" style="padding: 5px 5px; font-size: 20px;">+</a>
+        </div>
+        <hr/>
+        <div class="d-flex justify-content-between align-items-end">
+            <h5>최근 게시글</h5>
+        </div>
+        <div>
+            <table class="table table-striped">
+                <thead> <tr>
+                    <th>#</th> <th>제목</th> <th><img th:src="@{/images/thumbsUp.png}"></th> <th>작성 일자</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="board, iterStat : ${recentBoard}">
+                    <td th:text="${iterStat.count}"></td>
+                    <td>
+                        <a class="small-font" th:href="@{/board/{id}(id=${board.id})}"
+                           th:text="${#strings.length(board.title) > 5 ? #strings.substring(board.title, 0, 5) + '...' : board.title}"></a>
+                    </td>
+                    <td class="small-font" th:text="${board.likeNumber.size()}"></td>
+                    <div th:if="${board.editTime == null}">
+                        <td class="small-font" th:text="${#temporals.format(board.writeTime, 'MM-dd')}"></td>
+                    </div>
+                    <div th:unless="${board.editTime == null}">
+                        <td class="small-font" th:text="${#temporals.format(board.editTime, 'MM-dd') + ' (수정)'}"></td>
+                    </div>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+
+    </div>
+
+    <br>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</div> <!-- /container -->
+</body>
+</html>

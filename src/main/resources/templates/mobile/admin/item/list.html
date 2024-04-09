@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/header :: header}">
+
+<body>
+<div class="container">
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
+    <div>
+
+
+        <form th:object="${itemSearch}" class="form-inline">
+            <style>
+                .inline-elements {
+                    display: flex;
+                    align-items: center;
+                }
+            </style>
+            <div class="d-flex justify-content-between align-items-start">
+                <div class="inline-elements">
+                    <div class="form-group mb-2">
+                        <input type="text" th:field="*{category}" class="form-control" placeholder="물품 카테고리" /></div>
+                    &nbsp;
+                    <div class="form-group mb-2">
+                        <input type="text" th:field="*{name}" class="form-control" placeholder="물품 이름" /></div>
+                    &nbsp;
+                    <button type="submit" class="btn btn-outline-primary mb-2">검색</button>
+                </div>
+                <a href="/admin/item/new" class="btn btn-outline-success" role="button">물품 추가</a>
+
+            </div>
+        </form>
+        <br>
+
+        <table class="table table-striped">
+            <thead> <tr>
+                <th>카테고리</th> <th>물품 이름</th> <th>대여 가능 재고</th> <th>총 재고</th> <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${items}">
+                <td th:text="${item.category}"></td>
+                <td th:text="${item.name}"></td>
+                <td th:text="${item.stockQuantity}"></td>
+                <td th:text="${item.allStockQuantity}"></td>
+                <td>
+                    <div class="text-end">
+                        <a href="#" th:href="@{/admin/item/{id}/edit (id=${item.id})}" class="btn btn-outline-primary" role="button">수정</a>
+                        <a href="#" onclick="return confirm('물품 삭제 시 해당 물품의 대여 기록도 삭제 됩니다. \n정말 물품을 삭제하겠습니까?');"
+                           th:href="@{/admin/item/{id}/delete (id=${item.id})}" class="btn btn-outline-danger" role="button">삭제</a>
+                    </div>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+
+    <div style="text-align: center">
+        <button class="btn btn-outline-dark btn-sm" th:disabled="${items.getNumber()}==0"
+                th:onclick="|location.href='@{/admin/item/list(page=${1}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
+            <<</button>
+        <button class="btn btn-outline-dark btn-sm" th:disabled="${!items.hasPrevious()}"
+                th:onclick="|location.href='@{/admin/item/list(page=${items.getNumber()}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
+            <</button>
+        &nbsp; &nbsp;
+        <span>[[${items.getNumber()+1}]] / [[${items.getTotalElements() == 0 ? 1 : items.getTotalPages()}]] page</span>
+        &nbsp; &nbsp;
+        <button class="btn btn-outline-dark btn-sm" th:disabled="${!items.hasNext()}"
+                th:onclick="|location.href='@{/admin/item/list(page=${items.getNumber() + 2}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
+            ></button>
+        <button class="btn btn-outline-dark btn-sm" th:disabled="${!items.hasNext()}"
+                th:onclick="|location.href='@{/admin/item/list(page=${items.getTotalPages()}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
+            >></button>
+    </div>
+    <br>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</div> <!-- /container -->
+</body>
+</html>

@@ -1,17 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" >
-<head th:replace="~{fragments/header :: header}">
-
-<style>
-    .shorten {
-        display: inline-block;
-        width: 150px; /* 원하는 길이 설정 */
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-</style>
-
+<head th:replace="~{fragments/header :: header}"></head>
 <body>
 <div class="container">
     <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
@@ -72,7 +61,7 @@
                         <tr th:each="board, iterStat : ${recentBoard}">
                             <td th:text="${iterStat.count}"></td>
                             <td>
-                                <a class="shorten" th:href="@{/board/{id}(id=${board.id})}"
+                                <a th:href="@{/board/{id}(id=${board.id})}"
                                    th:text="${#strings.length(board.title) > 5 ? #strings.substring(board.title, 0, 5) + '...' : board.title}"></a>
                             </td>
 
@@ -102,7 +91,7 @@
                         <tr th:each="board, iterStat : ${hotBoard}">
                             <td th:text="${iterStat.count}"></td>
                             <td>
-                                <a class="shorten" th:href="@{/board/{id}(id=${board.id})}"
+                                <a th:href="@{/board/{id}(id=${board.id})}"
                                    th:text="${#strings.length(board.title) > 5 ? #strings.substring(board.title, 0, 5) + '...' : board.title}"></a>
                             </td>
                             <td th:text="${board.likeNumber.size()}"></td>
