@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: header}">
+<head th:replace="~{fragments/header :: header}"></head>
 
 <body>
 <div class="container">
@@ -54,7 +54,7 @@
                     <tr th:each="board, iterStat : ${recentBoard}">
                         <td th:text="${iterStat.count}"></td>
                         <td>
-                            <a class="shorten" th:href="@{/board/{id}(id=${board.id})}" th:text="${board.title}"></a>
+                            <a th:href="@{/board/{id}(id=${board.id})}" th:text="${#strings.length(board.title) > 10 ? #strings.substring(board.title, 0, 10) + '...' : board.title}"></a>
                         </td>
                         <td th:text="${board.likeNumber.size()}"></td>
                         <div th:if="${board.editTime == null}">
