@@ -46,8 +46,9 @@ jobs:
     - name: Docker Image Build
       run: |
         docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.PROJECT_NAME }} \
-        --build-arg MAIL_USERNAME=${{ secrets.MAIL_USERNAME }} \
-        --build-arg MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }} .
+        --build-arg SPRING_MAIL_USERNAME=${{ secrets.MAIL_USERNAME }} \
+        --build-arg SPRING_MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }} .
+
 
     # DockerHub Push
     - name: DockerHub Push
