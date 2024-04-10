@@ -30,9 +30,22 @@ public class RentalQueryRepository {
                 .join(rental.student, student).join(rental.item, item)
                 .where(stuIdLike(rentalSearch.getStuId()), statusEq(rentalSearch.getRentalStatus()), itemNameLike(rentalSearch.getItemName()))
                 .orderBy(rental.status.asc(),rental.rentalDate.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
 
-        return new PageImpl<>(results);
+        // 전체 카운트 조회 쿼리
+        long total = query.selectFrom(rental)
+                .join(rental.student, student)
+                .join(rental.item, item)
+                .where(
+                        stuIdLike(rentalSearch.getStuId()),
+                        statusEq(rentalSearch.getRentalStatus()),
+                        itemNameLike(rentalSearch.getItemName())
+                )
+                .fetchCount();
+
+        return new PageImpl<>(results, pageable, total);
     }
 
     private static BooleanExpression itemNameLike(String itemName) {

@@ -40,6 +40,7 @@
         <table class="table table-striped">
             <thead>
             <tr>
+                <th>#</th>
                 <th>대여 일자</th>
                 <th>반납 일자</th>
                 <th>대여 물품</th>
@@ -50,6 +51,7 @@
             </thead>
             <tbody>
             <tr th:each="rental : ${rentals}">
+                <td th:text="${rentals.getNumber()*rentals.getSize() + rentalStat.count}"></td>
                 <td th:text="${rental.rentalDate}"></td>
                 <td th:text="${rental.finishRentalDate}"></td>
                 <td th:unless="${rental.item.name == ''}" th:text="${rental.item.name}"></td>
@@ -69,19 +71,19 @@
 
     <div style="text-align: center">
         <button class="btn btn-outline-dark btn-sm" th:disabled="${rentals.getNumber()}==0"
-                th:onclick="|location.href='@{/rental/list(page=${1}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
+                th:onclick="|location.href='@{/admin/rental/list(page=${1}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
             <<</button>
         <button class="btn btn-outline-dark btn-sm" th:disabled="${!rentals.hasPrevious()}"
-                th:onclick="|location.href='@{/rental/list(page=${rentals.getNumber()}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
+                th:onclick="|location.href='@{/admin/rental/list(page=${rentals.getNumber()}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
             <</button>
         &nbsp; &nbsp;
         <span>[[${rentals.getNumber()+1}]] / [[${rentals.getTotalElements() == 0 ? 1 : rentals.getTotalPages()}]] </span>
         &nbsp; &nbsp;
         <button class="btn btn-outline-dark btn-sm" th:disabled="${!rentals.hasNext()}"
-                th:onclick="|location.href='@{/rental/list(page=${rentals.getNumber() + 2}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
+                th:onclick="|location.href='@{/admin/rental/list(page=${rentals.getNumber() + 2}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
             ></button>
         <button class="btn btn-outline-dark btn-sm" th:disabled="${!rentals.hasNext()}"
-                th:onclick="|location.href='@{/rental/list(page=${rentals.getTotalPages()}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
+                th:onclick="|location.href='@{/admin/rental/list(page=${rentals.getTotalPages()}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
             >></button>
     </div>
     <br>
