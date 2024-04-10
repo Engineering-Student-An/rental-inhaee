@@ -11,6 +11,16 @@
     .small-font {
         font-size: 13px;
     }
+    .table {
+        margin: 0;
+        width: 100%; /* 테이블이 부모 요소의 전체 너비를 차지하도록 설정 */
+    }
+    .table-container {
+        overflow: hidden;
+        border: 2px solid #625e5e;
+        border-radius: 20px;
+        padding: 0; /* 여기서는 패딩을 0으로 설정 */
+    }
 </style>
 <body>
 
@@ -20,28 +30,32 @@
     <div>
         <br/>
         <h3>공지사항 <img th:src="@{/images/announcement.png}" alt="공지사항"></h3><br/>
-        <table class="table">
-            <thead>
-            <tr>
-                <th>#</th> <th>공지사항</th> <th>작성 일자</th>
-            </tr>
-            </thead>
-            <tbody class="table table-danger">
-            <tr th:each="notice : ${notices}">
-                <td class="small-font" th:text="${notices.getNumber()*notices.getSize() + noticeStat.count}"></td>
-                <td>
-                    <a class="small-font" th:href="@{/board/{id}(id=${notice.id})}" th:text="${#strings.length(notice.title) > 8 ? #strings.substring(notice.title, 0, 8) + '...' : notice.title}"></a>
-                </td>
-                <div th:if="${notice.editTime == null}">
-                    <td class="small-font" th:text="${#temporals.format(notice.writeTime, 'yyyy-MM-dd')}"></td>
-                </div>
-                <div th:unless="${notice.editTime == null}">
-                    <td class="small-font" th:utext="|${#temporals.format(notice.editTime, 'yyyy-MM-dd')}<br>(수정)|"></td>
-                </div>
-            </tr>
-            </tbody>
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th> <th>공지사항</th> <th>작성 일자</th>
+                </tr>
+                </thead>
+                <tbody class="table-danger">
+                <tr th:each="notice : ${notices}">
+                    <td class="small-font" th:text="${notices.getNumber()*notices.getSize() + noticeStat.count}"></td>
+                    <td>
+                        <a class="small-font" th:href="@{/board/{id}(id=${notice.id})}" th:text="${#strings.length(notice.title) > 8 ? #strings.substring(notice.title, 0, 8) + '...' : notice.title}"></a>
+                    </td>
+                    <div th:if="${notice.editTime == null}">
+                        <td class="small-font" th:text="${#temporals.format(notice.writeTime, 'yyyy-MM-dd')}"></td>
+                    </div>
+                    <div th:unless="${notice.editTime == null}">
+                        <td class="small-font" th:utext="|${#temporals.format(notice.editTime, 'yyyy-MM-dd')}<br>(수정)|"></td>
+                    </div>
+                </tr>
+                </tbody>
 
-        </table>
+            </table>
+        </div>
+        <br>
+
         <div style="text-align: center" class="small-font">
             <button class="btn btn-outline-dark btn-mobile" th:disabled="${notices.getNumber()}==0"
                     th:onclick="|location.href='@{/board/list(noticePage=${1}, boardPage=${boardPage})}'|">
@@ -61,7 +75,7 @@
         </div>
         <br>
 
-        <br/><hr/><br>
+        <hr/><br>
         <div class="d-flex justify-content-between">
             <h3>게시글</h3>
             <a href="/board/new" class="btn btn-outline-primary ms-auto" role="button">게시글 작성</a>
@@ -90,7 +104,7 @@
             </tr>
             </tbody>
         </table>
-    </div>
+    </div><br>
     <div style="text-align: center" class="small-font">
         <button class="btn btn-outline-dark btn-mobile" th:disabled="${boards.getNumber()}==0"
                 th:onclick="|location.href='@{/board/list(noticePage=${noticePage}, boardPage=${1}) }'|">
