@@ -18,6 +18,14 @@ COPY --from=builder /build/build/libs/rental-inhaee-0.0.1-SNAPSHOT.jar .
 
 EXPOSE 8080
 
+# 환경 변수를 위한 ARG 선언
+ARG SPRING_MAIL_USERNAME
+ARG SPRING_MAIL_PASSWORD
+
+# 환경 변수를 환경 변수로 설정
+ENV SPRING_MAIL_USERNAME=${SPRING_MAIL_USERNAME}
+ENV SPRING_MAIL_PASSWORD=${SPRING_MAIL_PASSWORD}
+
 # root 대신 nobody 권한으로 실행
 USER nobody
 ENTRYPOINT [ \
@@ -25,5 +33,7 @@ ENTRYPOINT [ \
    "-jar", \
    "-Djava.security.egd=file:/dev/./urandom", \
    "-Dsun.net.inetaddr.ttl=0", \
+   "-Dspring.mail.username=${SPRING_MAIL_USERNAME}", \
+   "-Dspring.mail.password=${SPRING_MAIL_PASSWORD}", \
    "rental-inhaee-0.0.1-SNAPSHOT.jar" \
 ]
