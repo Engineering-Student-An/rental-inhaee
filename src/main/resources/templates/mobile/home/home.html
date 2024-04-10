@@ -30,9 +30,9 @@
                 <h2>[[${ann.title}]]</h2>
             </div>
             <hr/>
-            <div class="text-bg-danger">
+            <div style="overflow: hidden; border-radius: 10px; padding: 20px; background: rgba(246,69,69,0.66)">
                 <div class="text-start">
-                    <h3><div th:utext="${#strings.replace(ann.content, '\n', '<br/>')}"></div></h3>
+                    <h4><div th:utext="${#strings.replace(ann.content, '\n', '<br/>')}"></div></h4>
                 </div>
             </div><br><br>
 
