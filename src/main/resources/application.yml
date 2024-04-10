@@ -2,6 +2,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+
   jpa:
     hibernate:
 #      ddl-auto: create
@@ -13,8 +14,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: chm20060
-    password: aplsnsbodvlydaao
+#    username:
+#    password:
     properties:
       mail:
         smtp:
@@ -31,7 +32,6 @@ spring:
   devtools:
     restart:
       enabled: false
-
 
 
 logging.level:
