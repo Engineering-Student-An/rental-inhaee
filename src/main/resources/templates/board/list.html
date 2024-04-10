@@ -13,16 +13,17 @@
 <div class="container">
 
     <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
+
     <div>
         <br/>
         <h3>공지사항 <img th:src="@{/images/announcement.png}" alt="공지사항"></h3><br/>
-        <table class="table table-striped">
+        <table class="table">
             <thead>
             <tr>
                 <th>#</th> <th>공지사항</th> <th>작성 일자</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody class="table table-danger">
             <tr th:each="notice : ${notices}">
                 <td th:text="${notices.getNumber()*notices.getSize() + noticeStat.count}"></td>
                 <td>
@@ -55,9 +56,9 @@
                     th:onclick="|location.href='@{/board/list(noticePage=${notices.getTotalPages()}, boardPage=${boardPage} ) }'|">
                 >></button>
         </div>
-        <br>
-
-        <br/><hr/><br>
+        <br><br>
+    </div>
+        <hr/><br>
         <div class="d-flex justify-content-between">
             <h3>게시글</h3>
             <a href="/board/new" class="btn btn-outline-primary ms-auto" role="button">게시글 작성</a>
@@ -107,7 +108,6 @@
         <button class="btn btn-outline-dark btn-sm" th:disabled="${!boards.hasNext()}"
                 th:onclick="|location.href='@{/board/list(noticePage=${noticePage}, boardPage=${boards.getTotalPages()} ) }'|">
             >></button>
-    </div>
     <br>
     <div th:replace="~{fragments/footer :: footer}"></div>
 </div> <!-- /container -->
