@@ -109,7 +109,8 @@
         <form th:action="@{/board/{id}/reply/new(id=${id})}" th:object="${form}" method="post" class="form-container">
             <div class="form-group">
                 <label th:for="content"><strong>댓글 작성</strong></label>
-                <textarea th:field="*{content}" th:errorclass="error-input" class="form-control small-font" placeholder="작성 내용을 입력하세요&#10;(등록 시 수정은 불가합니다)"></textarea>
+                <textarea th:if="${loginStudent!=null}" th:field="*{content}" th:errorclass="error-input" class="form-control" placeholder="작성 내용을 입력하세요 (등록 시 수정은 불가합니다)"></textarea>
+                <textarea th:if="${loginStudent==null}" th:field="*{content}" th:errorclass="error-input" class="form-control" placeholder="로그인 후 댓글 작성이 가능합니다"></textarea>
                 <div class="error-class" th:errors="*{content}"></div>
             </div>
 
