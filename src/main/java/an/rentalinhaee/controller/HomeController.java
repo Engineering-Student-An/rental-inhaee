@@ -57,8 +57,10 @@ public class HomeController {
         model.addAttribute("isMobile", model.getAttribute("isMobile"));
 
         String referrer = request.getHeader("Referer");
-        // 이전 페이지의 URL을 세션에 "prevPage"라는 이름으로 저장
-        session.setAttribute("prevPage", referrer != null ? referrer : "/");
+        if(!referrer.contains("/error")) {
+            // 이전 페이지의 URL을 세션에 "prevPage"라는 이름으로 저장
+            session.setAttribute("prevPage", referrer != null ? referrer : "/");
+        }
 
         return "home/login";
     }
