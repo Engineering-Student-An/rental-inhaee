@@ -57,8 +57,8 @@
                 </style>
                 <div class="form-group mb-2">
                     <input type="text" th:field="*{stuId}" class="form-control small-font" placeholder="학생 학번" />
-                    <button type="submit" class="btn btn-primary mb-2 btn-mobile">
-                        <span class="material-symbols-outlined" style="font-size: 13px">search</span>
+                    <button type="submit" style="border: none; background: none; cursor: pointer">
+                        <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top; font-size: 20px">search</span>
                     </button>
                 </div>
                 <div class="form-group mb-2">
@@ -120,20 +120,20 @@
         </table>
     </div>
 
-    <div style="text-align: center">
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${rentals.getNumber()}==0"
+    <div style="text-align: center" class="small-font">
+        <button class="btn btn-outline-dark btn-mobile" th:disabled="${rentals.getNumber()}==0"
                 th:onclick="|location.href='@{/admin/rental/list(page=${1}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
             <<</button>
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${!rentals.hasPrevious()}"
+        <button class="btn btn-outline-dark btn-mobile" th:disabled="${!rentals.hasPrevious()}"
                 th:onclick="|location.href='@{/admin/rental/list(page=${rentals.getNumber()}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
             <</button>
         &nbsp; &nbsp;
         <span>[[${rentals.getNumber()+1}]] / [[${rentals.getTotalElements() == 0 ? 1 : rentals.getTotalPages()}]] </span>
         &nbsp; &nbsp;
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${!rentals.hasNext()}"
+        <button class="btn btn-outline-dark btn-mobile" th:disabled="${!rentals.hasNext()}"
                 th:onclick="|location.href='@{/admin/rental/list(page=${rentals.getNumber() + 2}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
             ></button>
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${!rentals.hasNext()}"
+        <button class="btn btn-outline-dark btn-mobile" th:disabled="${!rentals.hasNext()}"
                 th:onclick="|location.href='@{/admin/rental/list(page=${rentals.getTotalPages()}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
             >></button>
     </div>

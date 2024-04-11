@@ -20,18 +20,23 @@
             <div class="form-group mb-2" style="width: 60%"><input type="text" class="form-control small-font" name="stuId"  placeholder="학생 학번" > </div>
             <div class="d-flex justify-content-start">
                 <div class="form-group mb-2" style="width: 60%; margin-right: 10px"><input type="text" class="form-control small-font" name="name"  placeholder="학생 이름" > </div>
-                <button class="btn btn-primary mb-2 btn-mobile" type="submit">
-                    <span class="material-symbols-outlined" style="font-size: 13px">search</span>
+                <button type="submit" style="border: none; background: none; cursor: pointer">
+                    <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top; font-size: 20px">search</span>
                 </button>
             </div>
 
 
 
         </form>
+        &nbsp;
+        <a onclick="addTable()"><span class="material-symbols-outlined" style="color: #0b5ed7; cursor: pointer">person_add</span></a>
+        &nbsp;
+        <button type="submit" style="border: none; background: none; cursor: pointer" form="deleteForm" onclick="return confirmDelete()">
+            <span class="material-symbols-outlined" style="color: red; vertical-align: top;">person_off</span>
+        </button>
+        &nbsp;
+        <a onclick="addWindow()"><span class="material-symbols-outlined" style="color: #20c997; cursor: pointer; ">upload_file</span></a>
 
-        <a class="btn btn-outline-info btn-mobile" onclick="addTable()">추가</a>
-        <button type="submit" class="btn btn-outline-danger btn-mobile" form="deleteForm" onclick="return confirmDelete()">삭제</button>
-        <a class="btn btn-outline-primary btn-mobile" onclick="addWindow()">업로드</a>
     </div>
     <div id="tableContainer">
         <table class="table table-striped">
@@ -94,7 +99,7 @@
             tableContainer.innerHTML = '';
             tableAdded = false;
         } else {
-            var newTable = '<h6>학생회비 납부 학생 추가</h6>' +
+            var newTable = '<br><h6>학생회비 납부 학생 추가</h6>' +
                 '<div>' +
                 '<table class="table table-striped small-font">' +
                 '<thead>' +
@@ -112,7 +117,7 @@
                 '</table>' +
                 '</div>';
 
-            var addButton = '<button id="addButton" class="btn btn-outline-info btn-mobile float-end" onclick="addStudent()">추가</button>'
+            var addButton = '<button id="addButton" class="material-symbols-outlined"  style="color: #0b5ed7; background: none; border: none; cursor: pointer" onclick="addStudent()">person_add</button><br>'
 
             // 새로운 행을 기존 표의 tbody에 추가
             tableContainer.innerHTML += newTable + addButton;
@@ -137,14 +142,15 @@ function addWindow() {
         windowAdded = false;
     } else {
 
-        var newWindow = '<h6>학생회비 납부 명단 업로드 (엑셀 파일만 업로드!)</h6>' +
+        var newWindow = '<br><h6>학생회비 납부 명단 업로드 (엑셀 파일만 업로드!)</h6>' +
 
 
             '<form action="/admin/student/feeList/upload" method="POST" enctype="multipart/form-data">' +
-                '<input type="file" class="small-font" name="excelFile">' +
-                '<input type="submit" class="small-font" value="업로드"/>' +
-            '</form>' +
-        '<p></p>';
+            '<input type="file" class="btn btn-outline-secondary btn-sm" name="excelFile">' +
+            '<button type="submit" style="border: none; background: none; cursor: pointer"><span class="material-symbols-outlined" style="color: #20c997; vertical-align: top">upload_file</span></button>' +
+
+            '</form><br>' +
+            '<p></p>';
 
         windowContainer.innerHTML += newWindow;
         windowAdded = true;
