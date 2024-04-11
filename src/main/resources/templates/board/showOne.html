@@ -66,13 +66,13 @@
 
         <div class="border p-3" style="white-space: pre-line; word-break: break-all" th:text="${board.content}"></div><br><br>
         <div class="d-flex justify-content-end">
-            <div th:if="${loginStudent.getStuId() == board.stuId}">
+            <div th:if="${loginStudent != null and loginStudent.getStuId() == board.stuId}">
                 <a th:href="@{/board/{id}/edit(id=${board.id})}" >
                     <span class="material-symbols-outlined" >edit_note</span>
                 </a>
             </div>
             &nbsp;&nbsp;
-            <div th:if="${loginStudent.getStuId() == board.stuId || loginStudent.getRole().toString() == 'ADMIN'}">
+            <div th:if="${loginStudent != null and (loginStudent.getStuId() == board.stuId || loginStudent.getRole().toString() == 'ADMIN')}">
                 <a href="#" onclick="return confirm('게시글을 삭제하시겠습니까?');"
                    th:href="@{/board/{id}/delete(id=${board.id})}">
                     <span class="material-symbols-outlined" style="color: red">delete</span>
@@ -80,12 +80,15 @@
             </div>
             &nbsp;&nbsp;
             <div>
-                <a th:href="@{/board/{id}/like(id=${id})}"
+                <a th:if="${loginStudent!=null}" th:href="@{/board/{id}/like(id=${id})}"
                    th:onclick="${board.isLike(loginStudent.getStuId()) == true} ? @{return confirm('해당 게시글의 좋아요를 취소 하시겠습니까?');} : ''">
 
                     <span th:if="${board.isLike(loginStudent.getStuId())}" class="material-icons" style="color: black">thumb_up</span>
                     <span th:if="${!board.isLike(loginStudent.getStuId())}" class="material-symbols-outlined" style="color: black">thumb_up</span>
 
+                </a>
+                <a th:if="${loginStudent==null}" th:href="@{/board/{id}/like(id=${id})}">
+                    <span class="material-symbols-outlined" style="color: black">thumb_up</span>
                 </a>
             </div>
 
@@ -111,13 +114,16 @@
                     <span class="line-break">
                         <span th:text="${reply.stuId}"></span><br>
                         <span th:text="${reply.name}"></span>
-                        <div th:if="${loginStudent.getStuId() == reply.stuId || loginStudent.getRole().toString() == 'ADMIN'}" >
-                            <br>
-                            <a href="#" onclick="return confirm('댓글을 삭제하시겠습니까?');"
-                               th:href="@{/board/{id}/reply/{replyId}/delete(id=${id}, replyId=${reply.id})}">
-                                <span class="material-symbols-outlined" style="color: red">delete</span>
-                            </a>
+                        <div th:if="${loginStudent != null}">
+                            <div th:if="${loginStudent.getStuId() == reply.stuId || loginStudent.getRole().toString() == 'ADMIN'}" >
+                                <br>
+                                <a href="#" onclick="return confirm('댓글을 삭제하시겠습니까?');"
+                                   th:href="@{/board/{id}/reply/{replyId}/delete(id=${id}, replyId=${reply.id})}">
+                                    <span class="material-symbols-outlined" style="color: red">delete</span>
+                                </a>
+                            </div>
                         </div>
+
                     </span>
                 </td>
 
@@ -127,10 +133,14 @@
                     </div>
                     <div class="d-flex justify-content-between">
                         <div>
-                            <a style="text-decoration: none" th:href="@{/reply/{id}/like(id=${reply.id}, boardId=${board.id})}"
+
+                            <a th:if="${loginStudent != null}" style="text-decoration: none" th:href="@{/reply/{id}/like(id=${reply.id}, boardId=${board.id})}"
                                th:onclick="${reply.isLike(loginStudent.getStuId()) == true} ? @{return confirm('해당 댓글의 좋아요를 취소 하시겠습니까?');} : ''">
                                 <span th:if="${reply.isLike(loginStudent.getStuId())}" class="material-icons" style="color: black">thumb_up</span>
                                 <span th:if="${!reply.isLike(loginStudent.getStuId())}" class="material-symbols-outlined" style="color: black">thumb_up</span>
+                            </a>
+                            <a th:if="${loginStudent == null}" style="text-decoration: none" th:href="@{/reply/{id}/like(id=${reply.id}, boardId=${board.id})}">
+                                <span class="material-symbols-outlined" style="color: black">thumb_up</span>
                             </a>
                             <div th:text="${reply.likeNumber.size()}"></div>
                         </div>

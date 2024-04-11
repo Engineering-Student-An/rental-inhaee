@@ -17,12 +17,13 @@ public class SecurityConfig {
         http
 
                 .authorizeHttpRequests((auth) -> auth
-                            .requestMatchers("/", "/login/**", "/findPassword/**", "/join/**","/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/rental/**", "/board/new", "/board/*/like", "/board/*/reply/new", "/reply/*/like").authenticated()
+//                            .requestMatchers("/", "/login/**", "/findPassword/**", "/join/**","/css/**", "/js/**", "/images/**").permitAll()
                             .requestMatchers("/admin/**").hasRole(StudentRole.ADMIN.name())
                         // ** : 와일드카드, hasAnyRole => 여러 개의 role 설정 가능
-                        .requestMatchers("/**").hasAnyRole(StudentRole.ADMIN.name(), StudentRole.USER.name())
+//                        .requestMatchers("/**").hasAnyRole(StudentRole.ADMIN.name(), StudentRole.USER.name())
                         // anyRequest => 위에서 처리하지 못한 나머지 경로에 대한 처리
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 );
         http
                 .formLogin((auth) -> auth.loginPage("/login")

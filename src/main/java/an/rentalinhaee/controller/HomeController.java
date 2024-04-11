@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,18 +33,17 @@ public class HomeController {
     private final FeeStudentService feeStudentService;
 
     @GetMapping(value = {"", "/"})
-    public String home(Model model, /*@SessionAttribute(name = "loginStuId", required = false) String stuId,*/ HttpSession session){
+    public String home(Model model){
+
+//        String loginStuId = SecurityContextHolder.getContext().getAuthentication().getName();
+//        Student loginStudent = studentService.findStudent(loginStuId);
+
+        model.addAttribute("ann", ruleRepository.findAnnouncementById(1L));
+
+        model.addAttribute("recentBoard", boardService.findRecentBoard());
+        model.addAttribute("hotBoard", boardService.findHotBoard());
 
 
-        String loginStuId = SecurityContextHolder.getContext().getAuthentication().getName();
-        Student loginStudent = studentService.findStudent(loginStuId);
-
-        if (loginStudent != null) {
-            model.addAttribute("ann", ruleRepository.findAnnouncementById(1L));
-
-            model.addAttribute("recentBoard", boardService.findRecentBoard());
-            model.addAttribute("hotBoard", boardService.findHotBoard());
-        }
         model.addAttribute("isMobile", model.getAttribute("isMobile"));
 
         return (boolean) model.getAttribute("isMobile") ? "mobile/home/home" : "home/home";
