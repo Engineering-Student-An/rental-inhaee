@@ -32,8 +32,8 @@
 
             <div class="form-group mb-2">
                 <input type="text" class="form-control small-font" name="stuId"  placeholder="학생 학번">
-                <button class="btn btn-outline-primary mb-2 btn-sm" type="submit">
-                    <span class="material-symbols-outlined" style="font-size: 13px">search</span>
+                <button type="submit" style="border: none; background: none; cursor: pointer">
+                    <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top">search</span>
                 </button>
             </div>
             <div class="form-group mb-2">
@@ -56,7 +56,11 @@
                 <td th:text="${students.getNumber()*students.getSize() + studentStat.count}"></td>
                 <td th:text="${student.stuId}"></td>
                 <td th:text="${student.name}"></td>
-                <td><a href="#" th:href="@{/admin/student/{id} (id=${student.stuId})}" class="btn btn-outline-primary btn-sm" role="button">조회</a></td>
+                <td>
+                    <a href="#" th:href="@{/admin/student/{id} (id=${student.stuId})}">
+                        <span class="material-symbols-outlined" style="font-size: 20px">person_check</span>
+                    </a>
+                </td>
             </tr>
             </tbody>
         </table>

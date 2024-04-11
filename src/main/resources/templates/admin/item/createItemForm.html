@@ -22,7 +22,9 @@
             <div class="error-class" th:errors="*{allStockQuantity}"></div>
         </div><br>
 
-        <button type="submit" class="btn btn-primary">Submit</button><br>
+        <button type="submit" style="border: none; background: none; cursor: pointer">
+            <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top">edit</span>
+        </button>
     </form>
     <br>
     <div th:replace="~{fragments/footer :: footer}"></div>
