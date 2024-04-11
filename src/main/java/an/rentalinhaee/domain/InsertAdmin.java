@@ -27,8 +27,8 @@ public class InsertAdmin implements CommandLineRunner {
 //        joinRequest.setPassword("ADMIN");
 //        joinRequest.setPasswordCheck("ADMIN");
 //        studentService.join(joinRequest, "chm20060@gmail.com");
-//
-//
+
+
 //        Rule announcement = new Rule("필독!", "규칙1. ㅅㄱ");
 //        ruleRepository.save(announcement);
 

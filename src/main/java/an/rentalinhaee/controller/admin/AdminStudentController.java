@@ -3,6 +3,7 @@ package an.rentalinhaee.controller.admin;
 
 import an.rentalinhaee.domain.Rental;
 import an.rentalinhaee.domain.Student;
+import an.rentalinhaee.domain.StudentRole;
 import an.rentalinhaee.repository.RentalSearch;
 import an.rentalinhaee.repository.StudentSearch;
 import an.rentalinhaee.service.RentalService;
@@ -86,6 +87,11 @@ public class AdminStudentController {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         if(studentService.passwordCheck(((Student) model.getAttribute("loginStudent")).getStuId() ,password)){
+            if(studentService.findStudent(stuId).getRole().equals(StudentRole.ADMIN) ) {
+                model.addAttribute("errorMessage", "관리자 계정은 삭제할 수 없습니다.");
+                model.addAttribute("nextUrl", "/admin/student/list");
+                return "error/errorMessage";
+            }
             if(studentService.delete(stuId)) {
                 model.addAttribute("errorMessage", "계정 삭제가 완료되었습니다.\n대여 정보, 게시글, 댓글이 모두 삭제되었습니다.");
                 model.addAttribute("nextUrl", "/admin/student/list");
