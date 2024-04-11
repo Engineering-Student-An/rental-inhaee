@@ -16,17 +16,21 @@
     <div class="d-flex justify-content-between">
         <div style="text-align: left">
             <a th:if="${loginStudent != null and loginStudent.getRole().toString() == 'ADMIN'}" href="/admin">
-                <img th:if="${isMobile}" th:src="@{/images/home_m.png}" alt="home"/>
-                <img th:unless="${isMobile}" th:src="@{/images/home.png}" alt="home"/></a>
+                <span th:if="${isMobile}" class="material-symbols-outlined" style="font-size: 30px; color: #605f5f">home</span>
+                <span th:unless="${isMobile}" class="material-symbols-outlined" style="font-size: 48px; color: #605f5f">home</span>
+            </a>
+
             <a th:if="${loginStudent == null or loginStudent.getRole().toString() != 'ADMIN'}" href="/">
-                <img th:if="${isMobile}" th:src="@{/images/home_m.png}" alt="home"/>
-                <img th:unless="${isMobile}" th:src="@{/images/home.png}" alt="home"/></a>
+                <span th:if="${isMobile}" class="material-symbols-outlined" style="font-size: 30px; color: #605f5f">home</span>
+                <span th:unless="${isMobile}" class="material-symbols-outlined" style="font-size: 48px; color: #605f5f">home</span>
+            </a>
         </div>
+
         <div class="dropdown">
 
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
                     th:classappend="${isMobile} ? 'btn-very-small'">
-                내 정보
+                <span class="material-symbols-outlined" th:styleappend="${isMobile} ? 'font-size: 20px'">account_circle</span>
             </button>
             <div class="dropdown-menu p-3 text-muted" style="max-width: 200px;">
                 <div th:if="${loginStudent == null}">
