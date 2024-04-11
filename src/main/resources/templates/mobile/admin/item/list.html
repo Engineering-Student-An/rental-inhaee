@@ -46,8 +46,8 @@
             </style>
             <div class="form-group mb-2">
                 <input type="text" th:field="*{category}" class="form-control small-font" placeholder="물품 카테고리"/>
-                <button type="submit" class="btn btn-outline-primary mb-2 btn-sm">
-                    <span class="material-symbols-outlined" style="font-size: 13px">search</span>
+                <button type="submit" style="border: none; background: none; cursor: pointer">
+                    <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top; font-size: 20px">search</span>
                 </button>
             </div>
 
@@ -71,12 +71,17 @@
                 <td div th:text="${item.name}"></td>
                 <td>
                     <!-- 재고 수량 표시, div 대신 span 사용하여 인라인 요소로 변경 -->
-                    <div th:text="${item.stockQuantity} + ' / ' + ${item.allStockQuantity}"></div><br>
+                    <div th:text="${item.stockQuantity} + ' / ' + ${item.allStockQuantity}"></div>
 
                     <div class="d-flex justify-content-end">
-                        <a href="#" th:href="@{/admin/item/{id}/edit(id=${item.id})}" class="btn btn-outline-primary btn-mobile" role="button">수정</a> &nbsp;
-                        <a href="#" onclick="return confirm('물품 삭제 시 해당 물품의 대여 기록도 삭제 됩니다. \n정말 물품을 삭제하겠습니까?');" th:href="@{/admin/item/{id}/delete(id=${item.id})}"
-                           class="btn btn-outline-danger btn-mobile" role="button">삭제</a>
+                        <a href="#" th:href="@{/admin/item/{id}/edit (id=${item.id})}" style="text-decoration: none">
+                            <span class="material-symbols-outlined">edit_note</span>
+                        </a>
+                        &nbsp;
+                        <a href="#" onclick="return confirm('물품 삭제 시 해당 물품의 대여 기록도 삭제 됩니다. \n정말 물품을 삭제하겠습니까?');"
+                           th:href="@{/admin/item/{id}/delete (id=${item.id})}">
+                            <span class="material-symbols-outlined" style="color: red">delete</span>
+                        </a>
                     </div>
 
                 </td>
