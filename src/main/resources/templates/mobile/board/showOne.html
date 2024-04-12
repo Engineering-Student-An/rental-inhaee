@@ -150,7 +150,7 @@
                                 <span th:if="${reply.isLike(loginStudent.getStuId())}" class="material-icons" style="color: black; font-size: 20px">thumb_up</span>
                                 <span th:if="${!reply.isLike(loginStudent.getStuId())}" class="material-symbols-outlined" style="color: black; font-size: 20px">thumb_up</span>
                             </a>
-                            <a th:if="${loginStudent == null}" th:href="@{/reply/{id}/like(id=${reply.id}, boardId=${board.id})}">
+                            <a th:if="${loginStudent == null}" th:href="@{/board/{id}/like(id=${id})}">
                                 <span class="material-symbols-outlined" style="color: black; font-size: 20px">thumb_up</span>
                             </a>
                             <div th:text="${reply.likeNumber.size()}"></div>

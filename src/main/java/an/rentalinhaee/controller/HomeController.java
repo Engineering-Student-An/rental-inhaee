@@ -51,18 +51,11 @@ public class HomeController {
     }
 
     @GetMapping("/login")
-    public String loginPage(Model model, HttpServletRequest request, HttpSession session) {
+    public String loginPage(Model model) {
         model.addAttribute("loginRequest", new LoginRequest());
         
         model.addAttribute("isMobile", model.getAttribute("isMobile"));
 
-        String referrer = request.getHeader("Referer");
-        if(!referrer.contains("/error")) {
-            // 이전 페이지의 URL을 세션에 "prevPage"라는 이름으로 저장
-            session.setAttribute("prevPage", referrer != null ? referrer : "/");
-        }
-
-        model.addAttribute("referrer", referrer);
         return "home/login";
     }
 

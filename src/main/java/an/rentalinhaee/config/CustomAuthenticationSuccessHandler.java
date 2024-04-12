@@ -11,6 +11,7 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 
 import java.io.IOException;
 
@@ -25,8 +26,9 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException {
 
-        HttpSession session = request.getSession();
-        String redirectUrl = (String) session.getAttribute("prevPage");
+
+        SavedRequest savedRequest = requestCache.getRequest(request, response);
+
 
         // 관리자 권한 체크
         boolean isAdmin = authentication.getAuthorities().stream()
@@ -35,16 +37,21 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         if (isAdmin) {
             // 관리자 권한이 있을 경우의 로직
             response.sendRedirect("/admin"); // ADMIN으로 리다이렉트
-        } else {
-            if(!redirectUrl.isEmpty()) {
-                // 세션에서 "prevPage" 속성을 제거
-                session.removeAttribute("prevPage");
-                // 이전 페이지의 URL로 리다이렉트
-                redirectStrategy.sendRedirect(request, response, redirectUrl);
+        } else if(savedRequest != null){
+            String targetUrl = savedRequest.getRedirectUrl();
 
-            } else {
-                response.sendRedirect("/");
+            if(targetUrl.contains("like")) {
+
+                String[] parts = targetUrl.split("/");
+                String boardId = parts[4];
+                response.sendRedirect("/board/" + boardId);
+
             }
+            else {
+                response.sendRedirect(targetUrl);
+            }
+        } else {
+            response.sendRedirect("/");
         }
 
         // loginStudent 를 세션에 저장
@@ -55,6 +62,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             Student loginStudent = userDetails.getStudent(); // CustomUserDetails에서 Student 정보를 가져올 수 있는 메서드 제공 가정
 
             // 세션에 Student 정보 저장
+            HttpSession session = request.getSession();
             session.setAttribute("loginStudent", loginStudent);
 
         }
