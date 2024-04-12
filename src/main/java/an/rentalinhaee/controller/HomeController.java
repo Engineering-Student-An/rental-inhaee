@@ -62,6 +62,7 @@ public class HomeController {
             session.setAttribute("prevPage", referrer != null ? referrer : "/");
         }
 
+        model.addAttribute("referrer", referrer);
         return "home/login";
     }
 
