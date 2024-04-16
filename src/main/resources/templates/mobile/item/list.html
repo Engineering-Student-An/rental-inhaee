@@ -30,6 +30,9 @@
             </style>
             <div class="form-group mb-2">
                 <input type="text" th:field="*{category}" class="form-control small-font" placeholder="물품 카테고리"/>
+                <button type="submit" id="reset-btn" style="border: none; background: none; cursor: pointer">
+                    <span class="material-symbols-outlined" style="font-size: 20px; color: #0b5ed7">restart_alt</span>
+                </button>
                 <button type="submit" style="border: none; background: none; cursor: pointer">
                     <span class="material-symbols-outlined" style="font-size: 20px; color: #0b5ed7">search</span>
                 </button>
@@ -81,5 +84,14 @@
     <br>
     <div th:replace="~{fragments/footer :: footer}"></div>
 </div> <!-- /container -->
+
+<script>
+    // 'resetButton' 버튼에 클릭 이벤트 리스너 추가
+    document.getElementById('reset-btn').addEventListener('click', function() {
+        // 'category'와 'name' 입력 필드의 값을 초기화
+        document.getElementById('category').value = '';
+        document.getElementById('name').value = '';
+    });
+</script>
 </body>
 </html>
