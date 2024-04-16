@@ -17,7 +17,7 @@
     <h2>회원 정보 조회</h2><br>
     <div>
 
-        <form th:action="@{/admin/student/list}" method="get" class="form-inline">
+        <form th:object="${studentSearch}" class="form-inline">
             <style>
                 .form-group {
                     display: flex;
@@ -31,7 +31,7 @@
             </style>
 
             <div class="form-group mb-2">
-                <input type="text" class="form-control small-font" name="stuId"  placeholder="학생 학번">
+                <input type="text" class="form-control small-font" th:field="*{stuId}" placeholder="학생 학번">
                 <button type="submit" id="reset-btn" style="border: none; background: none; cursor: pointer">
                     <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top">restart_alt</span>
                 </button>
@@ -40,7 +40,7 @@
                 </button>
             </div>
             <div class="form-group mb-2">
-                <input type="text" class="form-control small-font" name="name"  placeholder="학생 이름">
+                <input type="text" class="form-control small-font" th:field="*{name}" placeholder="학생 이름">
             </div>
 
         </form>
@@ -95,7 +95,7 @@
     // 'resetButton' 버튼에 클릭 이벤트 리스너 추가
     document.getElementById('reset-btn').addEventListener('click', function() {
         // 'category'와 'name' 입력 필드의 값을 초기화
-        document.getElementById('category').value = '';
+        document.getElementById('stuId').value = '';
         document.getElementById('name').value = '';
     });
 </script>
