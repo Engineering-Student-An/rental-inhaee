@@ -19,6 +19,10 @@
                     <div class="form-group mb-2" style="margin-right: 5px;"><input type="text" class="form-control" name="stuId"  placeholder="학생 학번" style="margin-right: 20px;"> </div>
                     <div class="form-group mb-2" style="margin-right: 5px;"><input type="text" class="form-control" name="name"  placeholder="학생 이름" style="margin-right: 20px;"> </div>
                 </form>
+                <button type="submit" id="reset-btn" style="border: none; background: none; cursor: pointer">
+                    <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top;">restart_alt</span>
+                </button>
+                &nbsp;
                 <button type="submit" style="border: none; background: none; cursor: pointer">
                     <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top;">search</span>
                 </button>
@@ -26,16 +30,13 @@
                 &nbsp; &nbsp; &nbsp;
                 <a onclick="addTable()"><span class="material-symbols-outlined" style="color: #0b5ed7; cursor: pointer; font-size: 30px">person_add</span></a>
                 &nbsp;
-
                 <button type="submit" style="border: none; background: none; cursor: pointer" form="deleteForm" onclick="return confirmDelete()">
                     <span class="material-symbols-outlined" style="color: red; vertical-align: top; font-size: 30px">person_off</span>
                 </button>
                 &nbsp;
-
                 <a onclick="addWindow()"><span class="material-symbols-outlined" style="color: #20c997; cursor: pointer; font-size: 30px">upload_file</span></a>
-
-
             </div>
+
             <div id="tableContainer">
                 <table class="table table-striped">
                     <tbody></tbody>
@@ -190,5 +191,14 @@ function addWindow() {
             return false;
         }
     }
+</script>
+
+<script>
+    // 'resetButton' 버튼에 클릭 이벤트 리스너 추가
+    document.getElementById('reset-btn').addEventListener('click', function() {
+        // 'category'와 'name' 입력 필드의 값을 초기화
+        document.getElementById('stuId').value = '';
+        document.getElementById('name').value = '';
+    });
 </script>
 </html>
