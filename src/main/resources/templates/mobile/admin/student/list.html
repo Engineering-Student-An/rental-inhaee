@@ -32,6 +32,9 @@
 
             <div class="form-group mb-2">
                 <input type="text" class="form-control small-font" name="stuId"  placeholder="학생 학번">
+                <button type="submit" id="reset-btn" style="border: none; background: none; cursor: pointer">
+                    <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top">restart_alt</span>
+                </button>
                 <button type="submit" style="border: none; background: none; cursor: pointer">
                     <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top">search</span>
                 </button>
@@ -88,5 +91,13 @@
 
 </div> <!-- /container -->
 
+<script>
+    // 'resetButton' 버튼에 클릭 이벤트 리스너 추가
+    document.getElementById('reset-btn').addEventListener('click', function() {
+        // 'category'와 'name' 입력 필드의 값을 초기화
+        document.getElementById('category').value = '';
+        document.getElementById('name').value = '';
+    });
+</script>
 </body>
 </html>
