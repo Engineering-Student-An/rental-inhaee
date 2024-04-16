@@ -7,7 +7,7 @@
     <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
     <h2>회원 정보 조회</h2><br>
     <div>
-        <form class="form-inline">
+        <form th:object="${studentSearch}" class="form-inline">
             <style>
                 .inline-elements{
                     display: flex;
@@ -16,10 +16,12 @@
             </style>
 
             <div class="inline-elements">
-                <form th:action="@{/admin/student/list}" method="get">
-                    <div class="form-group mb-2" style="margin-right: 5px;"><input type="text" class="form-control" name="stuId"  placeholder="학생 학번" style="margin-right: 20px;"> </div>
-                    <div class="form-group mb-2" style="margin-right: 5px;"><input type="text" class="form-control" name="name"  placeholder="학생 이름" style="margin-right: 20px;"> </div>
-                </form>
+                    <div class="form-group mb-2" style="margin-right: 5px;">
+                        <input type="text" th:field="*{stuId}" class="form-control" placeholder="학생 학번" style="margin-right: 20px;">
+                    </div>
+                    <div class="form-group mb-2" style="margin-right: 5px;">
+                        <input type="text" th:field="*{name}" class="form-control"  placeholder="학생 이름" style="margin-right: 20px;">
+                    </div>
                 <button type="submit" id="reset-btn" style="border: none; background: none; cursor: pointer">
                     <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top">restart_alt</span>
                 </button>
@@ -29,31 +31,32 @@
                 </button>
             </div>
         </form>
-        <br>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>학번</th>
-                <th>이름</th>
-                <th>조회</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="student : ${students}">
-                <td th:text="${students.getNumber()*students.getSize() + studentStat.count}"></td>
-                <td th:text="${student.stuId}"></td>
-                <td th:text="${student.name}"></td>
-                <td>
-                    <a href="#" th:href="@{/admin/student/{id} (id=${student.stuId})}">
-                        <span class="material-symbols-outlined">person_check</span>
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <br>
-    </div>
+    </div> <br>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>학번</th>
+            <th>이름</th>
+            <th>조회</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="student : ${students}">
+            <td th:text="${students.getNumber()*students.getSize() + studentStat.count}"></td>
+            <td th:text="${student.stuId}"></td>
+            <td th:text="${student.name}"></td>
+            <td>
+                <a href="#" th:href="@{/admin/student/{id} (id=${student.stuId})}">
+                    <span class="material-symbols-outlined">person_check</span>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+
     <div style="text-align: center">
         <button class="btn btn-outline-dark btn-sm" th:disabled="${students.getNumber()}==0"
                 th:onclick="|location.href='@{/admin/student/list(page=${1}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
