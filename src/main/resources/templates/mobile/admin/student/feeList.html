@@ -20,6 +20,9 @@
             <div class="form-group mb-2" style="width: 60%"><input type="text" class="form-control small-font" name="stuId"  placeholder="학생 학번" > </div>
             <div class="d-flex justify-content-start">
                 <div class="form-group mb-2" style="width: 60%; margin-right: 10px"><input type="text" class="form-control small-font" name="name"  placeholder="학생 이름" > </div>
+                <button type="submit" id="reset-btn" style="border: none; background: none; cursor: pointer">
+                    <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top; font-size: 20px">restart_alt</span>
+                </button>
                 <button type="submit" style="border: none; background: none; cursor: pointer">
                     <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top; font-size: 20px">search</span>
                 </button>
@@ -189,5 +192,14 @@ function addWindow() {
             return false;
         }
     }
+</script>
+
+<script>
+    // 'resetButton' 버튼에 클릭 이벤트 리스너 추가
+    document.getElementById('reset-btn').addEventListener('click', function() {
+        // 'category'와 'name' 입력 필드의 값을 초기화
+        document.getElementById('stuId').value = '';
+        document.getElementById('name').value = '';
+    });
 </script>
 </html>
