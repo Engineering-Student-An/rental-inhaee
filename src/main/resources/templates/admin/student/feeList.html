@@ -6,7 +6,7 @@
     <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
     <h2>학생회비 납부 명단 조회</h2><br>
     <div>
-        <form class="form-inline">
+        <form th:object="${studentSearch}" class="form-inline">
             <style>
                 .inline-elements{
                     display: flex;
@@ -15,10 +15,12 @@
             </style>
 
             <div class="inline-elements">
-                <form th:action="@{/admin/student/feeList}" method="get">
-                    <div class="form-group mb-2" style="margin-right: 5px;"><input type="text" class="form-control" name="stuId"  placeholder="학생 학번" style="margin-right: 20px;"> </div>
-                    <div class="form-group mb-2" style="margin-right: 5px;"><input type="text" class="form-control" name="name"  placeholder="학생 이름" style="margin-right: 20px;"> </div>
-                </form>
+                <div class="form-group mb-2" style="margin-right: 5px;">
+                    <input type="text" class="form-control" th:field="*{stuId}"  placeholder="학생 학번" style="margin-right: 20px;">
+                </div>
+                <div class="form-group mb-2" style="margin-right: 5px;">
+                    <input type="text" class="form-control" th:field="*{name}" placeholder="학생 이름" style="margin-right: 20px;">
+                </div>
                 <button type="submit" id="reset-btn" style="border: none; background: none; cursor: pointer">
                     <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top;">restart_alt</span>
                 </button>
