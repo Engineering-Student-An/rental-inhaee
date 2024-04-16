@@ -32,6 +32,10 @@
                     <div class="form-group mb-2">
                         <input type="text" th:field="*{itemName}" class="form-control" placeholder="물품 이름 (카테고리)" /></div>
                     &nbsp;
+                    <button type="submit" id="reset-btn" style="border: none; background: none; cursor: pointer">
+                        <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top">restart_alt</span>
+                    </button>
+                    &nbsp;
                     <button type="submit" style="border: none; background: none; cursor: pointer">
                         <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top">search</span>
                     </button>
@@ -90,6 +94,16 @@
     </div>
     <br>
     <div th:replace="~{fragments/footer :: footer}"></div>
-    </div> <!-- /container -->
+</div> <!-- /container -->
+<script>
+    // 'resetButton' 버튼에 클릭 이벤트 리스너 추가
+    document.getElementById('reset-btn').addEventListener('click', function() {
+        // 'category'와 'name' 입력 필드의 값을 초기화
+        document.getElementById('stuId').value = '';
+        document.getElementById('itemName').value = '';
+        document.getElementById('rentalStatus').value = '';
+    });
+</script>
+
 </body>
 </html>
