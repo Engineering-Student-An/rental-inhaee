@@ -79,6 +79,7 @@
         </div> <hr/>
 
         <div class="border p-3" style="white-space: pre-line; word-break: break-all" th:text="${board.content}"></div><br><br>
+
         <div class="d-flex justify-content-end">
             <div th:if="${loginStudent != null and loginStudent.getStuId() == board.stuId}">
                 <a th:href="@{/board/{id}/edit(id=${board.id})}" >
