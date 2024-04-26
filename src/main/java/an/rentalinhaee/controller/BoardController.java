@@ -41,6 +41,7 @@ public class BoardController {
         Page<Board> boards = boardService.findByNotice(boardPageRequest, false);
         model.addAttribute("boards", boards);
 
+
         model.addAttribute("noticePage", noticePage);
         model.addAttribute("boardPage", boardPage);
 
