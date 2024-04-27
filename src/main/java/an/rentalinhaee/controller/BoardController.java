@@ -39,6 +39,7 @@ public class BoardController {
 
         PageRequest boardPageRequest = PageRequest.of(boardPage - 1, 10, Sort.by("writeTime").descending());
         Page<Board> boards = boardService.findByNotice(boardPageRequest, false);
+
         model.addAttribute("boards", boards);
 
 
