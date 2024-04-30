@@ -39,7 +39,7 @@
                 </thead>
                 <tbody class="table-danger">
                 <tr th:each="notice : ${notices}">
-                    <td class="small-font" th:text="${notices.getNumber()*notices.getSize() + noticeStat.count}"></td>
+                    <td class="small-font" th:text="${notices.getTotalElements() - (notices.getNumber() * notices.getSize()) - noticeStat.index}"></td>
                     <td>
                         <a class="small-font" th:href="@{/board/{id}(id=${notice.id})}" th:text="${#strings.length(notice.title) > 8 ? #strings.substring(notice.title, 0, 8) + '...' : notice.title}"></a>
                     </td>
@@ -90,7 +90,7 @@
             </thead>
             <tbody>
             <tr th:each="board : ${boards}">
-                <td th:text="${boards.getNumber()*boards.getSize() + boardStat.count}"></td>
+                <td th:text="${boards.getTotalElements() - (boards.getNumber() * boards.getSize()) - boardStat.index}"></td>
                 <td>
                     <a class="small-font" th:href="@{/board/{id}(id=${board.id})}" th:text="${#strings.length(board.title) > 8 ? #strings.substring(board.title, 0, 8) + '...' : board.title}"></a>
                 </td>
