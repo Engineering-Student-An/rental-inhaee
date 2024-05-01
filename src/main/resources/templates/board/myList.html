@@ -13,7 +13,7 @@
             </thead>
             <tbody>
             <tr th:each="board : ${boards}">
-                <td th:text="${boards.getNumber()*boards.getSize() + boardStat.count}"></td>
+                <td th:text="${boards.getTotalElements() - (boards.getNumber() * boards.getSize()) - boardStat.index}"></td>
                 <td>
                     <a th:href="@{/board/{id}(id=${board.id})}"  th:text="${#strings.length(board.title) > 10 ? #strings.substring(board.title, 0, 10) + '...' : board.title}"></a>
                 </td>
