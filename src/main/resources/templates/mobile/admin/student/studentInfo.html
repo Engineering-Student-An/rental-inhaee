@@ -16,11 +16,11 @@
     }
 
     .table td:nth-child(1), .table th:nth-child(1) {
-        width: 10%; /* 첫 번째 열의 너비 */
+        width: 15%; /* 첫 번째 열의 너비 */
     }
 
     .table td:nth-child(2), .table th:nth-child(2) {
-        width: 30%; /* 두 번째 열의 너비 */
+        width: 25%; /* 두 번째 열의 너비 */
     }
 
     .table td:nth-child(3), .table th:nth-child(3) {
@@ -94,7 +94,7 @@
         <table class="table small-font">
             <thead>
             <tr>
-                <th>#</th>
+                <th>대여 번호</th>
                 <th>대여 물품</th>
                 <th>대여 정보</th>
             </tr>
@@ -102,7 +102,7 @@
 
             <tbody>
             <tr th:each="item : ${rentalList}">
-                <td th:text="${(rentalList.getNumber())*rentalList.getSize() + itemStat.count}"></td>
+                <td th:text="${item.id}"></td>
 
                 <td>
                     <span class="line-break">
