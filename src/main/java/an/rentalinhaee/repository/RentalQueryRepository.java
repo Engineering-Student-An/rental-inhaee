@@ -29,7 +29,7 @@ public class RentalQueryRepository {
                 .from(rental)
                 .join(rental.student, student).join(rental.item, item)
                 .where(stuIdLike(rentalSearch.getStuId()), statusEq(rentalSearch.getRentalStatus()), itemNameLike(rentalSearch.getItemName()))
-                .orderBy(rental.status.asc(),rental.rentalDate.desc())
+                .orderBy(rental.status.asc(), rental.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
