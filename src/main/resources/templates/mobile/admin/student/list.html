@@ -69,20 +69,20 @@
         </table>
         <br>
     </div>
-    <div style="text-align: center">
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${students.getNumber()}==0"
+    <div style="text-align: center" class="small-font">
+        <button class="btn btn-outline-dark btn-mobile" th:disabled="${students.getNumber()}==0"
                 th:onclick="|location.href='@{/admin/student/list(page=${1}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
             <<</button>
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${!students.hasPrevious()}"
+        <button class="btn btn-outline-dark btn-mobile" th:disabled="${!students.hasPrevious()}"
                 th:onclick="|location.href='@{/admin/student/list(page=${students.getNumber()}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
             <</button>
         &nbsp; &nbsp;
         <span>[[${students.getNumber()+1}]] / [[${students.getTotalElements() == 0 ? 1 : students.getTotalPages()}]] </span>
         &nbsp; &nbsp;
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${!students.hasNext()}"
+        <button class="btn btn-outline-dark btn-mobile" th:disabled="${!students.hasNext()}"
                 th:onclick="|location.href='@{/admin/student/list(page=${students.getNumber() + 2}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
             ></button>
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${!students.hasNext()}"
+        <button class="btn btn-outline-dark btn-mobile" th:disabled="${!students.hasNext()}"
                 th:onclick="|location.href='@{/admin/student/list(page=${students.getTotalPages()}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
             >></button>
     </div>
