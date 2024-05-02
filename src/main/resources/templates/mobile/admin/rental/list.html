@@ -89,7 +89,7 @@
             </thead>
             <tbody>
             <tr th:each="rental : ${rentals}">
-                <td th:text="${rentals.getNumber()*rentals.getSize() + rentalStat.count}"></td>
+                <td th:text="${rental.id}"></td>
 
                 <td>
                     <span class="line-break">

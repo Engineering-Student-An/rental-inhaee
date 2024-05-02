@@ -46,7 +46,7 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>#</th>
+                <th>대여 번호</th>
                 <th>대여 일자</th>
                 <th>반납 일자</th>
                 <th>대여 물품</th>
@@ -57,7 +57,7 @@
             </thead>
             <tbody>
             <tr th:each="rental : ${rentals}">
-                <td th:text="${rentals.getNumber()*rentals.getSize() + rentalStat.count}"></td>
+                <td th:text="${rental.id}"></td>
                 <td th:text="${rental.rentalDate}"></td>
                 <td th:text="${rental.finishRentalDate}"></td>
                 <td th:unless="${rental.item.name == ''}" th:text="${rental.item.name}"></td>
