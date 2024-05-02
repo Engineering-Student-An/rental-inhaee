@@ -85,7 +85,7 @@
             </thead>
             <tbody>
             <tr th:each="item : ${myRentalList}">
-                <td th:text="${myRentalList.getNumber()*myRentalList.getSize() + itemStat.count}"></td>
+                <td th:text="${item.id}"></td>
 
 
                 <td>
