@@ -44,7 +44,11 @@
         </div>
 
         <br/>
+        <p>
+            <label for="remember-me" style>로그인 유지</label>  <input type="checkbox" id="remember-me" name="remember-me" />
+        </p>
 
+        <br/>
         <button type="submit" class="btn btn-outline-secondary" th:classappend="${isMobile} ? 'btn-very-small'">로그인</button>
 
         <a th:href="@{/findPassword}" role="button" class="btn btn-outline-secondary" th:classappend="${isMobile} ? 'btn-very-small'">비밀번호 찾기</a>

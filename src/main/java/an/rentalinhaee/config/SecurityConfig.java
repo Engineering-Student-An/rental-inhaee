@@ -47,6 +47,16 @@ public class SecurityConfig {
         http
                 .csrf((auth) -> auth.disable());
 
+        // Remember-Me : 자동로그인
+        http
+                .rememberMe(rememberMe -> rememberMe
+                        .key("anchangmin")
+                        .rememberMeParameter("remember-me")
+                        .tokenValiditySeconds(60*60*24*30)
+                        .authenticationSuccessHandler(new CustomAuthenticationSuccessHandler())
+        );
+
+
         return http.build();
     }
 
@@ -56,4 +66,8 @@ public class SecurityConfig {
 
         return new BCryptPasswordEncoder();
     }
+
+
+
+
 }
