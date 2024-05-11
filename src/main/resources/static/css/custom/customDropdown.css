@@ -1,5 +1,7 @@
 /* 드롭다운 그룹 스타일링 */
 .dropdown-group {
+    font-family: "Nanum Gothic", sans-serif;
+    font-weight: 400;
     display: flex; /* 버튼들을 가로로 나열 */
     justify-content: space-around; /* 자식 요소들 사이에 균등한 간격을 만듭니다. */
     width: 100%;
@@ -22,7 +24,7 @@
     border: none; /* 테두리 없음 */
     cursor: pointer; /* 커서 포인터 */
     font-size: 25px;
-    font-weight: 100;
+    font-weight: 700;
     width:100%;
 }
 /* 드롭다운 링크 스타일 */
@@ -69,9 +71,9 @@
 }
 
 /* 드롭다운 버튼 사이에 경계선 추가, 마지막 버튼 제외 */
-.dropdown:not(:last-child) .dropbtn {
-    border-right: 2px solid rgba(218, 218, 218, 0.31);
-}
+/*.dropdown:not(:last-child) .dropbtn {*/
+/*    border-right: 2px solid rgba(218, 218, 218, 0.31);*/
+/*}*/
 
 /* 드롭다운이 호버되었을 때의 버튼 스타일 */
 .dropdown:hover .dropbtn {
