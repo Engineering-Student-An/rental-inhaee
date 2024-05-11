@@ -33,6 +33,9 @@ public class RentalService {
         // 대여 생성
         Rental rental = Rental.createRental(student, item);
 
+        // rentalCount 증가
+        item.setRentalCount(item.getRentalCount() + 1);
+
         // 대여 저장
         rentalRepository.save(rental);
 

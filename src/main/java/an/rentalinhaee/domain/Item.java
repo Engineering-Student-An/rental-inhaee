@@ -25,6 +25,8 @@ public class Item {
     // 총 재고
     private int allStockQuantity;
 
+    private int rentalCount;
+
     private String category;
 
     @OneToMany(mappedBy = "item")

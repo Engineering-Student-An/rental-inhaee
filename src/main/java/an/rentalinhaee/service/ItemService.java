@@ -63,4 +63,5 @@ public class ItemService {
     public Page<Item> findAllItems(Pageable pageable) { return itemRepository.findAll(pageable); }
 
     public Page<Item> findItemsByCategoryAndName(String category, String name, Pageable pageable) { return itemRepository.findItemsByCategoryContainingAndNameContaining(category, name, pageable); }
+
 }
