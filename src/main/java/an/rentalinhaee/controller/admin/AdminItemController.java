@@ -68,6 +68,7 @@ public class AdminItemController {
         item.setCategory(form.getCategory());
         item.setAllStockQuantity(form.getAllStockQuantity());
         item.setStockQuantity(form.getAllStockQuantity());
+        item.setRentalCount(0);
 
         itemService.saveItem(item);
         return "redirect:/admin/item/list";

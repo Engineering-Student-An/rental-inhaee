@@ -1,7 +1,9 @@
 package an.rentalinhaee.controller;
 
+import an.rentalinhaee.domain.Item;
 import an.rentalinhaee.domain.Student;
 import an.rentalinhaee.domain.dto.*;
+import an.rentalinhaee.repository.ItemRepository;
 import an.rentalinhaee.repository.RuleRepository;
 import an.rentalinhaee.service.BoardService;
 import an.rentalinhaee.service.EmailService;
@@ -12,6 +14,9 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,18 +36,20 @@ public class HomeController {
     private final RuleRepository ruleRepository;
     private final BoardService boardService;
     private final FeeStudentService feeStudentService;
+    private final ItemRepository itemRepository;
 
     @GetMapping(value = {"", "/"})
     public String home(Model model){
 
-//        String loginStuId = SecurityContextHolder.getContext().getAuthentication().getName();
-//        Student loginStudent = studentService.findStudent(loginStuId);
 
         model.addAttribute("ann", ruleRepository.findAnnouncementById(1L));
 
         model.addAttribute("recentBoard", boardService.findRecentBoard());
         model.addAttribute("hotBoard", boardService.findHotBoard());
 
+        Pageable pageable = PageRequest.of(0, 3, Sort.by("rentalCount").descending());
+        List<Item> hotItems = itemRepository.findAll(pageable).getContent();
+        model.addAttribute("hotItems", hotItems);
 
         model.addAttribute("isMobile", model.getAttribute("isMobile"));
 
