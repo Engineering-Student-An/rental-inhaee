@@ -41,7 +41,7 @@ public class BoardController {
         model.addAttribute("noticePage", noticePage);
 
         if((boolean) model.getAttribute("isMobile")) {
-            return "mobile/board/list-notice";
+            return "mobile/board/notice";
         }
         return "board/notice";
     }

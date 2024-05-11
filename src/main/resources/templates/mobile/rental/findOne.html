@@ -44,7 +44,7 @@
 
     <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
 
-    <h2>내 대여 목록</h2><br>
+    <h2>내 대여 현황</h2><br>
 
     <form th:object="${rentalSearch}" class="form-inline">
         <style>
@@ -136,19 +136,19 @@
         </table>
     </div>
     <div style="text-align: center" class="small-font">
-        <button class="btn btn-outline-dark btn-mobile" th:disabled="${myRentalList.getNumber()}==0"
+        <button class="btn btn-outline-dark btn-mobile" style="border: none" th:disabled="${myRentalList.getNumber()}==0"
                 th:onclick="|location.href='@{/rental/findOne(page=${1}) }'|">
             <<</button>
-        <button class="btn btn-outline-dark btn-mobile" th:disabled="${!myRentalList.hasPrevious()}"
+        <button class="btn btn-outline-dark btn-mobile" style="border: none" th:disabled="${!myRentalList.hasPrevious()}"
                 th:onclick="|location.href='@{/rental/findOne(page=${myRentalList.getNumber()}) }'|">
             <</button>
         &nbsp; &nbsp;
         <span>[[${myRentalList.getNumber()+1}]] / [[${myRentalList.getTotalElements() == 0 ? 1 : myRentalList.getTotalPages()}]]</span>
         &nbsp; &nbsp;
-        <button class="btn btn-outline-dark btn-mobile" th:disabled="${!myRentalList.hasNext()}"
+        <button class="btn btn-outline-dark btn-mobile" style="border: none" th:disabled="${!myRentalList.hasNext()}"
                 th:onclick="|location.href='@{/rental/findOne(page=${myRentalList.getNumber() + 2}) }'|">
             ></button>
-        <button class="btn btn-outline-dark btn-mobile" th:disabled="${!myRentalList.hasNext()}"
+        <button class="btn btn-outline-dark btn-mobile" style="border: none" th:disabled="${!myRentalList.hasNext()}"
                 th:onclick="|location.href='@{/rental/findOne(page=${myRentalList.getTotalPages()}) }'|">
             >></button>
     </div>
