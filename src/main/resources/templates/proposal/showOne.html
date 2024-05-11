@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+
+<body>
+<div class="container">
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+    <div>
+        <div class="d-flex justify-content-between">
+            <h4>[[${proposal.title}]]</h4>
+            <a href="/proposal/list" class="btn btn-outline-primary" role="button">목록으로</a>
+        </div>
+        <br>
+        <div class="d-flex justify-content-end">
+            <a><strong>작성자</strong> <span th:text="${proposal.stuId}"></span>  [[${proposal.name}]]</a><br>
+        </div>
+        <div class="d-flex justify-content-end">
+
+            <strong>작성 일자</strong>&nbsp;
+            <a> [[${#temporals.format(proposal.writeTime, 'yyyy-MM-dd HH:mm')}]]</a>
+        </div><hr/>
+
+        <div class="border p-3" style="white-space: pre-line; word-break: break-all" th:text="${proposal.content}"></div><br><br>
+        <div class="d-flex justify-content-end">
+            <div th:if="${loginStudent != null and (loginStudent.getStuId() == proposal.stuId || loginStudent.getRole().toString() == 'ADMIN')}">
+                <a href="#" onclick="return confirm('게시글을 삭제하시겠습니까?');"
+                   th:href="@{/proposal/{id}/delete(id=${proposal.id})}">
+                    <span class="material-symbols-outlined" style="color: red">delete</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</div> <!-- /container -->
+</body>
+</html>

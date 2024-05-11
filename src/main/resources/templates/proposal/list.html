@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+
+<style>
+    .small-font {
+        font-size: 13px;
+    }
+</style>
+
+
+<style>
+    .text-container {
+        background-color: rgba(241, 92, 92, 0.89); /* 배경색을 빨간색으로 설정 */
+        color: white; /* 텍스트 색상을 흰색으로 설정 */
+        padding: 20px; /* 패딩 설정 */
+        margin: 20px; /* 마진 설정 */
+    }
+</style>
+<body>
+
+<div class="container">
+
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+    <br/>
+    <div>
+        <div class="d-flex justify-content-between">
+            <h2>건의 게시판</h2>
+            <a href="/proposal/new">
+                <span class="material-symbols-outlined">edit</span>
+            </a>
+        </div>
+
+        <div class="text-container">
+            <h4>사이트의 발전과 사용의 편의성을 증진시키기 위한 건의 게시판 입니다.</h4>
+            <h4>장난 글이나 사실과 다른 글은 지양해 주시기 바랍니다.</h4>
+            <h4>소중한 건의 감사합니다. 😊</h4>
+            <h4>- 공대생 안씨 -</h4>
+        </div><br><br>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th> <th>제목</th> <th>작성자 학번</th> <th>작성자 이름</th> <th>작성 일자</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr th:each="proposal : ${proposals}">
+                <td th:text="${proposals.getTotalElements() - (proposals.getNumber() * proposals.getSize()) - proposalStat.index}"></td>
+                <td th:if="${!proposal.isSecret or (proposal.isSecret and #strings.equals(loginStudent.role, 'ADMIN'))}">
+                    <a th:href="@{/proposal/{id}(id=${proposal.id})}"  th:text="${proposal.title}"></a>
+                </td>
+                <td th:if="${proposal.isSecret and !#strings.equals(loginStudent.role, 'ADMIN')}">
+                    <p><span class="material-symbols-outlined">lock</span> 비밀글입니다.</p>
+                </td>
+                <td th:text="${proposal.stuId}"></td>
+                <td th:text="${proposal.name}"></td>
+                <td th:text="${#temporals.format(proposal.writeTime, 'yyyy-MM-dd')}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <div style="text-align: center">
+        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${proposals.getNumber()}==0"
+                th:onclick="|location.href='@{/proposal/list(proposalPage=${1})}'|">
+            <<</button>
+        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!proposals.hasPrevious()}"
+                th:onclick="|location.href='@{/proposal/list(proposalPage=${proposals.getNumber()}) }'|">
+            <</button>
+        &nbsp; &nbsp;
+        <span>[[${proposals.getNumber()+1}]] / [[${proposals.getTotalElements() == 0 ? 1 : proposals.getTotalPages()}]] </span>
+        &nbsp; &nbsp;
+        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!proposals.hasNext()}"
+                th:onclick="|location.href='@{/proposal/list(proposalPage=${proposals.getNumber() + 2}) }'|">
+            ></button>
+        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!proposals.hasNext()}"
+                th:onclick="|location.href='@{/proposal/list(proposalPage=${proposals.getTotalPages()}) }'|">
+            >></button>
+    </div>
+    <br>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</div> <!-- /container -->
+
+</body>
+</html>
+

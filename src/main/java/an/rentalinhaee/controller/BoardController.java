@@ -30,8 +30,8 @@ public class BoardController {
     private final ReplyService replyService;
 
     @GetMapping("/board/list/notice")
-    public String noticeList(Model model, @RequestParam(required = false, value = "noticePage", defaultValue = "1") int noticePage,
-                       @RequestParam(required = false, value = "boardPage", defaultValue = "1") int boardPage) {
+    public String noticeList(Model model,
+                             @RequestParam(required = false, value = "noticePage", defaultValue = "1") int noticePage) {
 
         PageRequest noticePageRequest = PageRequest.of(noticePage - 1, 10, Sort.by("writeTime").descending());
         Page<Board> notices = boardService.findByNotice(noticePageRequest, true);
@@ -45,7 +45,6 @@ public class BoardController {
         }
         return "board/notice";
     }
-
 
     @GetMapping("/board/list")
     public String boardList(Model model, @RequestParam(required = false, value = "noticePage", defaultValue = "1") int noticePage,

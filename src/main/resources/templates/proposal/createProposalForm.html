@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}">
+<body>
+
+<div class="container">
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+    <h2>건의 사항 작성</h2><br>
+
+    <form th:method="post" th:action="|/proposal/new|" th:object="${proposalForm}">
+        <div>
+            <label th:for="secret">비밀글</label>
+            <input type="checkbox" th:field="*{secret}" class="checkboxes">
+<!--            <label th:for="notice">공지</label>-->
+<!--            <input type="checkbox" th:field="*{notice}" class="checkboxes">-->
+        </div><br/>
+
+        <div>
+            <label th:for="title">제목</label>
+            <input type="text" th:field="*{title}" th:errorclass="error-input" class="form-control" placeholder="제목을 입력하세요 (20자 이내로 입력해주세요)">
+            <div class="error-class" th:errors="*{title}"></div>
+        </div><br>
+        <div>
+            <label th:for="content">작성 내용</label>
+            <textarea th:field="*{content}" th:errorclass="error-input" class="form-control" rows="5" placeholder="작성 내용을 입력하세요"></textarea>
+            <div class="error-class" th:errors="*{content}"></div>
+        </div><br>
+
+        <button type="submit" style="border: none; background: none; cursor: pointer">
+            <span class="material-symbols-outlined" style="color: #0b5ed7;">edit</span>
+        </button>
+    </form>
+
+    <br>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+</div> <!-- /container -->
+
+
+</body>
+</html>
+
+<style>
+    .error-class {
+        color: red;
+    }
+    .error-input {
+        border-color: red;
+    }
+</style>
