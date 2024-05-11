@@ -1,6 +1,37 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" >
 <head th:replace="~{fragments/header :: header}"></head>
+<style>
+    .marquee {
+        overflow: hidden; /* 내용이 밖으로 넘치지 않도록 설정 */
+        white-space: nowrap; /* 텍스트를 한 줄로 유지 */
+        box-sizing: border-box;
+        background: #000; /* 전광판 배경색 */
+        color: #fff; /* 전광판 글자색 */
+        display: flex; /* Flexbox 레이아웃 사용 */
+        align-items: center; /* 항목을 세로 방향으로 가운데 정렬 */
+        height: 50px; /* 전광판의 높이 설정 */
+    }
+
+    .marquee p {
+        display: inline-block;
+        padding-left: 100%; /* 초기 위치를 오른쪽 끝으로 설정 */
+        animation: marquee 10s linear infinite; /* 애니메이션 설정 */
+        margin: 0; /* 기본 마진 제거 */
+        line-height: 50px; /* 세로 방향 가운데 정렬을 위해 높이와 동일한 값 설정 */
+    }
+
+    @keyframes marquee {
+        from {
+            transform: translateX(0); /* 시작 위치 */
+        }
+        to {
+            transform: translateX(-100%); /* 왼쪽으로 이동하여 사라지는 위치 */
+        }
+    }
+
+
+</style>
 <body>
 <div class="container">
     <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
@@ -15,6 +46,10 @@
             <div class="text-start">
                 <h3><div th:utext="${#strings.replace(ann.content, '\n', '<br/>')}"></div></h3>
             </div>
+        </div><br><br>
+
+        <div class="marquee">
+            <p>이곳은 전광판 텍스트입니다. 왼쪽으로 계속 이동합니다!</p>
         </div><br><br>
 
 
