@@ -1,76 +1,114 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/static/css/custom/dropdown.css">
+</head>
+<body>
+    <div class="header" th:fragment="bodyHeader">
+        <ul class="nav nav-pills pull-right">
+        </ul>
+        <style>
+            .btn-very-small {
+                padding: 0.25rem 0.5rem; /* 패딩 줄이기 */
+                font-size: 0.8rem; /* 폰트 사이즈 줄이기 */
+                /* 필요한 경우 여기에 다른 스타일 조정 */
+            }
+        </style>
 
+        <div class="d-flex justify-content-between">
+            <div style="text-align: left">
+                <a th:if="${loginStudent != null and loginStudent.getRole().toString() == 'ADMIN'}" href="/admin">
+                    <span th:if="${isMobile}" class="material-symbols-outlined" style="font-size: 30px; color: #605f5f">home</span>
+                    <span th:unless="${isMobile}" class="material-symbols-outlined" style="font-size: 48px; color: #605f5f">home</span>
+                </a>
 
-<div class="header" th:fragment="bodyHeader">
-    <ul class="nav nav-pills pull-right">
-    </ul>
-    <style>
-        .btn-very-small {
-            padding: 0.25rem 0.5rem; /* 패딩 줄이기 */
-            font-size: 0.8rem; /* 폰트 사이즈 줄이기 */
-            /* 필요한 경우 여기에 다른 스타일 조정 */
-        }
-    </style>
-    <div class="d-flex justify-content-between">
-        <div style="text-align: left">
-            <a th:if="${loginStudent != null and loginStudent.getRole().toString() == 'ADMIN'}" href="/admin">
-                <span th:if="${isMobile}" class="material-symbols-outlined" style="font-size: 30px; color: #605f5f">home</span>
-                <span th:unless="${isMobile}" class="material-symbols-outlined" style="font-size: 48px; color: #605f5f">home</span>
-            </a>
+                <a th:if="${loginStudent == null or loginStudent.getRole().toString() != 'ADMIN'}" href="/">
+                    <span th:if="${isMobile}" class="material-symbols-outlined" style="font-size: 30px; color: #605f5f">home</span>
+                    <span th:unless="${isMobile}" class="material-symbols-outlined" style="font-size: 48px; color: #605f5f">home</span>
+                </a>
+            </div>
 
-            <a th:if="${loginStudent == null or loginStudent.getRole().toString() != 'ADMIN'}" href="/">
-                <span th:if="${isMobile}" class="material-symbols-outlined" style="font-size: 30px; color: #605f5f">home</span>
-                <span th:unless="${isMobile}" class="material-symbols-outlined" style="font-size: 48px; color: #605f5f">home</span>
-            </a>
+            <div class="dropdown1">
+
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                        th:classappend="${isMobile} ? 'btn-very-small'">
+                    <span class="material-symbols-outlined" th:styleappend="${isMobile} ? 'font-size: 20px'">account_circle</span>
+                </button>
+                <div class="dropdown-menu p-3 text-muted" style="max-width: 200px;">
+                    <div th:if="${loginStudent == null}">
+                        <p>
+                            로그인 후<br/>
+                            이용 가능 합니다!
+                        </p>
+                        <p class="mb-0"></p>
+                        <li><a class="dropdown-item" th:href="@{/login}">로그인</a></li>
+                        <p class="mb-0"></p>
+                        <li><a class="dropdown-item" href="/join">회원가입</a></li>
+                    </div>
+                    <div th:if="${loginStudent != null}">
+                        <p> [[${loginStudent.stuId}]] <br>
+                            [[${loginStudent.name}]] 님<br>
+                            환영합니다!
+                        </p>
+<!--                        <p class="mb-0"></p>-->
+<!--                        <li><a class="dropdown-item" href="/changeInfo">개인정보 수정</a></li>-->
+<!--                        <p class="mb-0"></p>-->
+<!--                        <li><a class="dropdown-item" href="/board/myList">내가 쓴 게시글</a></li>-->
+                        <p class="mb-0"></p>
+                        <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
+                    </div>
+                </div>
+                <br>
+            </div>
         </div>
 
-        <div class="dropdown">
 
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                    th:classappend="${isMobile} ? 'btn-very-small'">
-                <span class="material-symbols-outlined" th:styleappend="${isMobile} ? 'font-size: 20px'">account_circle</span>
-            </button>
-            <div class="dropdown-menu p-3 text-muted" style="max-width: 200px;">
-                <div th:if="${loginStudent == null}">
-                    <p>
-                        로그인 후<br/>
-                        이용 가능 합니다!
-                    </p>
-                    <p class="mb-0"></p>
-                    <li><a class="dropdown-item" th:href="@{/login}">로그인</a></li>
-                    <p class="mb-0"></p>
-                    <li><a class="dropdown-item" href="/join">회원가입</a></li>
-                </div>
-                <div th:if="${loginStudent != null}">
-                    <p> [[${loginStudent.stuId}]] <br>
-                        [[${loginStudent.name}]] 님<br>
-                        환영합니다!
-                    </p>
-                    <p class="mb-0"></p>
-                    <li><a class="dropdown-item" href="/changeInfo">개인정보 수정</a></li>
-                    <p class="mb-0"></p>
-                    <li><a class="dropdown-item" href="/board/myList">내가 쓴 게시글</a></li>
-                    <p class="mb-0"></p>
-                    <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
+        <div style="text-align: center">
+
+            <a href="https://www.inha.ac.kr" target="_blank"><img src="/images/logo.png" alt="인하대 로고" class="img-fluid"/></a>
+            <a href="https://pf.kakao.com/_CxjxlxiM" target="_blank"><img src="/images/inhaeelogo.png" alt="학생회 로고" class="img-fluid"/></a>
+            <h1>
+                <a th:if="${loginStudent != null and loginStudent.getRole().toString() == 'ADMIN'}" href="/admin" class="text-decoration-none text-light-emphasis" >전자공학과 <span style="white-space: nowrap;">학생회</span> <span style="white-space: nowrap;">대여 사업</span></a>
+                <a th:if="${loginStudent == null or loginStudent.getRole().toString() != 'ADMIN'}" href="/" class="text-decoration-none text-light-emphasis" >전자공학과 <span style="white-space: nowrap;">학생회</span> <span style="white-space: nowrap;">대여 사업</span></a>
+
+            </h1>
+        </div>
+        <br><br>
+
+        <div class="dropdown-group">
+            <div class="dropdown">
+                <button class="dropbtn">물품</button>
+                <div class="dropdown-content">
+                    <a href="#">물품 현황</a>
+                    <a href="#">물품 현황 수정 요청</a>
                 </div>
             </div>
-        <br>
+
+            <div class="dropdown">
+                <button class="dropbtn">대여</button>
+                <div class="dropdown-content">
+                    <a href="#">대여 신청</a>
+                    <a href="#">내 대여 현황</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropbtn">게시판</button>
+                <div class="dropdown-content">
+                    <a href="#">공지사항</a>
+                    <a href="#">자유 게시판</a>
+                    <a href="#">건의 게시판</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropbtn">내 정보</button>
+                <div class="dropdown-content">
+                    <a href="#">개인정보 수정</a>
+                    <a href="#">내가 쓴 게시글</a>
+                </div>
+            </div>
         </div>
     </div>
+</body>
 
-
-    <div style="text-align: center">
-
-        <a href="https://www.inha.ac.kr" target="_blank"><img src="/images/logo.png" alt="인하대 로고" class="img-fluid"/></a>
-        <a href="https://pf.kakao.com/_CxjxlxiM" target="_blank"><img src="/images/inhaeelogo.png" alt="학생회 로고" class="img-fluid"/></a>
-        <h1>
-            <a th:if="${loginStudent != null and loginStudent.getRole().toString() == 'ADMIN'}" href="/admin" class="text-decoration-none text-light-emphasis" >전자공학과 <span style="white-space: nowrap;">학생회</span> <span style="white-space: nowrap;">대여 사업</span></a>
-            <a th:if="${loginStudent == null or loginStudent.getRole().toString() != 'ADMIN'}" href="/" class="text-decoration-none text-light-emphasis" >전자공학과 <span style="white-space: nowrap;">학생회</span> <span style="white-space: nowrap;">대여 사업</span></a>
-
-        </h1>
-    </div>
-    <br>
-
-</div>
