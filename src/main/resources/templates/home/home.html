@@ -2,6 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org" >
 <head th:replace="~{fragments/header :: header}"></head>
 <style>
+    .content {
+        display: none;
+        flex-grow: 1;
+        height: 35vh;
+    }
+
+    .show {
+        display: block !important;
+    }
+</style>
+<style>
     .marquee {
         overflow: hidden; /* 내용이 밖으로 넘치지 않도록 설정 */
         white-space: nowrap; /* 텍스트를 한 줄로 유지 */
@@ -53,8 +64,8 @@
         </div><br><br>
 
 
-        <div class="d-flex justify-content-between align-items-flex-start">
-            <div style="width: 50%; padding: 20px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
+        <div class="d-flex justify-content-between align-items-start" style="width: 100%;">
+            <div style="width: 40%; padding: 20px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
                 <div class="d-flex justify-content-between align-items-end">
                     <h5 style="font-size: 24px;">공지사항</h5>
                     <a th:href="@{/board/list/notice}" class="btn btn-sm" role="button" style="padding: 5px 5px; font-size: 20px;">+</a>
@@ -70,37 +81,96 @@
                 </table>
             </div>
 
-            <div style="width: 45%;">
-                <div class="d-flex justify-content-between align-items-end">
-                    <h5>최근 7일간 HOT🔥 게시글</h5>
+            <div style="display: flex; flex-direction: column; justify-content: space-between; width: 57%; padding: 20px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); ">
+                <div id="content1" class="content show">
+                    <div class="d-flex justify-content-between align-items-end">
+                        <h5>최근 7일간 HOT🔥 게시글</h5>
+                    </div>
+                    <table class="table table-striped">
+                        <thead> <tr>
+                            <th>#</th> <th>제목</th> <th><span class="material-symbols-outlined" style="font-size: 20px">thumb_up</span></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="board, iterStat : ${hotBoard}">
+                            <td th:text="${iterStat.count}"></td>
+                            <td>
+                                <a th:href="@{/board/{id}(id=${board.id})}"
+                                   th:text="${#strings.length(board.title) > 15 ? #strings.substring(board.title, 0, 15) + '...' : board.title}"></a>
+                            </td>
+                            <td th:text="${board.likeNumber.size()}"></td>
+
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <table class="table table-striped">
-                    <thead> <tr>
-                        <th>#</th> <th>제목</th> <th><span class="material-symbols-outlined" style="font-size: 20px">thumb_up</span></th> <th>작성 일자</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="board, iterStat : ${hotBoard}">
-                        <td th:text="${iterStat.count}"></td>
-                        <td>
-                            <a th:href="@{/board/{id}(id=${board.id})}"
-                               th:text="${#strings.length(board.title) > 5 ? #strings.substring(board.title, 0, 5) + '...' : board.title}"></a>
-                        </td>
-                        <td th:text="${board.likeNumber.size()}"></td>
-                        <div th:if="${board.editTime == null}">
-                            <td th:text="${#temporals.format(board.writeTime, 'MM-dd HH:mm')}"></td>
-                        </div>
-                        <div th:unless="${board.editTime == null}">
-                            <td th:text="${#temporals.format(board.editTime, 'MM-dd HH:mm') + ' (수정)'}"></td>
-                        </div>
-                    </tr>
-                    </tbody>
-                </table>
+
+                <div id="content2" class="content">
+                    <div class="d-flex justify-content-between align-items-end">
+                        <h5>대여 물품 인기 TOP 5</h5>
+                    </div>
+                    <a href="https://ee.inha.ac.kr/ee/12748/subview.do" target="_blank" rel="noopener noreferrer">
+                        <img src="/images/dee.png" style="max-height: 80%;">
+                    </a>
+                </div>
+
+                <div id="content3" class="content">
+                    <div class="d-flex justify-content-between align-items-end">
+                        <h5>23학년도 이수체계도 (클릭 시 이동)</h5>
+                    </div>
+                    <a href="https://ee.inha.ac.kr/ee/12748/subview.do" target="_blank" rel="noopener noreferrer">
+                        <img src="/images/dee.png" style="max-height: 80%;">
+                    </a>
+                </div>
+
+
+
+                <div style="text-align: center; margin-bottom: 5px"> <!-- 버튼이 중앙에 위치하도록 text-align 사용 -->
+                    <button class="btn btn-outline-primary btn-sm" style="border: none" id="prev"><</button>
+                    <button class="btn btn-outline-primary btn-sm" style="border: none" id="next">></button>
+                </div>
+
             </div>
+
         </div>
+
     </div>
     <br>
+
     <div th:replace="~{fragments/footer :: footer}"></div>
 </div> <!-- /container -->
 </body>
+<script>
+    let currentIndex = 1; // 현재 보여지는 콘텐츠의 인덱스
+
+    function changeContent(nextIndex) {
+        // 현재 보여지는 요소를 숨김
+        document.getElementById("content" + currentIndex).classList.remove("show");
+
+        // 새 인덱스 설정
+        currentIndex = nextIndex;
+
+        // 새 요소 보이기
+        document.getElementById("content" + currentIndex).classList.add("show");
+    }
+
+    // 다음 콘텐츠로 넘기기
+    function nextContent() {
+        let nextIndex = currentIndex % 3 + 1;
+        changeContent(nextIndex);
+    }
+
+    // 이전 콘텐츠로 넘기기
+    function prevContent() {
+        let prevIndex = currentIndex - 1 < 1 ? 3 : currentIndex - 1;
+        changeContent(prevIndex);
+    }
+
+    // 버튼 이벤트 리스너
+    document.getElementById("next").addEventListener("click", nextContent);
+    document.getElementById("prev").addEventListener("click", prevContent);
+
+    // 5초마다 자동으로 콘텐츠 변경
+    setInterval(nextContent, 5000);
+</script>
 </html>
