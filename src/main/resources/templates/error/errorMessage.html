@@ -4,7 +4,7 @@
 <body>
 
 <div class="container">
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
     <script th:inline="javascript">
         window.onload = function (){
             window.location.href = [[${nextUrl}]]
