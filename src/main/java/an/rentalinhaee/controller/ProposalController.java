@@ -34,9 +34,9 @@ public class ProposalController {
 
         model.addAttribute("proposalPage", proposalPage);
 
-//        if((boolean) model.getAttribute("isMobile")) {
-//            return "mobile/board/list-notice";
-//        }
+        if((boolean) model.getAttribute("isMobile")) {
+            return "mobile/proposal/list";
+        }
         return "proposal/list";
     }
 
@@ -44,9 +44,7 @@ public class ProposalController {
     public String createProposalForm(Model model) {
 
         model.addAttribute("proposalForm", new ProposalForm());
-//        if((boolean) model.getAttribute("isMobile")) {
-//            return "mobile/board/createProposalForm";
-//        }
+
         return "proposal/createProposalForm";
     }
 
@@ -91,6 +89,9 @@ public class ProposalController {
 
         model.addAttribute("proposal", proposal);
 
+        if((boolean) model.getAttribute("isMobile")) {
+            return "mobile/proposal/showOne";
+        }
         return "proposal/showOne";
 
     }

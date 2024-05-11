@@ -5,6 +5,7 @@
 <body>
 <div class="container">
     <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+    <br>
     <div>
         <div class="d-flex justify-content-between">
             <h4>[[${proposal.title}]]</h4>
@@ -21,14 +22,7 @@
         </div><hr/>
 
         <div class="border p-3" style="white-space: pre-line; word-break: break-all" th:text="${proposal.content}"></div><br><br>
-        <div class="d-flex justify-content-end">
-            <div th:if="${loginStudent != null and (loginStudent.getStuId() == proposal.stuId || loginStudent.getRole().toString() == 'ADMIN')}">
-                <a href="#" onclick="return confirm('게시글을 삭제하시겠습니까?');"
-                   th:href="@{/proposal/{id}/delete(id=${proposal.id})}">
-                    <span class="material-symbols-outlined" style="color: red">delete</span>
-                </a>
-            </div>
-        </div>
+
     </div>
     <br>
     <div th:replace="~{fragments/footer :: footer}"></div>

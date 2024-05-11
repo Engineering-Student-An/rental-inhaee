@@ -33,7 +33,8 @@
 
         <div class="text-container">
             <h4>사이트의 발전과 사용의 편의성을 증진시키기 위한 건의 게시판 입니다.</h4>
-            <h4>장난 글이나 사실과 다른 글은 지양해 주시기 바랍니다.</h4>
+            <h4>장난 글이나 사실과 다른 글은 지양해 주시기 바랍니다. 🙏</h4>
+            <h4>비밀글로도 작성가능하며 참고를 위해 작성 시 삭제가 불가함을 알립니다.</h4>
             <h4>소중한 건의 감사합니다. 😊</h4>
             <h4>- 공대생 안씨 -</h4>
         </div><br><br>
@@ -47,10 +48,10 @@
             <tbody>
             <tr th:each="proposal : ${proposals}">
                 <td th:text="${proposals.getTotalElements() - (proposals.getNumber() * proposals.getSize()) - proposalStat.index}"></td>
-                <td th:if="${!proposal.isSecret or (proposal.isSecret and #strings.equals(loginStudent.role, 'ADMIN'))}">
+                <td th:if="${!proposal.isSecret or (proposal.isSecret and #strings.equals(loginStudent.role, 'ADMIN')) or (#strings.equals(loginStudent.stuId, proposal.stuId))}">
                     <a th:href="@{/proposal/{id}(id=${proposal.id})}"  th:text="${proposal.title}"></a>
                 </td>
-                <td th:if="${proposal.isSecret and !#strings.equals(loginStudent.role, 'ADMIN')}">
+                <td th:if="${proposal.isSecret and !#strings.equals(loginStudent.role, 'ADMIN') and (!#strings.equals(loginStudent.stuId, proposal.stuId))}">
                     <p><span class="material-symbols-outlined">lock</span> 비밀글입니다.</p>
                 </td>
                 <td th:text="${proposal.stuId}"></td>
