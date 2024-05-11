@@ -69,19 +69,19 @@
     <br>
 
     <div style="text-align: center">
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${items.getNumber()}==0"
+        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${items.getNumber()}==0"
                 th:onclick="|location.href='@{/admin/item/list(page=${1}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
             <<</button>
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${!items.hasPrevious()}"
+        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!items.hasPrevious()}"
                 th:onclick="|location.href='@{/admin/item/list(page=${items.getNumber()}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
             <</button>
         &nbsp; &nbsp;
         <span>[[${items.getNumber()+1}]] / [[${items.getTotalElements() == 0 ? 1 : items.getTotalPages()}]]</span>
         &nbsp; &nbsp;
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${!items.hasNext()}"
+        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!items.hasNext()}"
                 th:onclick="|location.href='@{/admin/item/list(page=${items.getNumber() + 2}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
             ></button>
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${!items.hasNext()}"
+        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!items.hasNext()}"
                 th:onclick="|location.href='@{/admin/item/list(page=${items.getTotalPages()}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
             >></button>
     </div>

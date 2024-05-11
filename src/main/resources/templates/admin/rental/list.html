@@ -76,19 +76,19 @@
     </div>
 
     <div style="text-align: center">
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${rentals.getNumber()}==0"
+        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${rentals.getNumber()}==0"
                 th:onclick="|location.href='@{/admin/rental/list(page=${1}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
             <<</button>
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${!rentals.hasPrevious()}"
+        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!rentals.hasPrevious()}"
                 th:onclick="|location.href='@{/admin/rental/list(page=${rentals.getNumber()}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
             <</button>
         &nbsp; &nbsp;
         <span>[[${rentals.getNumber()+1}]] / [[${rentals.getTotalElements() == 0 ? 1 : rentals.getTotalPages()}]] </span>
         &nbsp; &nbsp;
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${!rentals.hasNext()}"
+        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!rentals.hasNext()}"
                 th:onclick="|location.href='@{/admin/rental/list(page=${rentals.getNumber() + 2}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
             ></button>
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${!rentals.hasNext()}"
+        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!rentals.hasNext()}"
                 th:onclick="|location.href='@{/admin/rental/list(page=${rentals.getTotalPages()}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
             >></button>
     </div>

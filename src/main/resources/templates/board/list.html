@@ -52,19 +52,19 @@
 
         <br>
         <div style="text-align: center">
-            <button class="btn btn-outline-dark btn-sm" th:disabled="${notices.getNumber()}==0"
+            <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${notices.getNumber()}==0"
                     th:onclick="|location.href='@{/board/list(noticePage=${1}, boardPage=${boardPage})}'|">
                 <<</button>
-            <button class="btn btn-outline-dark btn-sm" th:disabled="${!notices.hasPrevious()}"
+            <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!notices.hasPrevious()}"
                     th:onclick="|location.href='@{/board/list(noticePage=${notices.getNumber()}, boardPage=${boardPage}) }'|">
                 <</button>
             &nbsp; &nbsp;
             <span>[[${notices.getNumber()+1}]] / [[${notices.getTotalElements() == 0 ? 1 : notices.getTotalPages()}]] </span>
             &nbsp; &nbsp;
-            <button class="btn btn-outline-dark btn-sm" th:disabled="${!notices.hasNext()}"
+            <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!notices.hasNext()}"
                     th:onclick="|location.href='@{/board/list(noticePage=${notices.getNumber() + 2}, boardPage=${boardPage}) }'|">
                 ></button>
-            <button class="btn btn-outline-dark btn-sm" th:disabled="${!notices.hasNext()}"
+            <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!notices.hasNext()}"
                     th:onclick="|location.href='@{/board/list(noticePage=${notices.getTotalPages()}, boardPage=${boardPage} ) }'|">
                 >></button>
         </div>
@@ -108,19 +108,19 @@
     </table>
     <br>
     <div style="text-align: center">
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${boards.getNumber()}==0"
+        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${boards.getNumber()}==0"
                 th:onclick="|location.href='@{/board/list(noticePage=${noticePage}, boardPage=${1}) }'|">
             <<</button>
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${!boards.hasPrevious()}"
+        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!boards.hasPrevious()}"
                 th:onclick="|location.href='@{/board/list(noticePage=${noticePage}, boardPage=${boards.getNumber()}) }'|">
             <</button>
         &nbsp; &nbsp;
         <span>[[${boards.getNumber()+1}]] / [[${boards.getTotalElements() == 0 ? 1 : boards.getTotalPages()}]] </span>
         &nbsp; &nbsp;
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${!boards.hasNext()}"
+        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!boards.hasNext()}"
                 th:onclick="|location.href='@{/board/list(noticePage=${noticePage}, boardPage=${boards.getNumber() + 2}) }'|">
             ></button>
-        <button class="btn btn-outline-dark btn-sm" th:disabled="${!boards.hasNext()}"
+        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!boards.hasNext()}"
                 th:onclick="|location.href='@{/board/list(noticePage=${noticePage}, boardPage=${boards.getTotalPages()} ) }'|">
             >></button>
     </div>
