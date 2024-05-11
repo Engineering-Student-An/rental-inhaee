@@ -2,10 +2,9 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-
   jpa:
     hibernate:
-#      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
@@ -14,8 +13,6 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-#    username:
-#    password:
     properties:
       mail:
         smtp:
