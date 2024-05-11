@@ -29,8 +29,26 @@ public class BoardController {
     private final BoardService boardService;
     private final ReplyService replyService;
 
+    @GetMapping("/board/list/notice")
+    public String noticeList(Model model, @RequestParam(required = false, value = "noticePage", defaultValue = "1") int noticePage,
+                       @RequestParam(required = false, value = "boardPage", defaultValue = "1") int boardPage) {
+
+        PageRequest noticePageRequest = PageRequest.of(noticePage - 1, 10, Sort.by("writeTime").descending());
+        Page<Board> notices = boardService.findByNotice(noticePageRequest, true);
+        model.addAttribute("notices", notices);
+
+
+        model.addAttribute("noticePage", noticePage);
+
+        if((boolean) model.getAttribute("isMobile")) {
+            return "mobile/board/list-notice";
+        }
+        return "board/notice";
+    }
+
+
     @GetMapping("/board/list")
-    public String list(Model model, @RequestParam(required = false, value = "noticePage", defaultValue = "1") int noticePage,
+    public String boardList(Model model, @RequestParam(required = false, value = "noticePage", defaultValue = "1") int noticePage,
                        @RequestParam(required = false, value = "boardPage", defaultValue = "1") int boardPage) {
 
         PageRequest noticePageRequest = PageRequest.of(noticePage - 1, 5, Sort.by("writeTime").descending());

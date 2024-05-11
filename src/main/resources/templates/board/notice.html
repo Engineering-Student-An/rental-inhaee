@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+
+<style>
+    .small-font {
+        font-size: 13px;
+    }
+</style>
+<style>
+    .table {
+        margin: 0;
+        width: 100%; /* 테이블이 부모 요소의 전체 너비를 차지하도록 설정 */
+    }
+    .table-container {
+        overflow: hidden;
+        border: 2px solid #625e5e;
+        border-radius: 20px;
+        padding: 0; /* 여기서는 패딩을 0으로 설정 */
+    }
+</style>
+
+<body>
+
+<div class="container">
+
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+    <br/>
+    <div>
+        <h3>공지사항 <span class="material-symbols-outlined" style="font-size: 27px; vertical-align: text-top; color: red">info</span></h3><br/>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th> <th>공지사항</th> <th>작성 일자</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr th:each="notice : ${notices}">
+                <td th:text="${notices.getTotalElements() - (notices.getNumber() * notices.getSize()) - noticeStat.index}"></td>
+                <td>
+                    <a th:href="@{/board/{id}(id=${notice.id})}"  th:text="${notice.title}"></a>
+                </td>
+                <td th:if="${notice.editTime == null}" th:text="${#temporals.format(notice.writeTime, 'yyyy-MM-dd')}"></td>
+                <td th:unless="${notice.editTime == null}" th:text="${#temporals.format(notice.editTime, 'yyyy-MM-dd') + ' (수정)'}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <div style="text-align: center">
+        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${notices.getNumber()}==0"
+                th:onclick="|location.href='@{/board/list/notice(noticePage=${1})}'|">
+            <<</button>
+        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!notices.hasPrevious()}"
+                th:onclick="|location.href='@{/board/list/notice(noticePage=${notices.getNumber()}) }'|">
+            <</button>
+        &nbsp; &nbsp;
+        <span>[[${notices.getNumber()+1}]] / [[${notices.getTotalElements() == 0 ? 1 : notices.getTotalPages()}]] </span>
+        &nbsp; &nbsp;
+        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!notices.hasNext()}"
+                th:onclick="|location.href='@{/board/list/notice(noticePage=${notices.getNumber() + 2}) }'|">
+            ></button>
+        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!notices.hasNext()}"
+                th:onclick="|location.href='@{/board/list/notice(noticePage=${notices.getTotalPages()}) }'|">
+            >></button>
+    </div>
+    <br>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</div> <!-- /container -->
+
+</body>
+</html>
+
