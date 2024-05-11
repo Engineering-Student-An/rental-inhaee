@@ -53,41 +53,22 @@
         </div><br><br>
 
 
-        <div class="d-flex justify-content-between align-items-end">
-            <h2>게시판</h2>
-            <a th:href="@{/board/list}" class="btn btn-sm" role="button" style="padding: 5px 5px; font-size: 20px;">+</a>
-        </div><hr/>
-
         <div class="d-flex justify-content-between align-items-flex-start">
-            <div style="width: 45%;">
+            <div style="width: 50%; padding: 20px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
                 <div class="d-flex justify-content-between align-items-end">
-                    <h5>최근 게시글</h5>
+                    <h5 style="font-size: 24px;">공지사항</h5>
+                    <a th:href="@{/board/list/notice}" class="btn btn-sm" role="button" style="padding: 5px 5px; font-size: 20px;">+</a>
                 </div>
-                <table class="table table-striped">
-                    <thead> <tr>
-                        <th>#</th> <th>제목</th> <th><span class="material-symbols-outlined" style="font-size: 20px">thumb_up</span></th> <th>작성 일자</th>
-                    </tr>
-                    </thead>
+                <table class="table table-borderless" style="text-align: left;">
                     <tbody>
-                    <tr th:each="board, iterStat : ${recentBoard}">
-                        <td th:text="${iterStat.count}"></td>
+                    <tr th:each="board : ${recentBoard}">
                         <td>
-                            <a th:href="@{/board/{id}(id=${board.id})}"
-                               th:text="${#strings.length(board.title) > 5 ? #strings.substring(board.title, 0, 5) + '...' : board.title}"></a>
+                            <a th:href="@{/board/{id}(id=${board.id})}" th:text="${board.title}"></a>
                         </td>
-
-                        <td th:text="${board.likeNumber.size()}"></td>
-                        <div th:if="${board.editTime == null}">
-                            <td th:text="${#temporals.format(board.writeTime, 'MM-dd HH:mm')}"></td>
-                        </div>
-                        <div th:unless="${board.editTime == null}">
-                            <td th:text="${#temporals.format(board.editTime, 'MM-dd HH:mm') + ' (수정)'}"></td>
-                        </div>
                     </tr>
                     </tbody>
                 </table>
-                </div>
-
+            </div>
 
             <div style="width: 45%;">
                 <div class="d-flex justify-content-between align-items-end">
