@@ -14,7 +14,22 @@
     display: inline-block; /* 인라인 블록 디스플레이 */
     flex-grow: 1; /* 모든 .dropdown 요소가 가용 공간을 균등하게 차지하도록 합니다. */
     text-align: center; /* .dropbtn 내의 텍스트를 가운데 정렬합니다. */
+    width: 100%; /* 명시적 가로 크기 설정 */
 }
+
+/* 드롭다운 컨텐츠 스타일링 */
+.dropdown-content {
+    display: none; /* 기본적으로 숨김 */
+    position: absolute; /* 절대 위치 */
+    background-color: #f9f9f9; /* 배경 색상 */
+    left: 50%;
+    transform: translate(-50%);
+    width: 100%; /* 부모 요소인 .dropdown의 가로 크기에 맞게 설정 */
+    min-width: 160px; /* 최소 너비 */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* 상자 그림자 */
+    z-index: 1; /* z-index */
+}
+
 
 /* 드롭다운 버튼 스타일링 */
 .dropbtn {
@@ -35,19 +50,6 @@
     display: block; /* 블록 디스플레이 */
 }
 
-/* 드롭다운 컨텐츠 스타일링 */
-.dropdown-content {
-    display: none; /* 기본적으로 숨김 */
-    position: absolute; /* 절대 위치 */
-    background-color: #f9f9f9; /* 배경 색상 */
-
-    left: 50%;
-    transform: translate(-50%);
-
-    min-width: 160px; /* 최소 너비 */
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* 상자 그림자 */
-    z-index: 1; /* z-index */
-}
 
 
 
@@ -79,3 +81,4 @@
 .dropdown:hover .dropbtn {
     background-color: rgba(0, 0, 0, 0.9); /* 호버 시 버튼 배경 색상 유지 */
 }
+
