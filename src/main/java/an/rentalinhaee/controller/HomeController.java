@@ -1,22 +1,14 @@
 package an.rentalinhaee.controller;
 
-import an.rentalinhaee.domain.Item;
 import an.rentalinhaee.domain.Student;
 import an.rentalinhaee.domain.dto.*;
-import an.rentalinhaee.repository.ItemRepository;
 import an.rentalinhaee.repository.RuleRepository;
-import an.rentalinhaee.service.BoardService;
-import an.rentalinhaee.service.EmailService;
-import an.rentalinhaee.service.FeeStudentService;
-import an.rentalinhaee.service.StudentService;
+import an.rentalinhaee.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,7 +28,7 @@ public class HomeController {
     private final RuleRepository ruleRepository;
     private final BoardService boardService;
     private final FeeStudentService feeStudentService;
-    private final ItemRepository itemRepository;
+    private final ItemService itemService;
 
     @GetMapping(value = {"", "/"})
     public String home(Model model){
@@ -44,12 +36,12 @@ public class HomeController {
 
         model.addAttribute("ann", ruleRepository.findAnnouncementById(1L));
 
+
         model.addAttribute("recentBoard", boardService.findRecentBoard());
         model.addAttribute("hotBoard", boardService.findHotBoard());
 
-        Pageable pageable = PageRequest.of(0, 3, Sort.by("rentalCount").descending());
-        List<Item> hotItems = itemRepository.findAll(pageable).getContent();
-        model.addAttribute("hotItems", hotItems);
+        model.addAttribute("hotItems", itemService.findHotItems());
+        model.addAttribute("recentNotice", boardService.findRecentNotice());
 
         model.addAttribute("isMobile", model.getAttribute("isMobile"));
 

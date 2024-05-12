@@ -118,7 +118,7 @@
                 </div>
                 <table class="table table-borderless" style="text-align: left;">
                     <tbody>
-                    <tr th:each="board : ${recentBoard}">
+                    <tr th:each="board : ${recentNotice}">
                         <td>
                             <a th:href="@{/board/{id}(id=${board.id})}" th:text="${board.title}"></a>
                         </td>

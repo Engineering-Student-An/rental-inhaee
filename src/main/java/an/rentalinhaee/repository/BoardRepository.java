@@ -17,4 +17,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     Page<Board> findBoardsByNoticeIs(Pageable pageable, boolean notice);
 
     List<Board> findBoardsByStuId(String stuId);
+
+    Page<Board> findAllByNoticeIs(Pageable pageable, boolean notice);
 }

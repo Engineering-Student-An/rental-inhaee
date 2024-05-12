@@ -5,7 +5,9 @@ import an.rentalinhaee.repository.ItemRepository;
 import an.rentalinhaee.repository.RentalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,5 +65,11 @@ public class ItemService {
     public Page<Item> findAllItems(Pageable pageable) { return itemRepository.findAll(pageable); }
 
     public Page<Item> findItemsByCategoryAndName(String category, String name, Pageable pageable) { return itemRepository.findItemsByCategoryContainingAndNameContaining(category, name, pageable); }
+
+    public List<Item> findHotItems() {
+        Pageable pageable = PageRequest.of(0, 3, Sort.by("rentalCount").descending());
+        return itemRepository.findAll(pageable).getContent();
+    }
+
 
 }

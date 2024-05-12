@@ -6,7 +6,9 @@ import an.rentalinhaee.repository.BoardQueryRepository;
 import an.rentalinhaee.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,4 +69,9 @@ public class BoardService {
     }
 
     public List<Board> findHotBoard() { return boardQueryRepository.findHotBoard(); }
+
+    public List<Board> findRecentNotice() {
+        Pageable pageable = PageRequest.of(0, 5, Sort.by("writeTime").descending());
+        return boardRepository.findAllByNoticeIs(pageable, true).getContent();
+    }
 }
