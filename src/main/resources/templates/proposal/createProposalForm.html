@@ -5,14 +5,12 @@
 
 <div class="container">
     <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
-    <h2>건의 사항 작성</h2><br>
+    <h2>건의 사항 작성</h2><br><br>
 
     <form th:method="post" th:action="|/proposal/new|" th:object="${proposalForm}">
         <div>
             <label th:for="secret">비밀글</label>
             <input type="checkbox" th:field="*{secret}" class="checkboxes">
-<!--            <label th:for="notice">공지</label>-->
-<!--            <input type="checkbox" th:field="*{notice}" class="checkboxes">-->
         </div><br/>
 
         <div>
