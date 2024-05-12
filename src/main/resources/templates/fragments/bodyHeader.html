@@ -74,80 +74,82 @@
             </h1>
         </div>
         <br><br>
+        <div th:if="${loginStudent == null or (loginStudent != null and !#strings.equals(loginStudent.role, 'ADMIN'))}">
+            <div th:if="${!isMobile}">
+                <div class="dropdown-group">
+                    <div class="dropdown">
+                        <button class="dropbtn">물품</button>
+                        <div class="dropdown-content">
+                            <a href="/item/list">물품 현황</a>
+                            <a href="#">물품 수정 요청</a>
+                        </div>
+                    </div>
 
-        <div th:if="${!isMobile}">
-            <div class="dropdown-group">
-                <div class="dropdown">
-                    <button class="dropbtn">물품</button>
-                    <div class="dropdown-content">
-                        <a href="/item/list">물품 현황</a>
-                        <a href="#">물품 수정 요청</a>
+                    <div class="dropdown">
+                        <button class="dropbtn">대여</button>
+                        <div class="dropdown-content">
+                            <a href="/rental">대여 신청</a>
+                            <a href="/rental/findOne">내 대여 현황</a>
+                        </div>
+                    </div>
+
+                    <div class="dropdown">
+                        <button class="dropbtn">게시판</button>
+                        <div class="dropdown-content">
+                            <a href="/board/list/notice">공지사항</a>
+                            <a href="/board/list">자유 게시판</a>
+                            <a href="/proposal/list">건의 게시판</a>
+                        </div>
+                    </div>
+
+                    <div class="dropdown">
+                        <button class="dropbtn">내 정보</button>
+                        <div class="dropdown-content">
+                            <a href="/changeInfo">개인정보 수정</a>
+                            <a href="/board/myList">내가 쓴 게시글</a>
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="dropdown">
-                    <button class="dropbtn">대여</button>
-                    <div class="dropdown-content">
-                        <a href="/rental">대여 신청</a>
-                        <a href="/rental/findOne">내 대여 현황</a>
+            <div th:if="${isMobile}">
+                <div class="dropdown-group">
+                    <div class="dropdown">
+                        <button class="dropbtn" style="font-size: 13px">물품</button>
+                        <div class="dropdown-content" style="min-width: 120px">
+                            <a href="/item/list" style="font-size: 13px">물품 현황</a>
+                            <a href="#" style="font-size: 13px">물품 수정 요청</a>
+                        </div>
                     </div>
-                </div>
 
-                <div class="dropdown">
-                    <button class="dropbtn">게시판</button>
-                    <div class="dropdown-content">
-                        <a href="/board/list/notice">공지사항</a>
-                        <a href="/board/list">자유 게시판</a>
-                        <a href="/proposal/list">건의 게시판</a>
+                    <div class="dropdown">
+                        <button class="dropbtn" style="font-size: 13px">대여</button>
+                        <div class="dropdown-content" style="min-width: 120px">
+                            <a href="/rental" style="font-size: 13px">대여 신청</a>
+                            <a href="/rental/findOne" style="font-size: 13px">내 대여 현황</a>
+                        </div>
                     </div>
-                </div>
 
-                <div class="dropdown">
-                    <button class="dropbtn">내 정보</button>
-                    <div class="dropdown-content">
-                        <a href="/changeInfo">개인정보 수정</a>
-                        <a href="/board/myList">내가 쓴 게시글</a>
+                    <div class="dropdown">
+                        <button class="dropbtn" style="font-size: 13px">게시판</button>
+                        <div class="dropdown-content" style="min-width: 120px">
+                            <a href="/board/list/notice" style="font-size: 13px">공지사항</a>
+                            <a href="/board/list" style="font-size: 13px">자유 게시판</a>
+                            <a href="/proposal/list" style="font-size: 13px">건의 게시판</a>
+                        </div>
+                    </div>
+
+                    <div class="dropdown">
+                        <button class="dropbtn" style="font-size: 13px">내 정보</button>
+                        <div class="dropdown-content" style="min-width: 120px">
+                            <a href="/changeInfo" style="font-size: 13px">개인정보 수정</a>
+                            <a href="/board/myList" style="font-size: 13px">내가 쓴 게시글</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div th:if="${isMobile}">
-            <div class="dropdown-group">
-                <div class="dropdown">
-                    <button class="dropbtn" style="font-size: 13px">물품</button>
-                    <div class="dropdown-content" style="min-width: 120px">
-                        <a href="/item/list" style="font-size: 13px">물품 현황</a>
-                        <a href="#" style="font-size: 13px">물품 수정 요청</a>
-                    </div>
-                </div>
-
-                <div class="dropdown">
-                    <button class="dropbtn" style="font-size: 13px">대여</button>
-                    <div class="dropdown-content" style="min-width: 120px">
-                        <a href="/rental" style="font-size: 13px">대여 신청</a>
-                        <a href="/rental/findOne" style="font-size: 13px">내 대여 현황</a>
-                    </div>
-                </div>
-
-                <div class="dropdown">
-                    <button class="dropbtn" style="font-size: 13px">게시판</button>
-                    <div class="dropdown-content" style="min-width: 120px">
-                        <a href="/board/list/notice" style="font-size: 13px">공지사항</a>
-                        <a href="/board/list" style="font-size: 13px">자유 게시판</a>
-                        <a href="/proposal/list" style="font-size: 13px">건의 게시판</a>
-                    </div>
-                </div>
-
-                <div class="dropdown">
-                    <button class="dropbtn" style="font-size: 13px">내 정보</button>
-                    <div class="dropdown-content" style="min-width: 120px">
-                        <a href="/changeInfo" style="font-size: 13px">개인정보 수정</a>
-                        <a href="/board/myList" style="font-size: 13px">내가 쓴 게시글</a>
-                    </div>
-                </div>
-            </div>
-        </div>
 
     </div>
 
