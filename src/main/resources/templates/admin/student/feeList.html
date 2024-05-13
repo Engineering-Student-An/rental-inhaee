@@ -28,27 +28,25 @@
                 <button type="submit" style="border: none; background: none; cursor: pointer">
                     <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top;">search</span>
                 </button>
-
-                &nbsp; &nbsp; &nbsp;
-                <a onclick="addTable()"><span class="material-symbols-outlined" style="color: #0b5ed7; cursor: pointer; font-size: 30px">person_add</span></a>
-                &nbsp;
-                <button type="submit" style="border: none; background: none; cursor: pointer" form="deleteForm" onclick="return confirmDelete()">
-                    <span class="material-symbols-outlined" style="color: red; vertical-align: top; font-size: 30px">person_off</span>
-                </button>
-                &nbsp;
-                <a onclick="addWindow()"><span class="material-symbols-outlined" style="color: #20c997; cursor: pointer; font-size: 30px">upload_file</span></a>
-            </div>
-
-            <div id="tableContainer">
-                <table class="table table-striped">
-                    <tbody></tbody>
-                </table>
-
-            </div>
-            <div id="windowContainer">
-
             </div>
         </form>
+
+        <a onclick="addTable()"><span class="material-symbols-outlined" style="color: #0b5ed7; cursor: pointer; font-size: 30px">person_add</span></a>
+        &nbsp;
+        <button type="submit" style="border: none; background: none; cursor: pointer" form="deleteForm" onclick="return confirmDelete()">
+            <span class="material-symbols-outlined" style="color: red; vertical-align: top; font-size: 30px">person_off</span>
+        </button>
+        &nbsp;
+        <a onclick="addWindow()"><span class="material-symbols-outlined" style="color: #20c997; cursor: pointer; font-size: 30px">upload_file</span></a>
+
+        <div id="tableContainer">
+            <table class="table table-striped">
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div id="windowContainer"></div>
+
 
         <br>
         <form id="deleteForm" th:action="@{/admin/student/feeList/delete}" method="post">
@@ -121,7 +119,9 @@
                 '</table>' +
                 '</div>';
 
-            var addButton = '<button id="addButton" class="material-symbols-outlined"  style="color: #0b5ed7; background: none; border: none; cursor: pointer; font-size: 30px" onclick="addStudent()">person_add</button><br>'
+            var addButton = '<button id="addButton" class="material-symbols-outlined"  ' +
+                'style="color: #0b5ed7; background: none; border: none; cursor: pointer; font-size: 30px" ' +
+                'onclick="addStudent()">person_add</button><br>'
 
             // 새로운 행을 기존 표의 tbody에 추가
             tableContainer.innerHTML += newTable + addButton;
@@ -147,19 +147,18 @@ function addWindow() {
     } else {
 
         var newWindow = '<br><h4>학생회비 납부 명단 업로드 (엑셀 파일만 업로드!)</h4>' +
-
-
             '<form action="/admin/student/feeList/upload" method="POST" enctype="multipart/form-data">' +
                 '<input type="file" class="btn btn-outline-secondary btn-sm" name="excelFile">' +
-                '<button type="submit" style="border: none; background: none; cursor: pointer"><span class="material-symbols-outlined" style="color: #20c997; vertical-align: top; font-size: 30px">upload_file</span></button>' +
-
+                    '<button type="submit" style="border: none; background: none; cursor: pointer">' +
+                        '<span class="material-symbols-outlined" style="color: #20c997; vertical-align: top; font-size: 30px">upload_file</span>' +
+                    '</button>' +
+            '</input>' +
             '</form><br>' +
         '<p></p>';
 
         windowContainer.innerHTML += newWindow;
         windowAdded = true;
     }
-
 }
 </script>
 

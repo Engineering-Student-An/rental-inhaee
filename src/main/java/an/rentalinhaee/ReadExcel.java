@@ -100,12 +100,14 @@ public class ReadExcel {
         XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
         XSSFSheet sheet = workbook.getSheetAt(0);
 
+        System.out.println("!!");
         for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) {
             XSSFRow row = sheet.getRow(i);
             DataFormatter formatter = new DataFormatter();
 
             String stuId = formatter.formatCellValue(row.getCell(0));
             String name = formatter.formatCellValue(row.getCell(1));
+            System.out.println("stuId = " + stuId);
 
             if(!stuId.isEmpty() && !name.isEmpty()){
                 FeeStudent feeStudent = new FeeStudent(stuId, name);

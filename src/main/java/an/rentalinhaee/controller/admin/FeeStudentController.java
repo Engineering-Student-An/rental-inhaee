@@ -50,17 +50,18 @@ public class FeeStudentController {
     }
 
     @GetMapping("/student/feeList/add")
-    public String createFeeStudentForm(@RequestParam("newStuId") String stuId, @RequestParam("newName") String name, Model model) {
+    public String createFeeStudentForm(@RequestParam("newStuId") String newStuId, @RequestParam("newName") String newName,
+                                       Model model) {
 
         String message;
 
-        if(!stuId.isEmpty() && !name.isEmpty()) {   // 학번과 이름 모두 기입
+        if(!newStuId.isEmpty() && !newName.isEmpty()) {   // 학번과 이름 모두 기입
 
-            if(feeStudentService.checkFeeStudentDuplicate(stuId)) { // 동일한 학번이 존재하는 경우
+            if(feeStudentService.checkFeeStudentDuplicate(newStuId)) { // 동일한 학번이 존재하는 경우
                 message = "동일한 학번이 존재합니다!";
             } else {    // 동일한 학번이 존재하지 않는 경우
-                feeStudentService.save(new FeeStudent(stuId, name));
-                message = "학생회비 납부 명단에 추가 완료했습니다.";
+                feeStudentService.save(new FeeStudent(newStuId, newName));
+                message = "학생회비 납부 명단에 추가했습니다.";
             }
 
         } else {    // 학번 or 이름 비어있는 경우
