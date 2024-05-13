@@ -17,7 +17,8 @@ public class SecurityConfig {
         http
 
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/rental/**", "/board/new", "/board/*/like", "/board/*/reply/new", "/reply/*/like", "/proposal/**").authenticated()
+                        .requestMatchers("/rental/**", "/board/new", "/board/*/like", "/board/*/reply/new",
+                                "/reply/*/like", "/proposal/**", "/changeInfo", "/board/myList").authenticated()
                             .requestMatchers("/admin/**").hasRole(StudentRole.ADMIN.name())
                         // ** : 와일드카드, hasAnyRole => 여러 개의 role 설정 가능
                         // anyRequest => 위에서 처리하지 못한 나머지 경로에 대한 처리
