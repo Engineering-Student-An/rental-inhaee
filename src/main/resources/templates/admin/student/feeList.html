@@ -54,6 +54,7 @@
                 <thead>
                 <tr>
                     <th>선택</th> <!-- 선택 열 추가-->
+                    <th>#</th>
                     <th>학번</th>
                     <th>이름</th>
                 </tr>
@@ -61,6 +62,7 @@
                 <tbody>
                 <tr th:each="student : ${students}">
                     <td><input type="checkbox" name="stuIdList" th:value="${student.stuId}"></td> <!-- 체크박스 추가 -->
+                    <td th:text="${students.getNumber()*students.getSize() + studentStat.count}"></td>
                     <td th:text="${student.stuId}"></td>
                     <td th:text="${student.name}"></td>
                 </tr>
