@@ -15,7 +15,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/rental/**", "/board/new", "/board/*/like", "/board/*/reply/new",
                                 "/reply/*/like", "/proposal/**", "/changeInfo", "/board/myList").authenticated()
