@@ -34,10 +34,11 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         boolean isAdmin = authentication.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
 
-        if (isAdmin) {
-            // 관리자 권한이 있을 경우의 로직
-            response.sendRedirect("/admin"); // ADMIN으로 리다이렉트
-        } else if(savedRequest != null){
+//        if (isAdmin) {
+//            // 관리자 권한이 있을 경우의 로직
+//            response.sendRedirect("/admin"); // ADMIN으로 리다이렉트
+//        } else
+        if(savedRequest != null){
             String targetUrl = savedRequest.getRedirectUrl();
 
             if(targetUrl.contains("like")) {
@@ -45,7 +46,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                 String[] parts = targetUrl.split("/");
                 String boardId = parts[4];
                 response.sendRedirect("/board/" + boardId);
-
             }
             else {
                 response.sendRedirect(targetUrl);
@@ -64,7 +64,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             // 세션에 Student 정보 저장
             HttpSession session = request.getSession();
             session.setAttribute("loginStudent", loginStudent);
-
+            System.out.println("loginStudent = " + loginStudent);
         }
+
     }
 }
