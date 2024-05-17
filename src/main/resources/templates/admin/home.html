@@ -31,6 +31,7 @@
                     <a th:href="@{/admin/item/list}" class="btn btn-outline-primary" role="button">물품 현황 수정</a><br>
                     <a th:href="@{/admin/student/list}" class="btn btn-outline-primary" role="button">회원 정보 조회</a><br>
                     <a th:href="@{/admin/rental/list}" class="btn btn-outline-primary" role="button">대여 현황 조회</a><br>
+                    <a th:href="@{/proposal/list}" class="btn btn-outline-primary" role="button">건의 게시판</a><br>
                     <a th:href="@{/admin/student/feeList}" class="btn btn-outline-primary" role="button">학생회비 납부 명단 조회</a><br>
                 </div>
             </div>
@@ -38,34 +39,14 @@
             <div style="width: 45%;">
                 <div class="d-flex justify-content-between align-items-end">
                     <h2>게시판</h2>
-                    <a th:href="@{/board/list}" class="btn btn-sm" role="button" style="padding: 5px 5px; font-size: 20px;">+</a>
                 </div>
-                <hr style="width:100%;"/>
-                <div class="d-flex justify-content-between align-items-end">
-                    <h5>최근 게시글</h5>
 
+                <div class="d-flex flex-column justify-content-start align-items-start">
+                    <hr style="width:90%;"/>
+                    <a th:href="@{/board/list/notice}" class="btn btn-outline-primary" role="button">공지사항</a><br>
+                    <a th:href="@{/board/list}" class="btn btn-outline-primary" role="button">자유 게시판</a><br>
+                    <a th:href="@{/proposal/list}" class="btn btn-outline-primary" role="button">건의 게시판</a><br>
                 </div>
-                <table class="table table-striped">
-                    <thead> <tr>
-                        <th>#</th> <th>제목</th> <th><span class="material-symbols-outlined" style="font-size: 20px">thumb_up</span></th> <th>작성 일자</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="board, iterStat : ${recentBoard}">
-                        <td th:text="${iterStat.count}"></td>
-                        <td>
-                            <a th:href="@{/board/{id}(id=${board.id})}" th:text="${#strings.length(board.title) > 10 ? #strings.substring(board.title, 0, 10) + '...' : board.title}"></a>
-                        </td>
-                        <td th:text="${board.likeNumber.size()}"></td>
-                        <div th:if="${board.editTime == null}">
-                            <td th:text="${#temporals.format(board.writeTime, 'MM-dd HH:mm')}"></td>
-                        </div>
-                        <div th:unless="${board.editTime == null}">
-                            <td th:text="${#temporals.format(board.editTime, 'MM-dd HH:mm') + ' (수정)'}"></td>
-                        </div>
-                    </tr>
-                    </tbody>
-                </table>
 
             </div>
         </div>
