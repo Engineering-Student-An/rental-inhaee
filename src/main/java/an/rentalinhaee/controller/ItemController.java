@@ -41,6 +41,13 @@ public class ItemController {
         return "item/list";
     }
 
+    @GetMapping("/item/request")
+    public String request(Model model) {
+
+        model.addAttribute("itemList",itemService.findAllItems());
+        return "item/request";
+    }
+
 
     @ModelAttribute("loginStudent")
     public Student loginStudent(HttpSession session) {
