@@ -1,6 +1,7 @@
 package an.rentalinhaee.controller;
 
 import an.rentalinhaee.domain.Student;
+import an.rentalinhaee.domain.dto.ItemRequestForm;
 import an.rentalinhaee.repository.ItemSearch;
 import an.rentalinhaee.service.ItemService;
 import jakarta.servlet.http.HttpSession;
@@ -43,7 +44,9 @@ public class ItemController {
 
     @GetMapping("/item/request")
     public String request(Model model) {
+        ItemRequestForm itemRequestForm = new ItemRequestForm();
 
+        model.addAttribute("itemRequestForm", itemRequestForm);
         model.addAttribute("itemList", itemService.findAllItems());
         return "item/request";
     }
