@@ -3,6 +3,7 @@ package an.rentalinhaee.controller;
 import an.rentalinhaee.domain.Student;
 import an.rentalinhaee.domain.dto.ItemRequestForm;
 import an.rentalinhaee.repository.ItemSearch;
+import an.rentalinhaee.service.ItemRequestService;
 import an.rentalinhaee.service.ItemService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ItemController {
 
     private final ItemService itemService;
+    private final ItemRequestService itemRequestService;
 
     @GetMapping("/item/list")
     public String list(@ModelAttribute("itemSearch") ItemSearch itemSearch,
@@ -40,6 +42,13 @@ public class ItemController {
             return "mobile/item/list";
         }
         return "item/list";
+    }
+
+    @GetMapping("/item/request/list")
+    public String requestList(Model model) {
+
+        model.addAttribute("requestList", itemRequestService.findAll());
+        return "item/requestList";
     }
 
     @GetMapping("/item/request")

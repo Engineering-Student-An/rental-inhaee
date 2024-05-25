@@ -14,7 +14,7 @@ public class ItemRequest {
     private String stuId;
     private String name;
 
-    private Long itemId;
+    private String itemName;
 
     @Column(length = 5000)
     private String content;

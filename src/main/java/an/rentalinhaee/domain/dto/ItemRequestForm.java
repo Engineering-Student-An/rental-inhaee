@@ -8,7 +8,7 @@ public class ItemRequestForm {
     private String stuId;
     private String name;
 
-    private Long itemId;
+    private String itemName;
 
     private String content;
 }
