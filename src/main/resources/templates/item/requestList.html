@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+
+<body>
+<div class="container">
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+    <div>
+        <h2>물품 현황 수정 요청</h2><br/>
+
+    <div class="d-flex justify-content-between">
+        <h2>요청 목록</h2>
+        <a href="/item/request">
+            <span class="material-symbols-outlined">edit</span>
+        </a>
+    </div>
+    <br>
+    <table class="table table-striped">
+        <thead> <tr>
+            <th>#</th> <th>물품 이름</th> <th>작성자 <span style="white-space: nowrap;">학번</span></th> <th>작성자 <span style="white-space: nowrap;">이름</span></th>
+            <th>확인 여부</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="request : ${requestList}">
+            <td th:text="${requestList.getTotalElements() - (requestList.getNumber() * requestList.getSize()) - requestStat.index}"></td>
+            <td>
+                <a th:href="@{/board/{id}(id=${board.id})}" th:text="${#strings.length(board.title) > 10 ? #strings.substring(board.title, 0, 10) + '...' : board.title}"></a>
+            </td>
+            <td th:unless="${board.stuId=='ADMIN'}" th:text="${board.stuId}"></td>
+            <td th:if="${board.stuId=='ADMIN'}"></td>
+            <td th:unless="${board.stuId=='ADMIN'}" th:text="${board.name}"></td>
+            <td th:if="${board.stuId=='ADMIN'}"><strong>관리자</strong></td>
+
+            <td th:text="${board.likeNumber.size()}"></td>
+
+            <div th:if="${board.editTime == null}">
+                <td th:text="${#temporals.format(board.writeTime, 'yyyy-MM-dd HH:mm')}"></td>
+            </div>
+            <div th:unless="${board.editTime == null}">
+                <td th:text="${#temporals.format(board.editTime, 'yyyy-MM-dd HH:mm') + ' (수정)'}"></td>
+            </div>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <div style="text-align: center">
+        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${boards.getNumber()}==0"
+                th:onclick="|location.href='@{/board/list(noticePage=${noticePage}, boardPage=${1}) }'|">
+            <<</button>
+        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!boards.hasPrevious()}"
+                th:onclick="|location.href='@{/board/list(noticePage=${noticePage}, boardPage=${boards.getNumber()}) }'|">
+            <</button>
+        &nbsp; &nbsp;
+        <span>[[${boards.getNumber()+1}]] / [[${boards.getTotalElements() == 0 ? 1 : boards.getTotalPages()}]] </span>
+        &nbsp; &nbsp;
+        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!boards.hasNext()}"
+                th:onclick="|location.href='@{/board/list(noticePage=${noticePage}, boardPage=${boards.getNumber() + 2}) }'|">
+            ></button>
+        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!boards.hasNext()}"
+                th:onclick="|location.href='@{/board/list(noticePage=${noticePage}, boardPage=${boards.getTotalPages()} ) }'|">
+            >></button>
+    </div>
+    <br>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</div> <!-- /container -->
+
+</body>
+</html>
+
