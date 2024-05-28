@@ -20,4 +20,14 @@ public class ItemRequest {
     private String content;
 
     private boolean isChecked;
+
+    protected ItemRequest() {}
+
+    public ItemRequest(String stuId, String name, String itemName, String content, boolean isChecked) {
+        this.stuId = stuId;
+        this.name = name;
+        this.itemName = itemName;
+        this.content = content;
+        this.isChecked = isChecked;
+    }
 }

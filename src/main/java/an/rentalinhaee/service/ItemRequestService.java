@@ -4,6 +4,7 @@ import an.rentalinhaee.domain.ItemRequest;
 import an.rentalinhaee.repository.ItemRequestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,6 +13,11 @@ import java.util.List;
 public class ItemRequestService {
 
     private final ItemRequestRepository itemRequestRepository;
+
+    @Transactional
+    public void save(ItemRequest itemRequest) {
+        itemRequestRepository.save(itemRequest);
+    }
 
     public List<ItemRequest> findAll() {
         return itemRequestRepository.findAll();

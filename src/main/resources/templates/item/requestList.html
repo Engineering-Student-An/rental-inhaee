@@ -21,8 +21,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="request : ${requestList}">
-            <td th:text="${requestList.getTotalElements() - (requestList.getNumber() * requestList.getSize()) - requestStat.index + 1}"></td>
+        <tr th:each="request, requestStat : ${requestList}">
+
+            <td th:text="${requestList.size() - requestStat.index}"></td>
             <td>
                 <a th:href="@{/item/request/{id}(id=${request.id})}"
                    th:text="${#strings.length(request.itemName) > 10 ? #strings.substring(request.itemName, 0, 10) + '...' : request.itemName}"></a>

@@ -8,21 +8,17 @@
     <h3>물품 현황 수정 요청</h3><br>
 
     <form th:method="post" th:action="|/item/request|" th:object="${itemRequestForm}">
-        <div class="form-group">
-
-        </div> <!-- 기존 폼 필드들 --> <button type="submit" class="btn btn-primary">제출</button> </form>
-
-    <form th:method="post" th:action="|/item/request|" th:object="${itemRequestForm}">
         <div>
-            <label for="item">선택할 아이템:</label>
-            <select class="form-control" id="item" th:field="*{itemId}">
-                <option th:each="item : ${itemList}" th:value="${item.id}" th:text="${item.name}"></option>
+            <label for="item">물품 선택</label>
+            <select class="form-control" id="item" th:field="*{itemName}" th:errorclass="error-input" >
+                <option th:each="item : ${itemList}" th:value="${item.name}" th:text="${item.name}"></option>
             </select>
+            <div class="error-class" th:errors="*{itemName}"></div>
         </div>
 
         <br>
         <div>
-            <label th:for="content">요청 내용</label>
+            <label th:for="content">요청 사항</label>
             <textarea th:field="*{content}" th:errorclass="error-input" class="form-control" rows="5" placeholder="작성 내용을 입력하세요"></textarea>
             <div class="error-class" th:errors="*{content}"></div>
         </div><br>

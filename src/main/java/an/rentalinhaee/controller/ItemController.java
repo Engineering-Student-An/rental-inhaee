@@ -1,5 +1,6 @@
 package an.rentalinhaee.controller;
 
+import an.rentalinhaee.domain.ItemRequest;
 import an.rentalinhaee.domain.Student;
 import an.rentalinhaee.domain.dto.ItemRequestForm;
 import an.rentalinhaee.repository.ItemSearch;
@@ -11,8 +12,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -52,12 +56,36 @@ public class ItemController {
     }
 
     @GetMapping("/item/request")
-    public String request(Model model) {
+    public String requestForm(Model model) {
         ItemRequestForm itemRequestForm = new ItemRequestForm();
 
         model.addAttribute("itemRequestForm", itemRequestForm);
         model.addAttribute("itemList", itemService.findAllItems());
         return "item/request";
+    }
+
+    @PostMapping("/item/request")
+    public String request(@ModelAttribute ItemRequestForm itemRequestForm, BindingResult bindingResult, Model model) {
+        if(itemRequestForm.getItemName().isEmpty()) {
+            bindingResult.addError(new FieldError
+                    ("itemRequestForm", "itemName", "물품을 선택하세요"));
+        }
+        if(itemRequestForm.getContent().isEmpty()) {
+            bindingResult.addError(new FieldError
+                    ("itemRequestForm", "content", "요청 사항을 선택하세요"));
+        }
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("itemRequestForm", itemRequestForm);
+            return "item/request";
+        }
+
+        Student loginStudent = (Student) model.getAttribute("loginStudent");
+
+        ItemRequest itemRequest = new ItemRequest(loginStudent.getStuId(), loginStudent.getName(), itemRequestForm.getItemName(), itemRequestForm.getContent(), false);
+
+        itemRequestService.save(itemRequest);
+        return "redirect:/item/request/list";
     }
 
 
