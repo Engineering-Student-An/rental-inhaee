@@ -22,7 +22,7 @@
         </thead>
         <tbody>
         <tr th:each="request : ${requestList}">
-            <td th:text="${requestList.getTotalElements() - (requestList.getNumber() * requestList.getSize()) - requestStat.index}"></td>
+            <td th:text="${requestList.getTotalElements() - (requestList.getNumber() * requestList.getSize()) - requestStat.index + 1}"></td>
             <td>
                 <a th:href="@{/item/request/{id}(id=${request.id})}"
                    th:text="${#strings.length(request.itemName) > 10 ? #strings.substring(request.itemName, 0, 10) + '...' : request.itemName}"></a>
