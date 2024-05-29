@@ -14,10 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -88,6 +85,16 @@ public class ItemController {
         return "redirect:/item/request/list";
     }
 
+    @GetMapping("/item/request/{id}")
+    public String showOneBoard(@PathVariable("id") Long id, Model model) {
+
+        ItemRequest itemRequest = itemRequestService.findById(id);
+
+        model.addAttribute("request", itemRequest);
+
+        return "item/requestOne";
+
+    }
 
     @ModelAttribute("loginStudent")
     public Student loginStudent(HttpSession session) {

@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+
+<body>
+<div class="container">
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+    <div>
+        <div class="d-flex justify-content-between">
+            <h4>[[${request.itemName}]]</h4>
+            <a href="/item/request/list" class="btn btn-outline-primary" role="button">목록으로</a>
+        </div>
+        <br>
+        <div class="d-flex justify-content-end">
+            <a><strong>작성자</strong> <span th:text="${request.stuId}"></span>  [[${request.name}]]</a>
+        </div><br>
+
+        <div class="border p-3" style="white-space: pre-line; word-break: break-all" th:text="${request.content}"></div><br><br>
+
+    </div>
+    <br>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</div> <!-- /container -->
+</body>
+</html>

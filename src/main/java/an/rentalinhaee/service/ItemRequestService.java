@@ -22,4 +22,8 @@ public class ItemRequestService {
     public List<ItemRequest> findAll() {
         return itemRequestRepository.findAll();
     }
+
+    public ItemRequest findById(Long id) {
+        return itemRequestRepository.findItemRequestById(id);
+    }
 }
