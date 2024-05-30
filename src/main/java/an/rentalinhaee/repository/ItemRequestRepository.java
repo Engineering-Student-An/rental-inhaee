@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface ItemRequestRepository extends JpaRepository<ItemRequest, Long> {
-    List<ItemRequest> findAll();
+    List<ItemRequest> findAllByOrderByIdDesc();
 
     ItemRequest findItemRequestById(Long id);
 }

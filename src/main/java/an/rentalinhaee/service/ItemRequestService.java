@@ -20,7 +20,7 @@ public class ItemRequestService {
     }
 
     public List<ItemRequest> findAll() {
-        return itemRequestRepository.findAll();
+        return itemRequestRepository.findAllByOrderByIdDesc();
     }
 
     public ItemRequest findById(Long id) {
