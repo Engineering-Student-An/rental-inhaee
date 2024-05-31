@@ -30,7 +30,10 @@ public class EmailService {
             // 메일을 받을 수신자 설정
             mimeMessageHelper.setTo(receiver);
             // 메일의 제목 설정
-            mimeMessageHelper.setSubject("PULSE 대여 사업 이메일 인증");
+            mimeMessageHelper.setSubject("SWITCH 이메일 인증");
+
+            mimeMessageHelper.setFrom("chm20060@gmail.com", "인하대 전자공학과 학생회");
+
 
             // 메일의 내용 설정
             mimeMessageHelper.setText(setContext(authCode, type), true);
