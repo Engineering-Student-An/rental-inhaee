@@ -60,6 +60,8 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.0.4.RELEASE' // 사용 중인 버전에 맞게 조정
 
+    implementation 'net.bytebuddy:byte-buddy'
+
 
     //JUnit4 추가
     testImplementation("org.junit.vintage:junit-vintage-engine") {
