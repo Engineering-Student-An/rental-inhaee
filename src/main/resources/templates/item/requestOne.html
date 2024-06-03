@@ -17,6 +17,22 @@
 
         <div class="border p-3" style="white-space: pre-line; word-break: break-all" th:text="${request.content}"></div><br><br>
 
+        <div class="d-flex justify-content-end">
+            <div th:if="${loginStudent.getRole().toString() == 'ADMIN'}">
+                <a th:href="@{/admin/item/request/{id}/check(id=${request.id})}" >
+                    <span class="material-symbols-outlined" style="color: blue">check_circle</span>
+                </a>
+            </div> &nbsp;
+
+            <div th:if="${(loginStudent.getStuId() == request.stuId || loginStudent.getRole().toString() == 'ADMIN')}">
+                <a href="#" onclick="return confirm('해당 요청을 삭제하시겠습니까?');"
+                   th:href="@{/admin/item/request/{id}/delete(id=${request.id})}">
+                    <span class="material-symbols-outlined" style="color: red">delete</span>
+                </a>
+            </div>
+        </div>
+
+
     </div>
     <br>
     <div th:replace="~{fragments/footer :: footer}"></div>
