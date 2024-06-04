@@ -26,4 +26,9 @@ public class ItemRequestService {
     public ItemRequest findById(Long id) {
         return itemRequestRepository.findItemRequestById(id);
     }
+
+    @Transactional
+    public void check(Long id) {
+        findById(id).check();
+    }
 }

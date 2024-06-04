@@ -4,6 +4,7 @@ import an.rentalinhaee.domain.Item;
 import an.rentalinhaee.domain.Student;
 import an.rentalinhaee.domain.dto.ItemForm;
 import an.rentalinhaee.repository.ItemSearch;
+import an.rentalinhaee.service.ItemRequestService;
 import an.rentalinhaee.service.ItemService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminItemController {
 
     private final ItemService itemService;
+    private final ItemRequestService itemRequestService;
 
     @GetMapping("/item/list")
     public String list(@ModelAttribute("itemSearch") ItemSearch itemSearch,
@@ -121,6 +123,13 @@ public class AdminItemController {
 
         itemService.deleteItem(itemId);
         return "redirect:/admin/item/list";
+    }
+
+    @GetMapping("/item/request/{id}/check")
+    public String checkRequest(@PathVariable Long id) {
+        itemRequestService.check(id);
+
+        return "redirect:/item/request/list";
     }
 
     @ModelAttribute("loginStudent")

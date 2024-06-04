@@ -30,4 +30,8 @@ public class ItemRequest {
         this.content = content;
         this.isChecked = isChecked;
     }
+
+    public void check() {
+        this.isChecked = true;
+    }
 }
