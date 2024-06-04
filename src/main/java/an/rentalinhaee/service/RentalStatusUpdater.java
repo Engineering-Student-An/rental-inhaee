@@ -1,5 +1,7 @@
-package an.rentalinhaee.domain;
+package an.rentalinhaee.service;
 
+import an.rentalinhaee.domain.Rental;
+import an.rentalinhaee.domain.RentalStatus;
 import an.rentalinhaee.repository.RentalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
