@@ -40,9 +40,7 @@ public class EmailService {
 
             javaMailSender.send(mimeMessage);
 
-//            log.info("메일 발송 성공!");
         } catch (Exception e) {
-//            log.info("메일 발송 실패!");
             throw new RuntimeException(e);
         }
     }

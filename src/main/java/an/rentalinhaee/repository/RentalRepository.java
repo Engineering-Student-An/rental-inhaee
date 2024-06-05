@@ -16,9 +16,6 @@ public interface RentalRepository extends JpaRepository<Rental, Long> {
     // rental_id 로 Rental 하나 조회
     Rental findOneById(Long id);
 
-    // rentalStatus로 여러개 조회
-    Page<Rental> findRentalsByStatus(RentalStatus rentalStatus, Pageable pageable);
-
     List<Rental> findRentalsByStatus(RentalStatus rentalStatus);
 
     // student로 여러개 조회
@@ -26,16 +23,10 @@ public interface RentalRepository extends JpaRepository<Rental, Long> {
 
     Boolean existsByStudent_IdAndItemIdAndStatusNotIn(Long student_id, Long item_id, Collection<RentalStatus> status);
 
-    Page<Rental> findRentalsByStudentStuIdContaining(String stuId, Pageable pageable);
-
     // rentalStatus + studentId로 여러개 조회
     Page<Rental> findRentalsByStatusAndStudent_Id(RentalStatus rentalStatus, Long id, Pageable pageable);
 
     void deleteRentalByItem_Id(Long itemId);
-
-    Boolean existsByStudent_IdAndStatusNot(Long id, RentalStatus status);
-
-    List<Rental> findRentalsByStudent_IdAndStatus(Long id, RentalStatus status);
 
     boolean existsByStudent_IdAndStatusNotIn(Long id, Collection<RentalStatus> status);
 
