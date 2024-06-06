@@ -2,6 +2,7 @@ package an.rentalinhaee.service;
 
 import an.rentalinhaee.domain.Rental;
 import an.rentalinhaee.domain.RentalStatus;
+import an.rentalinhaee.domain.Student;
 import an.rentalinhaee.repository.RentalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -25,13 +26,17 @@ public class AlarmService {
         List<Rental> rentalsByStatus = rentalRepository.findRentalsByStatus(RentalStatus.ING);
         for (Rental rental : rentalsByStatus) {
             if(ChronoUnit.DAYS.between(rental.getRentalDate(), LocalDate.now()) == 1){
-                String email = rental.getStudent().getEmail();
+                Student student = rental.getStudent();
+                String email = student.getEmail();
+                String name = student.getName();
                 String itemName = rental.getItem().getName();
-                emailService.sendEmail(email, itemName, "email/alarmD1");
+                emailService.sendAlarm(email, name, itemName, "email/alarmD1");
             } else if(ChronoUnit.DAYS.between(rental.getRentalDate(), LocalDate.now()) == 0) {
-                String email = rental.getStudent().getEmail();
+                Student student = rental.getStudent();
+                String email = student.getEmail();
+                String name = student.getName();
                 String itemName = rental.getItem().getName();
-                emailService.sendEmail(email, itemName, "email/alarmDDay");
+                emailService.sendAlarm(email, name, itemName, "email/alarmDDay");
             }
         }
     }

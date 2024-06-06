@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div style="margin:100px;">
+    <div style="text-align: center">
+        <h1><a>인하대학교 전자공학과 학생회 PULSE</a></h1>
+        <a th:href="|https://pf.kakao.com/_CxjxlxiM|" target="_blank"><img src="https://tistory1.daumcdn.net/tistory/5128218/skin/images/inhaeelogo.png" alt="학생회 로고"></a> </h1>
+    </div>
+    <br>
+    <h1>대여 물품 반납일 알림</h1>
+    <br>
+
+    <div align="center" style="border:1px solid black;">
+
+        <div style="font-size: 200%" th:text="${name}"></div>
+        &nbsp;
+        <p>님 안녕하세요!</p>
+        <div style="font-size: 200%" th:text="${itemName}"></div>
+        <p>반납 기한이</p>
+        <div style="font-size: 200%" text="오늘"></div>
+        <p>입니다!</p>
+        <p>오늘까지 반납 완료 바랍니다! 감사합니다.</p>
+    </div>
+    <br/>
+</div>
+
+</body>
+</html>
