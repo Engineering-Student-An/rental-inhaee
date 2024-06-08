@@ -11,16 +11,24 @@
     <h1>대여 물품 반납일 알림</h1>
     <br>
 
-    <div align="center" style="border:1px solid black;">
-
-        <div style="font-size: 200%" th:text="${name}"></div>
-        &nbsp;
-        <p>님 안녕하세요!</p>
-        <div style="font-size: 200%" th:text="${itemName}"></div>
-        <p>반납 기한이</p>
-        <div style="font-size: 200%" text="1일"></div>
-        <p>남았습니다!</p>
+    <div align="center" style="border:1px solid black; font-size: 130%">
+        <div>
+            <span style="font-size: 200%" th:text="${name}"></span>
+            <span>님 안녕하세요!</span>
+        </div>
+        <br>
+        <div>
+            <span style="font-size: 200%" th:text="${itemName}"></span>
+            <span> 반납 기한이</span>
+        </div>
+        <br>
+        <div>
+            <span style="font-size: 200%" th:text="'1일'"></span>
+            <span> 남았습니다!</span>
+        </div>
+        <br>
         <p>기한에 맞춰 반납 완료 바랍니다! 감사합니다.</p>
+
     </div>
     <br/>
 </div>

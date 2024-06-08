@@ -25,17 +25,19 @@ public class AlarmService {
     public void alarmDueDate() {
         List<Rental> rentalsByStatus = rentalRepository.findRentalsByStatus(RentalStatus.ING);
         for (Rental rental : rentalsByStatus) {
-            if(ChronoUnit.DAYS.between(rental.getRentalDate(), LocalDate.now()) == 1){
+            if(ChronoUnit.DAYS.between(rental.getRentalDate(), LocalDate.now()) == 2){
                 Student student = rental.getStudent();
                 String email = student.getEmail();
                 String name = student.getName();
                 String itemName = rental.getItem().getName();
+                System.out.println("name = " + name);
                 emailService.sendAlarm(email, name, itemName, "email/alarmD1");
-            } else if(ChronoUnit.DAYS.between(rental.getRentalDate(), LocalDate.now()) == 0) {
+            } else if(ChronoUnit.DAYS.between(rental.getRentalDate(), LocalDate.now()) == 3) {
                 Student student = rental.getStudent();
                 String email = student.getEmail();
                 String name = student.getName();
                 String itemName = rental.getItem().getName();
+                System.out.println("name = " + name);
                 emailService.sendAlarm(email, name, itemName, "email/alarmDDay");
             }
         }

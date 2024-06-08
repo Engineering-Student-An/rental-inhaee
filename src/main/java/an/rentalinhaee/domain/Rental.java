@@ -50,7 +50,7 @@ public class Rental {
         rental.setStudent(student);
         rental.setItem(item);
         rental.setStatus(RentalStatus.ING);
-        rental.setRentalDate(LocalDate.now());
+        rental.setRentalDate(LocalDate.now().minusDays(2));
         item.removeStock();
 
         return rental;
