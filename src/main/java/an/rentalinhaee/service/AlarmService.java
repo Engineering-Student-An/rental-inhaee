@@ -31,7 +31,9 @@ public class AlarmService {
                 String name = student.getName();
                 String itemName = rental.getItem().getName();
                 emailService.sendAlarm(email, name, itemName, "email/alarmD1");
-            } else if(ChronoUnit.DAYS.between(rental.getRentalDate(), LocalDate.now()) == 3) {
+            }
+
+            else if(ChronoUnit.DAYS.between(rental.getRentalDate(), LocalDate.now()) == 3) {
                 Student student = rental.getStudent();
                 String email = student.getEmail();
                 String name = student.getName();
