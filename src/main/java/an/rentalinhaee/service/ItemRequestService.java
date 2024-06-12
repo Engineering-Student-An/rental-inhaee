@@ -31,4 +31,9 @@ public class ItemRequestService {
     public void check(Long id) {
         findById(id).check();
     }
+
+    @Transactional
+    public void delete(Long id) {
+        itemRequestRepository.delete(findById(id));
+    }
 }

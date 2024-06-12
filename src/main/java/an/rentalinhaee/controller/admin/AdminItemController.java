@@ -132,6 +132,13 @@ public class AdminItemController {
         return "redirect:/item/request/list";
     }
 
+    @GetMapping("/item/request/{id}/delete")
+    public String deleteRequest(@PathVariable Long id) {
+        itemRequestService.delete(id);
+
+        return "redirect:/item/request/list";
+    }
+
     @ModelAttribute("loginStudent")
     public Student loginStudent(HttpSession session) {
         if(session.getAttribute("loginStudent") != null) {

@@ -19,10 +19,13 @@
 
         <div class="d-flex justify-content-end">
             <div th:if="${loginStudent.getRole().toString() == 'ADMIN'}">
-                <a th:href="@{/admin/item/request/{id}/check(id=${request.id})}" >
+                <a th:if="${!request.isChecked}"
+                   th:href="@{/admin/item/request/{id}/check(id=${request.id})}" >
                     <span class="material-symbols-outlined" style="color: blue">check_circle</span>
                 </a>
+                <span th:if="${request.isChecked}" th:text="'확인되었습니다 '" style="color: limegreen"></span>
             </div> &nbsp;
+
 
             <div th:if="${(loginStudent.getStuId() == request.stuId || loginStudent.getRole().toString() == 'ADMIN')}">
                 <a href="#" onclick="return confirm('해당 요청을 삭제하시겠습니까?');"
