@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+<style>
+    .btn-mobile {
+        padding: 0.25rem 0.5rem; /* 패딩 줄이기 */
+        font-size: 0.7rem; /* 폰트 사이즈 줄이기 */
+        /* 필요한 경우 여기에 다른 스타일 조정 */
+    }
+    .small-font {
+        font-size: 13px;
+    }
+</style>
+<body>
+<div class="container">
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+    <div class="small-font">
+        <div class="d-flex justify-content-between">
+            <h5>[[${request.itemName}]]</h5>
+            <a href="/item/request/list" class="btn btn-outline-primary btn-sm" role="button">목록으로</a>
+        </div>
+        <br>
+        <div class="d-flex justify-content-end">
+            <a><strong>작성자</strong> <span th:text="${request.stuId}"></span>  [[${request.name}]]</a>
+        </div><br>
+
+        <div class="border p-3" style="white-space: pre-line; word-break: break-all" th:text="${request.content}"></div><br><br>
+
+        <div class="d-flex justify-content-end">
+            <div th:if="${loginStudent.getRole().toString() == 'ADMIN'}">
+                <a th:if="${!request.isChecked}"
+                   th:href="@{/admin/item/request/{id}/check(id=${request.id})}" >
+                    <span class="material-symbols-outlined" style="color: blue">check_circle</span>
+                </a>
+                <span th:if="${request.isChecked}" th:text="'확인되었습니다 '" style="color: limegreen"></span>
+            </div> &nbsp;
+
+
+            <div th:if="${(loginStudent.getStuId() == request.stuId || loginStudent.getRole().toString() == 'ADMIN')}">
+                <a href="#" onclick="return confirm('해당 요청을 삭제하시겠습니까?');"
+                   th:href="@{/admin/item/request/{id}/delete(id=${request.id})}">
+                    <span class="material-symbols-outlined" style="color: red">delete</span>
+                </a>
+            </div>
+        </div>
+
+
+    </div>
+    <br>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</div> <!-- /container -->
+</body>
+</html>

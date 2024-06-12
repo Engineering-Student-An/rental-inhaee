@@ -49,6 +49,11 @@ public class ItemController {
     public String requestList(Model model) {
 
         model.addAttribute("requestList", itemRequestService.findAll());
+
+        if((boolean) model.getAttribute("isMobile")) {
+            return "mobile/item/requestList";
+        }
+
         return "item/requestList";
     }
 
@@ -91,6 +96,10 @@ public class ItemController {
         ItemRequest itemRequest = itemRequestService.findById(id);
 
         model.addAttribute("request", itemRequest);
+
+        if((boolean) model.getAttribute("isMobile")) {
+            return "mobile/item/requestOne";
+        }
 
         return "item/requestOne";
 
