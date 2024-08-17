@@ -43,9 +43,9 @@ public class HomeController {
 //        model.addAttribute("hotItems", itemService.findHotItems());
 //        model.addAttribute("recentNotice", boardService.findRecentNotice());
 
-        model.addAttribute("isMobile", model.getAttribute("isMobile"));
+//        model.addAttribute("isMobile", model.getAttribute("isMobile"));
 
-        return (boolean) model.getAttribute("isMobile") ? "mobile/home/home" : "home/index";
+        return "home/index";
 
     }
 
