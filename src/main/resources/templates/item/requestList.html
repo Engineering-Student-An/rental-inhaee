@@ -52,7 +52,10 @@
                 </div>
                 <p class="text-gray-700" th:text="${request.content}"></p>
                 <p class="mt-4 text-gray-500">작성자: <span class="font-semibold" th:text="${request.stuId} + ' ' +${request.name}"></span></p>
+                <button th:if="${loginStudent.role.toString() == 'ADMIN'}" id="checkRequestBtn" th:data-id="${request.id}"
+                        class="bg-green-500 mt-3 text-white text-sm font-semibold p-3 rounded-lg shadow hover:bg-green-600 transition duration-200 transform hover:scale-105">요청 확인</button>
             </div>
+
         </div>
 
     </div>

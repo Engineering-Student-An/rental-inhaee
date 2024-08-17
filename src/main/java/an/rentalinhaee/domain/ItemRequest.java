@@ -32,6 +32,6 @@ public class ItemRequest {
     }
 
     public void check() {
-        this.isChecked = true;
+        this.isChecked = !this.isChecked;
     }
 }

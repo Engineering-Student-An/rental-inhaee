@@ -83,17 +83,6 @@ public class ItemController {
         return "redirect:/item/request/list";
     }
 
-    @GetMapping("/item/request/{id}")
-    public String showOneBoard(@PathVariable("id") Long id, Model model) {
-
-        ItemRequest itemRequest = itemRequestService.findById(id);
-
-        model.addAttribute("request", itemRequest);
-
-        return "item/requestOne";
-
-    }
-
     @ModelAttribute("loginStudent")
     public Student loginStudent(HttpSession session) {
         if(session.getAttribute("loginStudent") != null) {
