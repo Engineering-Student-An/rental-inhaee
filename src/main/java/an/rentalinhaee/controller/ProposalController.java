@@ -23,7 +23,6 @@ public class ProposalController {
 
     private final ProposalService proposalService;
 
-
     @GetMapping("/proposal/list")
     public String proposalList(Model model,
                                @RequestParam(required = false, value = "proposalPage", defaultValue = "1") int proposalPage) {
@@ -34,9 +33,9 @@ public class ProposalController {
 
         model.addAttribute("proposalPage", proposalPage);
 
-        if((boolean) model.getAttribute("isMobile")) {
-            return "mobile/proposal/list";
-        }
+//        if((boolean) model.getAttribute("isMobile")) {
+//            return "mobile/proposal/list";
+//        }
         return "proposal/list";
     }
 
@@ -89,9 +88,9 @@ public class ProposalController {
 
         model.addAttribute("proposal", proposal);
 
-        if((boolean) model.getAttribute("isMobile")) {
-            return "mobile/proposal/showOne";
-        }
+//        if((boolean) model.getAttribute("isMobile")) {
+//            return "mobile/proposal/showOne";
+//        }
         return "proposal/showOne";
 
     }
@@ -104,11 +103,11 @@ public class ProposalController {
         return null;
     }
 
-    @ModelAttribute("isMobile")
-    public boolean isMobile(HttpSession session) {
-        if(session.getAttribute("isMobile") != null) {
-            return (boolean) session.getAttribute("isMobile");
-        }
-        return false;
-    }
+//    @ModelAttribute("isMobile")
+//    public boolean isMobile(HttpSession session) {
+//        if(session.getAttribute("isMobile") != null) {
+//            return (boolean) session.getAttribute("isMobile");
+//        }
+//        return false;
+//    }
 }

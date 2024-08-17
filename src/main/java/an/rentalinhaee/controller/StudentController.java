@@ -26,30 +26,29 @@ public class StudentController {
     private final StudentService studentService;
 
     @GetMapping("/changeInfo")
-    public String changeInfo(Model model) {
+    public String changeInfo() {
+
+        return "student/changeInfo";
+    }
+
+    @GetMapping("/changeInfo/password")
+    public String changePassword(Model model) {
 
         model.addAttribute("isPasswordChecked", false);
         model.addAttribute("isEmailChecked", false);
         model.addAttribute("isEmailSent", false);
 
-        model.addAttribute("isMobile", model.getAttribute("isMobile"));
-
-        if((boolean) model.getAttribute("isMobile")) {
-            return "mobile/student/changeInfo";
-        }
-
-        return "student/changeInfo";
+        return "student/beforeChangePassword";
     }
 
     @PostMapping("/changeInfo/verify/password")
-    public String changePassword(@RequestParam("password") String password,
-                                 Model model){
+    public String changePassword(@RequestParam("password") String password, Model model){
 
         Student student = (Student) model.getAttribute("loginStudent");
 
         if(!studentService.passwordCheck(student.getStuId(), password)) {
             model.addAttribute("errorMessage", "현재 비밀번호와 동일하지 않습니다!");
-            model.addAttribute("nextUrl", "/changeInfo");
+            model.addAttribute("nextUrl", "/changeInfo/password");
 
             return "error/errorMessage";
         }
@@ -58,17 +57,12 @@ public class StudentController {
         model.addAttribute("isEmailSent", false);
         model.addAttribute("isEmailChecked", false);
 
-        if((boolean) model.getAttribute("isMobile")) {
-            return "mobile/student/changeInfo";
-        }
-        return "student/changeInfo";
+        return "student/beforeChangePassword";
     }
 
     private final EmailService emailService;
     @PostMapping("/changeInfo/verify/email")
     public String verifyEmail(@RequestParam("email") String email, HttpSession httpSession, Model model) {
-
-//        Student student = (Student) model.getAttribute("loginStudent");
 
         model.addAttribute("isPasswordChecked", true);
         model.addAttribute("isEmailSent", true);
@@ -79,10 +73,7 @@ public class StudentController {
 
         httpSession.setAttribute("verifyCode", authCode);
 
-        if((boolean) model.getAttribute("isMobile")) {
-            return "mobile/student/changeInfo";
-        }
-        return "student/changeInfo";
+        return "student/beforeChangePassword";
     }
 
     @PostMapping("/changeInfo/verify/email/code")
@@ -91,20 +82,15 @@ public class StudentController {
         String verifyCode = (String) httpSession.getAttribute("verifyCode");
         if(!code.equals(verifyCode)) {
             model.addAttribute("errorMessage", "인증 문자가 일치하지 않습니다!");
-            model.addAttribute("nextUrl", "/changeInfo");
+            model.addAttribute("nextUrl", "/changeInfo/password");
             return "error/errorMessage";
         }
-
-        Student student = (Student) model.getAttribute("loginStudent");
 
         model.addAttribute("isPasswordChecked", true);
         model.addAttribute("isEmailSent", true);
         model.addAttribute("isEmailChecked", true);
 
-        if((boolean) model.getAttribute("isMobile")) {
-            return "mobile/student/changeInfo";
-        }
-        return "student/changeInfo";
+        return "student/beforeChangePassword";
     }
 
     @GetMapping("/changeInfo/changePassword")
@@ -112,10 +98,6 @@ public class StudentController {
 
         model.addAttribute("request", new ChangePasswordRequest());
 
-        model.addAttribute("isMobile", model.getAttribute("isMobile"));
-        if((boolean) model.getAttribute("isMobile")) {
-            return "mobile/student/changePassword";
-        }
         return "student/changePassword";
     }
 
@@ -135,9 +117,6 @@ public class StudentController {
                     "changePasswordCheck", "비밀번호가 동일하지 않습니다!"));
         }
         if (bindingResult.hasErrors()) {
-            if((boolean) model.getAttribute("isMobile")) {
-                return "mobile/student/changePassword";
-            }
             return "student/changePassword";
         }
 
@@ -150,18 +129,10 @@ public class StudentController {
     }
 
     @GetMapping("/changeInfo/email")
-    public String changeEmail(Model model, HttpServletRequest request) {
+    public String changeEmail(Model model) {
 
         model.addAttribute("emailForm", new EmailForm());
         model.addAttribute("isSent", false);
-
-        request.getSession().setAttribute("isMobile", model.getAttribute("isMobile"));
-        model.addAttribute("isMobile", model.getAttribute("isMobile"));
-
-        System.out.println("model.getAttribute(\"isMobile\") = " + model.getAttribute("isMobile"));
-        if((boolean) model.getAttribute("isMobile")) {
-            return "mobile/student/changeEmail";
-        }
 
         return "student/changeEmail";
     }
@@ -171,8 +142,6 @@ public class StudentController {
                                   BindingResult bindingResult, Model model, HttpServletRequest request) {
 
         String email = emailForm.getEmail();
-        request.getSession().setAttribute("isMobile", model.getAttribute("isMobile"));
-        model.addAttribute("isMobile", model.getAttribute("isMobile"));
 
         if(email.equals(((Student) model.getAttribute("loginStudent")).getEmail())) {
             bindingResult.addError(new FieldError("emailForm",
@@ -188,9 +157,6 @@ public class StudentController {
         }
 
         if(bindingResult.hasErrors()) {
-            if((boolean) model.getAttribute("isMobile")) {
-                return "mobile/student/changeEmail";
-            }
             return "student/changeEmail";
         }
 
@@ -200,9 +166,6 @@ public class StudentController {
         request.getSession().setAttribute("verifyCode", authCode);
         model.addAttribute("isSent", true);
 
-        if((boolean) model.getAttribute("isMobile")) {
-            return "mobile/student/changeEmail";
-        }
         return "student/changeEmail";
     }
 
@@ -213,8 +176,6 @@ public class StudentController {
 
         // 메일 보낸 인증 문자
         String verifyCode = (String) session.getAttribute("verifyCode");
-
-        session.setAttribute("isMobile", model.getAttribute("isMobile"));
 
         // 인증 문자와 동일한지 검증
         if(!code.equals(verifyCode)) {
@@ -238,13 +199,5 @@ public class StudentController {
             return (Student) session.getAttribute("loginStudent");
         }
         return null;
-    }
-
-    @ModelAttribute("isMobile")
-    public boolean isMobile(HttpSession session) {
-        if(session.getAttribute("isMobile") != null) {
-            return (boolean) session.getAttribute("isMobile");
-        }
-        return false;
     }
 }

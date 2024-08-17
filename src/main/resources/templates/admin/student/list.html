@@ -1,91 +1,81 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: header}">
-<body>
-
-<div class="container">
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
-    <h2>회원 정보 조회</h2><br>
-    <div>
-        <form th:object="${studentSearch}" class="form-inline">
-            <style>
-                .inline-elements{
-                    display: flex;
-                    align-items: center;
-                }
-            </style>
-
-            <div class="inline-elements">
-                    <div class="form-group mb-2" style="margin-right: 5px;">
-                        <input type="text" th:field="*{stuId}" class="form-control" placeholder="학생 학번" style="margin-right: 20px;">
-                    </div>
-                    <div class="form-group mb-2" style="margin-right: 5px;">
-                        <input type="text" th:field="*{name}" class="form-control"  placeholder="학생 이름" style="margin-right: 20px;">
-                    </div>
-                <button type="submit" id="reset-btn" style="border: none; background: none; cursor: pointer">
-                    <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top">restart_alt</span>
-                </button>
-                &nbsp;
-                <button type="submit" style="border: none; background: none; cursor: pointer">
-                    <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top">search</span>
-                </button>
-            </div>
-        </form>
-    </div> <br>
-
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>학번</th>
-            <th>이름</th>
-            <th>조회</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="student : ${students}">
-            <td th:text="${students.getNumber()*students.getSize() + studentStat.count}"></td>
-            <td th:text="${student.stuId}"></td>
-            <td th:text="${student.name}"></td>
-            <td>
-                <a href="#" th:href="@{/admin/student/{id} (id=${student.stuId})}">
-                    <span class="material-symbols-outlined">person_check</span>
-                </a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <br>
-
-    <div style="text-align: center">
-        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${students.getNumber()}==0"
-                th:onclick="|location.href='@{/admin/student/list(page=${1}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
-            <<</button>
-        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!students.hasPrevious()}"
-                th:onclick="|location.href='@{/admin/student/list(page=${students.getNumber()}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
-            <</button>
-        &nbsp; &nbsp;
-        <span>[[${students.getNumber()+1}]] / [[${students.getTotalElements() == 0 ? 1 : students.getTotalPages()}]] </span>
-        &nbsp; &nbsp;
-        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!students.hasNext()}"
-                th:onclick="|location.href='@{/admin/student/list(page=${students.getNumber() + 2}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
-            ></button>
-        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!students.hasNext()}"
-                th:onclick="|location.href='@{/admin/student/list(page=${students.getTotalPages()}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
-            >></button>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="~{fragments/header :: header}"></head>
+<body class="h-full">
+<link rel="stylesheet" href="/css/item_list.css"/>
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+<header class="bg-white shadow">
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900">회원 정보 조회</h1>
     </div>
-    <br>
-    <div th:replace="~{fragments/footer :: footer}"></div>
+</header>
+<main>
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <div class="container mx-auto my-8 p-6 bg-gray-100 rounded-lg shadow-md">
+            <form th:object="${studentSearch}" >
+                <div class="mb-4 flex items-center">
+                    <input type="text" th:field="*{stuId}" class="border border-gray-300 rounded-lg px-4 py-2 mr-4"
+                           placeholder="학생 학번">
+                    <input type="text" th:field="*{name}" class="border border-gray-300 rounded-lg px-4 py-2 mr-4"
+                           placeholder="학생 이름">
+                    <div>
+                        <button type="submit" id="reset-btn" style="border: none; background: none; cursor: pointer">
+                            <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top">restart_alt</span>
+                        </button>
+                        <button type="submit" style="border: none; background: none; cursor: pointer">
+                            <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top">search</span>
+                        </button>
+                    </div>
 
-</div> <!-- /container -->
 
-<script>
-    // 'resetButton' 버튼에 클릭 이벤트 리스너 추가
-    document.getElementById('reset-btn').addEventListener('click', function() {
-        // 'category'와 'name' 입력 필드의 값을 초기화
-        document.getElementById('category').value = '';
-        document.getElementById('name').value = '';
-    });
-</script>
+                </div>
+            </form>
+            <br>
+
+            <table id="studentTable" class="min-w-full bg-white rounded-lg shadow-md">
+                <thead>
+                <tr class="bg-gray-200 text-gray-600">
+                    <th class="py-3 px-4 text-left">#</th>
+                    <th class="py-3 px-4 text-left">학번</th>
+                    <th class="py-3 px-4 text-left">이름</th>
+                    <th class="py-3 px-4 text-left">조회</th>
+                </tr>
+                </thead>
+                <tbody class="text-gray-700">
+                <tr th:each="student : ${students}" class="hover:bg-gray-100">
+                    <td class="py-3 px-4" th:text="${students.getNumber()*students.getSize() + studentStat.count}"></td>
+                    <td class="py-3 px-4" th:text="${student.stuId}"></td>
+                    <td class="py-3 px-4" th:text="${student.name}"></td>
+                    <td class="py-3 px-4" >
+                        <a href="#" th:href="@{/admin/student/{id} (id=${student.stuId})}">
+                            <span class="material-symbols-outlined">person_check</span>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="pagination">
+                <button class="pagination-button" th:disabled="${students.getNumber()}==0"
+                        th:onclick="|location.href='@{/admin/student/list(page=${1}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
+                    <<</button>
+                <button class="pagination-button" th:disabled="${!students.hasPrevious()}"
+                        th:onclick="|location.href='@{/admin/student/list(page=${students.getNumber()}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
+                    <</button>
+                &nbsp; &nbsp;
+                <span class="pagination-info">[[${students.getNumber()+1}]] / [[${students.getTotalElements() == 0 ? 1 : students.getTotalPages()}]]</span>
+                &nbsp; &nbsp;
+                <button class="pagination-button" th:disabled="${!students.hasNext()}"
+                        th:onclick="|location.href='@{/admin/student/list(page=${students.getNumber() + 2}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
+                    ></button>
+                <button class="pagination-button" th:disabled="${!students.hasNext()}"
+                        th:onclick="|location.href='@{/admin/student/list(page=${students.getTotalPages()}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
+                    >></button>
+            </div>
+        </div>
+    </div>
+</main>
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
+<script src="/js/student_list.js"></script>
 </html>

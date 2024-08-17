@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="~{fragments/header :: header}"></head>
+<body class="h-full">
+<link rel="stylesheet" href="/css/dashboard.css"/>
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+<header class="bg-white shadow">
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900">대시보드</h1>
+    </div>
+</header>
+<main>
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <div class="container">
+            <div th:if="${loginStudent == null}">
+                <h1 class="text-2xl font-bold tracking-tight text-gray-900 mt-10">로그인 후 이용 가능합니다!</h1>
+                <div class="mt-20 mb-20 flex justify-center">
+                    <div class="login-btn" id="login-btn">
+                        <div class="label">로그인</div>
+                        <div class="toggle"></div>
+                    </div>
+                </div>
+            </div>
+            <div th:unless="${loginStudent == null}">
+                <h1 class="text-2xl font-bold tracking-tight text-gray-900">대여중인 물품</h1>
+                <div th:if="${rentalList.size() == 0 || rentalList == null}">
+                    <div class="pricing-cards-30">
+                        <div class="card-30">
+                            <p>현재 대여중인 물품이 없습니다!</p>
+                            <span class="price">대여 규칙</span>
+                            <ul>
+                                <li>• 대여 기간: 3일</li>
+                                <li>• 대여 장소: 학생회실</li>
+                                <li>• 연체료: 일 당 500원</li>
+                            </ul>
+                            <button class="finish-button">대여 시작하기</button>
+                        </div>
+                    </div>
+                </div>
+                <div th:unless="${rentalList.size() == 0 || rentalList == null}">
+                    <div class="pricing-cards-container">
+                        <button class="arrow left" style="overflow: visible" onclick="moveSlide(-1)">←</button>
+                        <div class="pricing-cards">
+                            <div class="pricing-card" th:each="rental : ${rentalList}">
+                                <div class="card" id="rentalCard" th:class="${rental.status.name == 'OVERDUE'} ? 'card overdue' : 'card'">
+                                    <p th:text="${rental.item.name} + ' (' + ${rental.item.category} + ')'"></p>
+                                    <h2 th:text="'대여 날짜: ' + ${rental.rentalDate}"></h2>
+                                    <h2>반납 기한: <span class="price"
+                                                     th:text="${rental.rentalDate.plusDays(3).format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy-MM-dd'))}"></span></h2>
+                                    <br>
+                                    <a th:href="'javascript:cancel('+${rental.id}+')'" class="finish-button" id="finishButton" th:class="${rental.status.name == 'OVERDUE'} ? 'finish-button overdue' : 'finish-button'">반납하기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="arrow right" style="overflow: visible"  onclick="moveSlide(1)">→</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<main class="flex justify-between items-start">
+    <div class="flex flex-col w-[40%] ml-6" >
+        <article class="p-6 mb-10 bg-gray-200 rounded-lg shadow-md">
+            <h1 class="text-2xl font-bold mb-4 flex justify-between items-center">
+                공지사항
+                <a th:href="@{/board/list/notice}" class="bg-gray-400 text-white w-8 h-8 rounded-full flex items-center justify-center text-xl hover:bg-gray-600 transition-colors duration-200">
+                    +
+                </a>
+            </h1>
+            <ul class="space-y-4" th:each="notice : ${recentNotice}">
+                <a class="p-4 border mb-3 bg-white border-white rounded-lg hover:shadow-lg transition-shadow duration-200 block transform transition-transform duration-200 hover:-translate-y-1"
+                   th:href="@{/board/{id}(id=${notice.id})}">
+                    <p class="text-lg font-semibold" th:text="${notice.title}"></p>
+                    <span class="text-gray-500 text-sm" th:text="${#temporals.format(notice.writeTime, 'yyyy.MM.dd')}"></span>
+                </a>
+            </ul>
+        </article>
+        <article class="p-6 mb-10 bg-blue-100 rounded-lg shadow-md">
+            <h1 class="text-2xl font-bold mb-4 flex justify-between items-center">
+                학부 최근 공지 사항
+                <a href="https://ee.inha.ac.kr/ee/784/subview.do?enc=Zm5jdDF8QEB8JTJGYmJzJTJGZWUlMkYyMTglMkZhcnRjbExpc3QuZG8lM0Y%3D" target="_blank"
+                   class="bg-blue-300 text-white w-8 h-8 rounded-full flex items-center justify-center text-xl hover:bg-blue-400 transition-colors duration-200">
+                    +
+                </a>
+            </h1>
+            <ul class="space-y-4" th:each="post : ${recentPosts}">
+                <a class="p-4 border mb-3 bg-white border-white rounded-lg hover:shadow-lg transition-shadow duration-200 block transform transition-transform duration-200 hover:-translate-y-1"
+                   th:href="'https://ee.inha.ac.kr/' + ${post.link}" target="_blank">
+                    <p class="text-lg font-semibold" th:text="${post.title}"></p>
+                    <span class="text-gray-500 text-sm" th:text="${post.date}"></span>
+                </a>
+            </ul>
+        </article>
+    </div>
+
+    <article class="w-1/2 mr-6 p-6 mb-10 rounded-lg shadow-2xl md:w-1/2 w-full">
+        <h1 class="text-2xl font-bold mb-4 flex justify-between items-center">
+            학부 중요 공지 사항
+            <a href="https://ee.inha.ac.kr/ee/784/subview.do?enc=Zm5jdDF8QEB8JTJGYmJzJTJGZWUlMkYyMTglMkZhcnRjbExpc3QuZG8lM0Y%3D" target="_blank"
+               class="bg-orange-200 text-white w-8 h-8 rounded-full flex items-center justify-center text-xl hover:bg-orange-300 transition-colors duration-200">
+                +
+            </a>
+        </h1>
+        <ul class="space-y-4" th:each="post : ${importantPosts}">
+            <a class="p-4 border mb-3 bg-orange-100 border-white rounded-lg hover:shadow-lg transition-shadow duration-200 block transform transition-transform duration-200 hover:-translate-y-1"
+            th:href="'https://ee.inha.ac.kr/' + ${post.link}" target="_blank">
+
+            <p class="text-lg font-semibold" th:text="${post.title}"></p>
+                <span class="text-gray-500 text-sm" th:text="${post.date}"></span>
+            </a>
+        </ul>
+    </article>
+</main>
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script src="/js/dashboard.js"></script>
+
+</body>
+</html>

@@ -39,9 +39,6 @@ public class ItemController {
         }
 
         model.addAttribute("itemSearch", itemSearch);
-        if((boolean) model.getAttribute("isMobile")) {
-            return "mobile/item/list";
-        }
         return "item/list";
     }
 
@@ -49,10 +46,6 @@ public class ItemController {
     public String requestList(Model model) {
 
         model.addAttribute("requestList", itemRequestService.findAll());
-
-        if((boolean) model.getAttribute("isMobile")) {
-            return "mobile/item/requestList";
-        }
 
         return "item/requestList";
     }
@@ -97,10 +90,6 @@ public class ItemController {
 
         model.addAttribute("request", itemRequest);
 
-        if((boolean) model.getAttribute("isMobile")) {
-            return "mobile/item/requestOne";
-        }
-
         return "item/requestOne";
 
     }
@@ -111,13 +100,5 @@ public class ItemController {
             return (Student) session.getAttribute("loginStudent");
         }
         return null;
-    }
-
-    @ModelAttribute("isMobile")
-    public boolean isMobile(HttpSession session) {
-        if(session.getAttribute("isMobile") != null) {
-            return (boolean) session.getAttribute("isMobile");
-        }
-        return false;
     }
 }

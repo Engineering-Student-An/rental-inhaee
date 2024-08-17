@@ -1,48 +1,101 @@
+<!--<!DOCTYPE HTML>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head th:replace="~{fragments/header :: header}">-->
+<!--<body>-->
+
+<!--<div class="container">-->
+<!--    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>-->
+<!--    <h2>건의 사항 작성</h2><br><br>-->
+
+<!--    <form th:method="post" th:action="|/proposal/new|" th:object="${proposalForm}">-->
+<!--        <div>-->
+<!--            <label th:for="secret">비밀글</label>-->
+<!--            <input type="checkbox" th:field="*{secret}" class="checkboxes">-->
+<!--        </div><br/>-->
+
+<!--        <div>-->
+<!--            <label th:for="title">제목</label>-->
+<!--            <input type="text" th:field="*{title}" th:errorclass="error-input" class="form-control" placeholder="제목을 입력하세요 (20자 이내로 입력해주세요)">-->
+<!--            <div class="error-class" th:errors="*{title}"></div>-->
+<!--        </div><br>-->
+<!--        <div>-->
+<!--            <label th:for="content">작성 내용</label>-->
+<!--            <textarea th:field="*{content}" th:errorclass="error-input" class="form-control" rows="5" placeholder="작성 내용을 입력하세요"></textarea>-->
+<!--            <div class="error-class" th:errors="*{content}"></div>-->
+<!--        </div><br>-->
+
+<!--        <button type="submit" style="border: none; background: none; cursor: pointer">-->
+<!--            <span class="material-symbols-outlined" style="color: #0b5ed7;">edit</span>-->
+<!--        </button>-->
+<!--    </form>-->
+
+<!--    <br>-->
+<!--    <div th:replace="~{fragments/footer :: footer}"></div>-->
+
+<!--</div> &lt;!&ndash; /container &ndash;&gt;-->
+
+
+<!--</body>-->
+<!--</html>-->
+
+<!--<style>-->
+<!--    .error-class {-->
+<!--        color: red;-->
+<!--    }-->
+<!--    .error-input {-->
+<!--        border-color: red;-->
+<!--    }-->
+<!--</style>-->
+
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: header}">
-<body>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="~{fragments/header :: header}"></head>
+<body class="h-full">
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
 
-<div class="container">
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
-    <h2>건의 사항 작성</h2><br><br>
+<header class="bg-white shadow">
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex items-center">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900">건의 사항 작성</h1>
+    </div>
+</header>
 
-    <form th:method="post" th:action="|/proposal/new|" th:object="${proposalForm}">
-        <div>
-            <label th:for="secret">비밀글</label>
-            <input type="checkbox" th:field="*{secret}" class="checkboxes">
-        </div><br/>
+<main>
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 mb-6">
+        <div class="w-full max-w-2xl mx-auto bg-white shadow-md rounded-lg p-8">
+            <form th:method="post" th:action="|/proposal/new|" th:object="${proposalForm}">
 
-        <div>
-            <label th:for="title">제목</label>
-            <input type="text" th:field="*{title}" th:errorclass="error-input" class="form-control" placeholder="제목을 입력하세요 (20자 이내로 입력해주세요)">
-            <div class="error-class" th:errors="*{title}"></div>
-        </div><br>
-        <div>
-            <label th:for="content">작성 내용</label>
-            <textarea th:field="*{content}" th:errorclass="error-input" class="form-control" rows="5" placeholder="작성 내용을 입력하세요"></textarea>
-            <div class="error-class" th:errors="*{content}"></div>
-        </div><br>
+                <div class="flex items-center mb-4">
+                    <input type="checkbox" th:field="*{secret}" id="secret" class="checkboxes h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                    <label th:for="secret" class="ml-2 block text-gray-600">비밀 글</label>
+                </div>
 
-        <button type="submit" style="border: none; background: none; cursor: pointer">
-            <span class="material-symbols-outlined" style="color: #0b5ed7;">edit</span>
-        </button>
-    </form>
+                <div class="mb-4">
+                    <label for="title" class="text-xl block font-medium text-gray-600">제목</label>
+                    <input type="text" th:field="*{title}" th:errorclass="error-input" class="form-control form-control font-medium text-gray-700 mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500"
+                           placeholder="제목을 입력하세요 (20자 이내로 입력해주세요)">
+                    <div class="error-class text-red-500 mt-1" th:errors="*{title}"></div>
+                </div>
 
-    <br>
-    <div th:replace="~{fragments/footer :: footer}"></div>
+                <div class="mb-4">
+                    <label th:for="content" class="block text-xl font-medium text-gray-600">작성 내용</label>
+                    <textarea th:field="*{content}" th:errorclass="error-input" class="form-control font-medium text-gray-700 mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500"
+                              rows="8" placeholder="작성 내용을 입력하세요"></textarea>
+                    <div class="error-class text-red-500 mt-1" th:errors="*{content}"></div>
+                </div>
 
-</div> <!-- /container -->
+                <button type="submit" class="w-full flex items-center justify-center px-4 py-2 bg-blue-400 text-white rounded-md hover:bg-blue-700 transition duration-200">
+                    <span class="material-symbols-outlined">edit</span>
+                    <span class="ml-2">요청 제출</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+</main>
 
 
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script src="/js/item_request_list.js"></script>
 </body>
-</html>
 
-<style>
-    .error-class {
-        color: red;
-    }
-    .error-input {
-        border-color: red;
-    }
-</style>
+</html>

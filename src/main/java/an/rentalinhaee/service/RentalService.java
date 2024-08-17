@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -56,6 +58,12 @@ public class RentalService {
     // 특정 학생의 렌탈 리스트 검색
     public Page<Rental> findMyRentalList(Long id, Pageable pageable) {
         return rentalRepository.findRentalsByStudent_Id(id, pageable);
+    }
+
+    public List<Rental> findMyRentalINGList(Long id) {
+        Collection<RentalStatus> collection = Arrays.asList(RentalStatus.OVERDUE, RentalStatus.ING);
+
+        return rentalRepository.findRentalsByStudent_IdAndStatusIn(id, collection);
     }
 
     // 특정 학생의 특정 아이템 렌탈 리스트 검색

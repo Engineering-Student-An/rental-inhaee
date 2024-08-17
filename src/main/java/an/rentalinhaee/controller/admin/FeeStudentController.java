@@ -24,7 +24,6 @@ public class FeeStudentController {
 
     private final FeeStudentService feeStudentService;
 
-
     @GetMapping("/student/feeList")
     public String feeList(@ModelAttribute("studentSearch") StudentSearch studentSearch,
                           @RequestParam(required = false, defaultValue = "1", value = "page") int page,
@@ -43,9 +42,6 @@ public class FeeStudentController {
         }
         model.addAttribute("studentSearch", studentSearch);
 
-        if ((boolean) model.getAttribute("isMobile")) {
-            return "mobile/admin/student/feeList";
-        }
         return"admin/student/feeList";
     }
 
@@ -103,7 +99,6 @@ public class FeeStudentController {
             return "error/errorMessage";
         }
 
-
         List<FeeStudent> feeStudents = ReadExcel.uploadExcel(file);
         feeStudentService.deleteAll();
         for (FeeStudent feeStudent : feeStudents) {
@@ -119,13 +114,5 @@ public class FeeStudentController {
             return (Student) session.getAttribute("loginStudent");
         }
         return null;
-    }
-
-    @ModelAttribute("isMobile")
-    public boolean isMobile(HttpSession session) {
-        if(session.getAttribute("isMobile") != null) {
-            return (boolean) session.getAttribute("isMobile");
-        }
-        return false;
     }
 }

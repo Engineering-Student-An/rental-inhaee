@@ -1,44 +1,88 @@
+<!--<!DOCTYPE HTML>-->
+<!--<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">-->
+<!--<head th:replace="~{fragments/header :: header}">-->
+<!--<body>-->
+
+<!--<div class="container">-->
+<!--    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>-->
+<!--    <h3>대여 물품 추가</h3><br>-->
+<!--    <form th:action="@{/admin/item/new}" th:object="${form}" method="post">-->
+<!--        <div class="form-group">-->
+<!--            <label th:for="category">카테고리</label>-->
+<!--            <input type="text" th:field="*{category}" th:errorclass="error-input" class="form-control" placeholder="카테고리를 입력하세요">-->
+<!--            <div class="error-class" th:errors="*{category}"></div>-->
+<!--        </div><br>-->
+<!--        <div class="form-group">-->
+<!--            <label th:for="name">물품 이름</label>-->
+<!--            <input type="text" th:field="*{name}" class="form-control" placeholder="이름을 입력하세요">-->
+<!--        </div><br>-->
+<!--        <div class="form-group">-->
+<!--            <label th:for="allStockQuantity">수량</label>-->
+<!--            <input type="number" th:field="*{allStockQuantity}" th:errorclass="error-input" class="form-control" placeholder="수량을 입력하세요">-->
+<!--            <div class="error-class" th:errors="*{allStockQuantity}"></div>-->
+<!--        </div><br>-->
+
+<!--        <button type="submit" style="border: none; background: none; cursor: pointer">-->
+<!--            <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top">edit</span>-->
+<!--        </button>-->
+<!--    </form>-->
+<!--    <br>-->
+<!--    <div th:replace="~{fragments/footer :: footer}"></div>-->
+<!--</div> &lt;!&ndash; /container &ndash;&gt;-->
+
+
+<!--</body>-->
+<!--</html>-->
+
+<!--<style>-->
+<!--    .error-class {-->
+<!--        color: red;-->
+<!--    }-->
+<!--    .error-input {-->
+<!--        border-color: red;-->
+<!--    }-->
+<!--</style>-->
+
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{fragments/header :: header}">
-<body>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="~{fragments/header :: header}"></head>
+<body class="h-full">
+<link rel="stylesheet" href="/css/item_list.css"/>
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+<header class="bg-white shadow">
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900">대여 물품 추가</h1>
+    </div>
+</header>
+<main>
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <div class="max-w-md mx-auto bg-white shadow-md rounded-xl p-6">
+            <form th:action="@{/admin/item/new}" th:object="${form}" method="post">
+                <div class="mb-4">
+                    <label th:for="category" class="block text-sm font-medium text-gray-700">카테고리</label>
+                    <input type="text" th:field="*{category}" th:errorclass="error-input" class="font-medium text-gray-700 mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500" placeholder="카테고리를 입력하세요">
+                    <div class="text-red-500 mt-1" th:errors="*{category}"></div>
+                </div>
+                <div class="mb-4">
+                    <label th:for="name" class="block text-sm font-medium text-gray-700">물품 이름</label>
+                    <input type="text" th:field="*{name}" class="font-medium text-gray-700 mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500" placeholder="이름을 입력하세요">
+                    <div class="text-red-500 mt-1" th:errors="*{name}"></div>
+                </div>
+                <div class="mb-4">
+                    <label th:for="allStockQuantity" class="block text-sm font-medium text-gray-700">수량</label>
+                    <input type="number" th:field="*{allStockQuantity}" th:errorclass="error-input" class="font-medium text-gray-700 mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500" placeholder="수량을 입력하세요">
+                    <div class="text-red-500 mt-1" th:errors="*{allStockQuantity}"></div>
+                </div>
 
-<div class="container">
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
-    <h3>대여 물품 추가</h3><br>
-    <form th:action="@{/admin/item/new}" th:object="${form}" method="post">
-        <div class="form-group">
-            <label th:for="category">카테고리</label>
-            <input type="text" th:field="*{category}" th:errorclass="error-input" class="form-control" placeholder="카테고리를 입력하세요">
-            <div class="error-class" th:errors="*{category}"></div>
-        </div><br>
-        <div class="form-group">
-            <label th:for="name">물품 이름</label>
-            <input type="text" th:field="*{name}" class="form-control" placeholder="이름을 입력하세요">
-        </div><br>
-        <div class="form-group">
-            <label th:for="allStockQuantity">수량</label>
-            <input type="number" th:field="*{allStockQuantity}" th:errorclass="error-input" class="form-control" placeholder="수량을 입력하세요">
-            <div class="error-class" th:errors="*{allStockQuantity}"></div>
-        </div><br>
+                <button type="submit" style="border: none; background: none; cursor: pointer">
+                    <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top">edit</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</main>
 
-        <button type="submit" style="border: none; background: none; cursor: pointer">
-            <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top">edit</span>
-        </button>
-    </form>
-    <br>
-    <div th:replace="~{fragments/footer :: footer}"></div>
-</div> <!-- /container -->
-
-
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
+<script src="/js/item_list.js"></script>
 </html>
-
-<style>
-    .error-class {
-        color: red;
-    }
-    .error-input {
-        border-color: red;
-    }
-</style>

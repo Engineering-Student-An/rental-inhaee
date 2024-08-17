@@ -28,7 +28,6 @@ public class AdminStudentController {
     private final StudentService studentService;
     private final RentalService rentalService;
 
-
     @GetMapping("/student/list")
     public String list(@ModelAttribute("studentSearch") StudentSearch studentSearch,
                        @RequestParam(required = false, defaultValue = "1", value = "page") int page,
@@ -46,9 +45,6 @@ public class AdminStudentController {
         }
         model.addAttribute("studentSearch", studentSearch);
 
-        if((boolean) model.getAttribute("isMobile")) {
-            return "mobile/admin/student/list";
-        }
         return"admin/student/list";
     }
 
@@ -73,13 +69,8 @@ public class AdminStudentController {
         HttpSession httpSession = httpServletRequest.getSession(true);
         model.addAttribute("adminPassword", ((Student) model.getAttribute("loginStudent")).getPassword());
 
-        if ((boolean) model.getAttribute("isMobile")) {
-            return "mobile/admin/student/studentInfo";
-        }
         return "admin/student/studentInfo";
     }
-
-
 
     @PostMapping("/student/{stuId}/delete")
     public String deleteStudent(@PathVariable("stuId") String stuId, @RequestParam("password") String password, Model model) {
@@ -116,13 +107,5 @@ public class AdminStudentController {
             return (Student) session.getAttribute("loginStudent");
         }
         return null;
-    }
-
-    @ModelAttribute("isMobile")
-    public boolean isMobile(HttpSession session) {
-        if(session.getAttribute("isMobile") != null) {
-            return (boolean) session.getAttribute("isMobile");
-        }
-        return false;
     }
 }

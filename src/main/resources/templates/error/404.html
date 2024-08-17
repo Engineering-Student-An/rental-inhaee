@@ -1,20 +1,22 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: header}">
-<body>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="~{fragments/header :: header}"></head>
+<body class="h-full">
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+<header class="bg-white shadow">
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900">에러 페이지</h1>
+    </div>
+</header>
 
-<div class="container">
+<main>
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <h2>존재하지 않는 페이지 입니다!</h2>
+        <br><br>
+    </div>
+</main>
 
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
-
-    <h2>에러 페이지</h2>
-    <hr/>
-    <h2>존재하지 않는 페이지 입니다!</h2>
-    <br><br>
-
-
-    <div th:replace="~{fragments/footer :: footer}"></div>
-</div> <!-- /container -->
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>
 

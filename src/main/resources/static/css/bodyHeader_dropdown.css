@@ -1,0 +1,117 @@
+/* 기본적으로 드롭다운 메뉴 숨기기 */
+/*#dropdown-menu {*/
+/*    display: none; !* 기본적으로 드롭다운 숨기기 *!*/
+/*}*/
+
+/* 드롭다운 메뉴가 보이는 상태 */
+.dropdown-visible {
+    display: block; /* 드롭다운 메뉴 보이기 */
+}
+.hidden {
+    display: none; /* 숨김 설정 */
+}
+
+/*.dropdown {*/
+/*    position: relative; !* 자식 요소의 절대 위치 지정 *!*/
+/*}*/
+
+/*.dropdown-menu {*/
+/*    position: absolute;*/
+/*    top: 110%; !* 상위 요소 바로 아래 위치 *!*/
+/*    left: -10%;*/
+/*    background-color: white;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 4px;*/
+/*    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);*/
+/*    display: none; !* 기본적으로 숨김 *!*/
+/*    z-index: 1000; !* 다른 요소 위에 표시 *!*/
+/*}*/
+
+/*.dropdown-menu-container {*/
+/*    display: inline-flex;*/
+/*    flex-direction: column;*/
+/*}*/
+/*.dropdown:hover {*/
+/*    background-color: #000000; !* 링크 호버 시 배경색 *!*/
+/*}*/
+/*.dropdown:hover .dropdown-menu {*/
+/*    display: block; !* 드롭다운 메뉴 보이기 *!*/
+/*}*/
+
+/*.dropdown a, .dropdown p {*/
+/*    display: block; !* 링크와 텍스트를 블록 요소로 설정하여 클릭 가능 영역 확대 *!*/
+/*    padding: 10px 15px;*/
+/*    text-decoration: none;*/
+/*}*/
+
+/*.dropdown a:hover, .dropdown p:hover {*/
+
+/*}*/
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    padding: 30px 30px; /* 패딩 조정 */
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%; /* 상위 요소 바로 아래 위치 */
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* 그림자 효과 강화 */
+
+    min-width: 300px;
+    width: 600px;
+    z-index: 100;
+    border-radius: 8px;
+    overflow: hidden; /* 내용이 넘치지 않도록 설정 */
+
+    opacity: 0; /* 드롭다운 초기 투명도 */
+    transition: opacity 0.3s ease, transform 0.3s ease; /* 부드러운 애니메이션 효과 */
+    transform: translateY(-10px); /* 드롭다운이 살짝 위에서 시작 */
+}
+.dropdown-columns {
+    display: flex; /* 가로로 정렬 */
+    justify-content: space-between; /* 간격 조정 */
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+    opacity: 1; /* 드롭다운 보이기 */
+    transform: translateY(0); /* 드롭다운 위치 조정 */
+}
+
+.column {
+    display: inline-block;
+    vertical-align: top;
+    padding: 15px;
+    width: 100%;
+}
+
+.column h3 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #555;
+}
+
+.divider {
+    width: 100%; /* 전체 너비 차지 */
+    height: 1px; /* 가로줄 두께 */
+    background-color: #ccc; /* 가로줄 색상 */
+    margin-bottom: 10px;
+}
+
+
+.column a {
+    display: block;
+    color: #007bff;
+    text-decoration: none;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.column a:hover {
+    text-decoration: underline;
+}

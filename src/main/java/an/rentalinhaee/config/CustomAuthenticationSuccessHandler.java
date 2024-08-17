@@ -51,7 +51,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                 response.sendRedirect(targetUrl);
             }
         } else {
-            response.sendRedirect("/");
+            response.sendRedirect("/home");
         }
 
         // loginStudent 를 세션에 저장

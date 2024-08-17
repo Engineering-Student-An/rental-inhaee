@@ -1,62 +1,65 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" >
 <head th:replace="~{fragments/header :: header}"></head>
-<style>
-    .text-container {
-        background-color: rgba(241, 92, 92, 0.89); /* 배경색을 빨간색으로 설정 */
-        color: white; /* 텍스트 색상을 흰색으로 설정 */
-        padding: 20px; /* 패딩 설정 */
-        margin: 20px; /* 마진 설정 */
-    }
-</style>
-<body>
-<div class="container">
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
-    <h2>물품 현황 수정 요청</h2>
+<body class="h-full">
+<link rel="stylesheet" href="/css/question_mark.css"/>
+<link rel="stylesheet" href="/css/item_request_list.css"/>
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
 
-    <div class="text-container">
-        <h4>대여 물품의 수량에 대해 수정을 요청하는 게시판입니다.</h4>
-        <h4>현황과 다른 물품에 대해 알려주세요!</h4>
-        <h4>관리자가 확인 후 확인 여부를 변경하거나 게시글 삭제 가능합니다.</h4>
-    </div><br><br>
-    <div class="d-flex justify-content-between">
-        <h2>요청 목록</h2>
-        <a href="/item/request">
-            <span class="material-symbols-outlined">edit</span>
-        </a>
+<header class="bg-white shadow">
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex items-center">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900">물품 현황 수정 요청</h1>
+        <div class="relative inline-block hidden md:block">
+            <button class="bg-gray-400 ml-2 text-white rounded-full w-5 h-5 mb-3 flex items-center justify-center hover:bg-gray-600">
+            ?
+            </button>
+            <div class="absolute left-1/2 transform -translate-x-1/2 mt-2 w-48 bg-gray-700 text-white text-sm rounded-lg p-9 opacity-0 transition-opacity duration-300 pointer-events-none tooltip">
+                대여 물품의 수량에 대해 수정을 요청하는 게시판입니다.<br>
+                현황과 다른 물품에 대해 알려주세요!<br>
+                관리자가 확인 후 확인 여부를 변경하거나 게시글 삭제 가능합니다.<br>
+            </div>
+        </div>
     </div>
-    <br>
-    <table class="table table-striped">
-        <thead> <tr>
-            <th>#</th> <th>물품 이름</th> <th>작성자 <span style="white-space: nowrap;">학번</span></th> <th>작성자 <span style="white-space: nowrap;">이름</span></th>
-            <th>확인 여부</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="request, requestStat : ${requestList}">
+</header>
 
-            <td th:text="${requestList.size() - requestStat.index}"></td>
-            <td>
-                <a th:href="@{/item/request/{id}(id=${request.id})}"
-                   th:text="${#strings.length(request.itemName) > 10 ? #strings.substring(request.itemName, 0, 10) + '...' : request.itemName}"></a>
-            </td>
-            <td th:text="${request.stuId}"></td>
-            <td th:text="${request.name}"></td>
-
-            <div th:if="${request.isChecked()}">
-                <td> <img th:src="@{/images/check.png}" alt="Checked" width="20" height="20"> </td>
+<main>
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-tight text-gray-900">요청 목록</h1>
+            <div class="write-btn" id="write-btn">
+                <div class="label">요청 작성</div>
+                <div class="toggle"></div>
             </div>
-            <div th:unless="${request.isChecked()}">
-                <td> <img th:src="@{/images/checkX.png}" alt="CheckedX" width="20" height="20"> </td>
-            </div>
-        </tr>
-        </tbody>
-    </table>
-    <br>
+        </div>
+        <br>
+        <div class="max-w-md mx-auto">
+            <div class="bg-white shadow-md rounded-lg p-6 mb-6" th:each="request, requestStat : ${requestList}">
 
-    <br>
-    <div th:replace="~{fragments/footer :: footer}"></div>
-</div> <!-- /container -->
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-bold mb-2" th:text="${request.itemName}"></h2>
+                    <!-- 초록색 체크 아이콘 -->
+                    <div th:if="${request.isChecked()}">
+                        <svg class="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M7.629 14.614l-3.293-3.293a1 1 0 00-1.414 1.414l4.293 4.293a1 1 0 001.414 0l10-10a1 1 0 00-1.414-1.414l-9.293 9.293z"/>
+                        </svg>
+                    </div>
+                    <!-- 빨간색 x 아이콘 -->
+                    <div th:unless="${request.isChecked()}">
+                        <svg class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 9.586l4.293-4.293a1 1 0 011.414 1.414L11.414 11l4.293 4.293a1 1 0 01-1.414 1.414L10 12.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 11 4.293 6.707a1 1 0 011.414-1.414L10 9.586z"/>
+                        </svg>
+                    </div>
+                </div>
+                <p class="text-gray-700" th:text="${request.content}"></p>
+                <p class="mt-4 text-gray-500">작성자: <span class="font-semibold" th:text="${request.stuId} + ' ' +${request.name}"></span></p>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script src="/js/item_request_list.js"></script>
 </body>
-</html>
 
+</html>

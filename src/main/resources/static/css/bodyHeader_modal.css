@@ -1,0 +1,38 @@
+.hidden {
+    display: none; /* 숨김 설정 */
+}
+
+/* 모달 스타일 */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* 배경 반투명 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* 다른 요소 위에 표시 */
+    opacity: 0; /* 초기 투명도 설정 */
+    transition: opacity 0.2s ease; /* 페이드 인/아웃 애니메이션 */
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 300px;
+    text-align: center;
+    transform: scale(0); /* 초기 크기 설정 */
+    transition: transform 0.2s ease; /* 스케일 애니메이션 */
+}
+
+/* 모달 표시 상태 */
+.modal.show {
+    opacity: 1; /* 보이기 상태 */
+}
+
+.modal.show .modal-content {
+    transform: scale(1); /* 크기 확대 */
+}

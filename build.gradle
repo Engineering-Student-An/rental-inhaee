@@ -62,6 +62,9 @@ dependencies {
 
     implementation 'net.bytebuddy:byte-buddy'
 
+    // Jsoup
+    implementation 'org.jsoup:jsoup:1.15.3' // 최신 버전으로 업데이트하세요
+
 
     //JUnit4 추가
     testImplementation("org.junit.vintage:junit-vintage-engine") {

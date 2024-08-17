@@ -1,43 +1,47 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" >
 <head th:replace="~{fragments/header :: header}"></head>
-<body>
+<body class="h-full">
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
 
-<div class="container">
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
-    <h3>게시글 수정</h3><br>
+<header class="bg-white shadow">
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex items-center">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900">게시글 수정</h1>
+    </div>
+</header>
 
-    <form th:method="post" th:action="@{/board/{id}/edit(id=${id})}" th:object="${boardForm}">
-        <div>
-            <label th:for="title">제목</label>
-            <input type="text" th:field="*{title}" th:errorclass="error-input" class="form-control" placeholder="제목을 입력하세요">
-            <div class="error-class" th:errors="*{title}"></div>
-        </div><br>
-        <div>
-            <label th:for="content">작성 내용</label>
-            <textarea th:field="*{content}" th:errorclass="error-input" class="form-control" rows="5" placeholder="작성 내용을 입력하세요"></textarea>
-            <div class="error-class" th:errors="*{content}"></div>
-        </div><br>
+<main>
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 mb-6">
+        <h1 class="text-2xl font-bold tracking-tight text-gray-900 mb-6">요청 작성</h1>
+        <div class="w-full max-w-2xl mx-auto bg-white shadow-md rounded-lg p-8">
+            <form th:method="post" th:action="@{/board/{id}/edit(id=${id})}" th:object="${boardForm}">
 
-        <button type="submit" style="border: none; background: none; cursor: pointer">
-            <span class="material-symbols-outlined" style="color: #0b5ed7;">edit_note</span>
-        </button>
-    </form>
+                <div class="mb-4">
+                    <label for="title" class="text-xl block font-medium text-gray-600">제목</label>
+                    <input type="text" th:field="*{title}" th:errorclass="error-input" class="form-control font-medium text-gray-700 mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500"
+                           placeholder="제목을 입력하세요 (20자 이내로 입력해주세요)">
+                    <div class="error-class text-red-500 mt-1" th:errors="*{title}"></div>
+                </div>
 
-    <br>
-    <div th:replace="~{fragments/footer :: footer}"></div>
+                <div class="mb-4">
+                    <label th:for="content" class="text-xl block font-medium text-gray-600">작성 내용</label>
+                    <textarea th:field="*{content}" th:errorclass="error-input" class="form-control font-medium text-gray-700 mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500"
+                              rows="8" placeholder="작성 내용을 입력하세요"></textarea>
+                    <div class="error-class text-red-500 mt-1" th:errors="*{content}"></div>
+                </div>
 
-</div> <!-- /container -->
+                <button type="submit" class="w-full flex items-center justify-center px-4 py-2 bg-blue-400 text-white rounded-md hover:bg-blue-700 transition duration-200">
+                    <span class="material-symbols-outlined">edit</span>
+                    <span class="ml-2">요청 제출</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+</main>
 
 
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
-</html>
 
-<style>
-    .error-class {
-        color: red;
-    }
-    .error-input {
-        border-color: red;
-    }
-</style>
+</html>

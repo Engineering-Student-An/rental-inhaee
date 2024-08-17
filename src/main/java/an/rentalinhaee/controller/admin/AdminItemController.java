@@ -41,9 +41,6 @@ public class AdminItemController {
 
         model.addAttribute("itemSearch", itemSearch);
 
-        if ((boolean) model.getAttribute("isMobile")) {
-            return "mobile/admin/item/list";
-        }
         return "admin/item/list";
     }
 
@@ -57,12 +54,16 @@ public class AdminItemController {
     @PostMapping("/item/new")
     public String createItem(@ModelAttribute("form") ItemForm form, BindingResult bindingResult) {
 
-        if(form.getAllStockQuantity() < 0){
-            bindingResult.addError(new FieldError("form", "allStockQuantity", "0 이상의 재고 수량을 입력해주세요!"));
-        }
         if(form.getCategory().isEmpty()) {
             bindingResult.addError(new FieldError("form", "category", "카테고리를 입력해주세요!"));
         }
+        if(form.getName().isEmpty()) {
+            bindingResult.addError(new FieldError("form", "name", "이름을 입력해주세요!"));
+        }
+        if(form.getAllStockQuantity() < 0){
+            bindingResult.addError(new FieldError("form", "allStockQuantity", "0 이상의 재고 수량을 입력해주세요!"));
+        }
+
         if(bindingResult.hasErrors()) return "admin/item/createItemForm";
 
         Item item = new Item();
@@ -98,6 +99,9 @@ public class AdminItemController {
                              BindingResult bindingResult) {
         if(form.getCategory().isEmpty()) {
             bindingResult.addError(new FieldError("form", "category", "카테고리를 입력해주세요!"));
+        }
+        if(form.getName().isEmpty()) {
+            bindingResult.addError(new FieldError("form", "name", "이름을 입력해주세요!"));
         }
         if(form.getAllStockQuantity() < 0){
             bindingResult.addError(new FieldError("form", "allStockQuantity", "0 이상의 재고 수량을 입력해주세요!"));
@@ -145,13 +149,5 @@ public class AdminItemController {
             return (Student) session.getAttribute("loginStudent");
         }
         return null;
-    }
-
-    @ModelAttribute("isMobile")
-    public boolean isMobile(HttpSession session) {
-        if(session.getAttribute("isMobile") != null) {
-            return (boolean) session.getAttribute("isMobile");
-        }
-        return false;
     }
 }

@@ -1,6 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://db-inhaee.czac0gwkswbv.ap-northeast-2.rds.amazonaws.com:3306/inhaeeDB
+    username: root
+    password: justiff0801
 
   jpa:
     hibernate:
@@ -9,10 +12,17 @@ spring:
       hibernate:
         format_sql: true
         default_batch_fetch_size: 1000
+
+  servlet:
+    multipart:
+      enabled: true
+
   # 메일
   mail:
     host: smtp.gmail.com
     port: 587
+    username: chm20060
+    password: aplsnsbodvlydaao
     properties:
       mail:
         smtp:

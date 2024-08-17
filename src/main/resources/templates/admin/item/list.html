@@ -1,102 +1,221 @@
+<!--<!DOCTYPE HTML>-->
+<!--<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">-->
+<!--<head th:replace="~{fragments/header :: header}">-->
+
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>-->
+
+<!--    <h2>물품 현황 수정</h2><br>-->
+<!--    <div>-->
+<!--        <form th:object="${itemSearch}" class="form-inline">-->
+<!--            <style>-->
+<!--                .inline-elements {-->
+<!--                    display: flex;-->
+<!--                    align-items: center;-->
+<!--                }-->
+<!--            </style>-->
+<!--            <div class="d-flex justify-content-between align-items-start">-->
+<!--                <div class="inline-elements">-->
+<!--                    <div class="form-group mb-2">-->
+<!--                        <input type="text" th:field="*{category}" class="form-control" placeholder="물품 카테고리" /></div>-->
+<!--                    &nbsp;-->
+<!--                    <div class="form-group mb-2">-->
+<!--                        <input type="text" th:field="*{name}" class="form-control" placeholder="물품 이름" /></div>-->
+<!--                    &nbsp;-->
+<!--                    <button type="submit" id="reset-btn" style="border: none; background: none; cursor: pointer">-->
+<!--                        <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top">restart_alt</span>-->
+<!--                    </button>-->
+<!--                    &nbsp;-->
+<!--                    <button type="submit" style="border: none; background: none; cursor: pointer">-->
+<!--                        <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top">search</span>-->
+<!--                    </button>-->
+
+<!--                </div>-->
+<!--                <a href="/admin/item/new" class="btn btn-outline-success" role="button">물품 추가</a>-->
+
+<!--            </div>-->
+<!--        </form>-->
+<!--        <br>-->
+
+<!--        <table class="table table-striped">-->
+<!--            <thead> <tr>-->
+<!--                <th>카테고리</th> <th>물품 이름</th> <th>대여 가능 재고</th> <th>총 재고</th> <th></th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr th:each="item : ${items}">-->
+<!--                <td th:text="${item.category}"></td>-->
+<!--                <td th:text="${item.name}"></td>-->
+<!--                <td th:text="${item.stockQuantity}"></td>-->
+<!--                <td th:text="${item.allStockQuantity}"></td>-->
+<!--                <td>-->
+<!--                    <div class="text-end">-->
+<!--                        <a href="#" th:href="@{/admin/item/{id}/edit (id=${item.id})}" style="text-decoration: none">-->
+<!--                            <span class="material-symbols-outlined">edit_note</span>-->
+<!--                        </a>-->
+<!--                        &nbsp;-->
+<!--                        <a href="#" onclick="return confirm('물품 삭제 시 해당 물품의 대여 기록도 삭제 됩니다. \n정말 물품을 삭제하겠습니까?');"-->
+<!--                           th:href="@{/admin/item/{id}/delete (id=${item.id})}">-->
+<!--                            <span class="material-symbols-outlined" style="color: red">delete</span>-->
+<!--                        </a>-->
+<!--                    </div>-->
+
+<!--                </td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+<!--    </div>-->
+<!--    <br>-->
+
+<!--    <div style="text-align: center">-->
+<!--        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${items.getNumber()}==0"-->
+<!--                th:onclick="|location.href='@{/admin/item/list(page=${1}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">-->
+<!--            <<</button>-->
+<!--        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!items.hasPrevious()}"-->
+<!--                th:onclick="|location.href='@{/admin/item/list(page=${items.getNumber()}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">-->
+<!--            <</button>-->
+<!--        &nbsp; &nbsp;-->
+<!--        <span>[[${items.getNumber()+1}]] / [[${items.getTotalElements() == 0 ? 1 : items.getTotalPages()}]]</span>-->
+<!--        &nbsp; &nbsp;-->
+<!--        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!items.hasNext()}"-->
+<!--                th:onclick="|location.href='@{/admin/item/list(page=${items.getNumber() + 2}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">-->
+<!--            ></button>-->
+<!--        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!items.hasNext()}"-->
+<!--                th:onclick="|location.href='@{/admin/item/list(page=${items.getTotalPages()}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">-->
+<!--            >></button>-->
+<!--    </div>-->
+<!--    <br>-->
+
+<!--    <div th:replace="~{fragments/footer :: footer}"></div>-->
+<!--</div> &lt;!&ndash; /container &ndash;&gt;-->
+
+<!--<script>-->
+<!--    // 'resetButton' 버튼에 클릭 이벤트 리스너 추가-->
+<!--    document.getElementById('reset-btn').addEventListener('click', function() {-->
+<!--        // 'category'와 'name' 입력 필드의 값을 초기화-->
+<!--        document.getElementById('category').value = '';-->
+<!--        document.getElementById('name').value = '';-->
+<!--    });-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{fragments/header :: header}">
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="~{fragments/header :: header}"></head>
+<body class="h-full">
+<link rel="stylesheet" href="/css/item_list.css"/>
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+<header class="bg-white shadow">
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900">물품 현황 수정</h1>
+    </div>
+</header>
+<main>
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <div class="container mx-auto my-8 p-6 bg-gray-100 rounded-lg shadow-md">
 
-<body>
-<div class="container">
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
-
-    <h2>물품 현황 수정</h2><br>
-    <div>
-        <form th:object="${itemSearch}" class="form-inline">
-            <style>
-                .inline-elements {
-                    display: flex;
-                    align-items: center;
-                }
-            </style>
-            <div class="d-flex justify-content-between align-items-start">
-                <div class="inline-elements">
-                    <div class="form-group mb-2">
-                        <input type="text" th:field="*{category}" class="form-control" placeholder="물품 카테고리" /></div>
-                    &nbsp;
-                    <div class="form-group mb-2">
-                        <input type="text" th:field="*{name}" class="form-control" placeholder="물품 이름" /></div>
-                    &nbsp;
-                    <button type="submit" id="reset-btn" style="border: none; background: none; cursor: pointer">
-                        <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top">restart_alt</span>
-                    </button>
-                    &nbsp;
-                    <button type="submit" style="border: none; background: none; cursor: pointer">
-                        <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top">search</span>
-                    </button>
-
-                </div>
-                <a href="/admin/item/new" class="btn btn-outline-success" role="button">물품 추가</a>
-
-            </div>
-        </form>
-        <br>
-
-        <table class="table table-striped">
-            <thead> <tr>
-                <th>카테고리</th> <th>물품 이름</th> <th>대여 가능 재고</th> <th>총 재고</th> <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="item : ${items}">
-                <td th:text="${item.category}"></td>
-                <td th:text="${item.name}"></td>
-                <td th:text="${item.stockQuantity}"></td>
-                <td th:text="${item.allStockQuantity}"></td>
-                <td>
-                    <div class="text-end">
-                        <a href="#" th:href="@{/admin/item/{id}/edit (id=${item.id})}" style="text-decoration: none">
-                            <span class="material-symbols-outlined">edit_note</span>
-                        </a>
+            <form th:object="${itemSearch}">
+                <!-- 검색 필드 추가 -->
+                <div class="mb-4 flex items-center">
+                    <input type="text" placeholder="물품 카테고리" th:field="*{category}" class="border border-gray-300 rounded-lg px-4 py-2 mr-4" />
+                    <input type="text" placeholder="물품 이름" th:field="*{name}" class="border border-gray-300 rounded-lg px-4 py-2 mr-4" />
+                    <div>
+                        <button type="submit" id="reset-btn" style="border: none; background: none; cursor: pointer">
+                            <span class="material-symbols-outlined" style="font-size: 26px; color: #0b5ed7">restart_alt</span>
+                        </button>
                         &nbsp;
-                        <a href="#" onclick="return confirm('물품 삭제 시 해당 물품의 대여 기록도 삭제 됩니다. \n정말 물품을 삭제하겠습니까?');"
-                           th:href="@{/admin/item/{id}/delete (id=${item.id})}">
-                            <span class="material-symbols-outlined" style="color: red">delete</span>
-                        </a>
+                        <button type="submit" style="border: none; background: none; cursor: pointer">
+                            <span class="material-symbols-outlined" style="font-size: 26px; color: #0b5ed7">search</span>
+                        </button>
                     </div>
 
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                    <div class="flex-grow"></div>
+                    <a href="/admin/item/new" class="bg-green-500 text-white text-sm font-semibold p-3 rounded-lg shadow hover:bg-green-600 transition duration-200 transform hover:scale-105">
+                        물품 추가
+                    </a>
+
+                </div>
+            </form>
+            <br>
+            <table id="itemTable" class="min-w-full bg-white rounded-lg shadow-md">
+                <thead>
+                <tr class="bg-gray-200 text-gray-600">
+                    <th class="py-3 px-4 text-left">카테고리</th>
+                    <th class="py-3 px-4 text-left">물품 이름</th>
+                    <th class="py-3 px-4 text-left">대여 가능 재고</th>
+                    <th class="py-3 px-4 text-left">총 재고</th>
+                    <th class="py-3 px-4 text-left"></th>
+                </tr>
+                </thead>
+                <tbody class="text-gray-700">
+                <tr th:each="item : ${items}" class="hover:bg-gray-100">
+                    <td class="py-3 px-4" th:text="${item.category}"></td>
+                    <td class="py-3 px-4" th:text="${item.name}"></td>
+                    <td class="py-3 px-4" th:text="${item.stockQuantity}"></td>
+                    <td class="py-3 px-4" th:text="${item.allStockQuantity}"></td>
+                    <td>
+                        <div class="text-end">
+                            <a href="#" th:href="@{/admin/item/{id}/edit (id=${item.id})}" style="text-decoration: none">
+                                <span class="material-symbols-outlined" style="color: blue">edit_note</span>
+                            </a>
+                            <a href="#" onclick="return confirm('물품 삭제 시 해당 물품의 대여 기록도 삭제 됩니다. \n정말 물품을 삭제하겠습니까?');"
+                               th:href="@{/admin/item/{id}/delete (id=${item.id})}">
+                                <span class="material-symbols-outlined" style="color: red">delete</span>
+                            </a>
+                        </div>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="pagination">
+                <button class="pagination-button" th:disabled="${items.getNumber()}==0"
+                        th:onclick="|location.href='@{/admin/item/list(page=${1}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
+                    <<</button>
+                <button class="pagination-button" th:disabled="${!items.hasPrevious()}"
+                        th:onclick="|location.href='@{/admin/item/list(page=${items.getNumber()}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
+                    <</button>
+                &nbsp; &nbsp;
+                <span class="pagination-info">[[${items.getNumber()+1}]] / [[${items.getTotalElements() == 0 ? 1 : items.getTotalPages()}]]</span>
+                &nbsp; &nbsp;
+                <button class="pagination-button" th:disabled="${!items.hasNext()}"
+                        th:onclick="|location.href='@{/admin/item/list(page=${items.getNumber() + 2}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
+                    ></button>
+                <button class="pagination-button" th:disabled="${!items.hasNext()}"
+                        th:onclick="|location.href='@{/admin/item/list(page=${items.getTotalPages()}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
+                    >></button>
+            </div>
+
+
+        </div>
+
     </div>
-    <br>
 
-    <div style="text-align: center">
-        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${items.getNumber()}==0"
-                th:onclick="|location.href='@{/admin/item/list(page=${1}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
-            <<</button>
-        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!items.hasPrevious()}"
-                th:onclick="|location.href='@{/admin/item/list(page=${items.getNumber()}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
-            <</button>
-        &nbsp; &nbsp;
-        <span>[[${items.getNumber()+1}]] / [[${items.getTotalElements() == 0 ? 1 : items.getTotalPages()}]]</span>
-        &nbsp; &nbsp;
-        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!items.hasNext()}"
-                th:onclick="|location.href='@{/admin/item/list(page=${items.getNumber() + 2}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
-            ></button>
-        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!items.hasNext()}"
-                th:onclick="|location.href='@{/admin/item/list(page=${items.getTotalPages()}, category=${itemSearch.getCategory()}, name=${itemSearch.getName()} ) }'|">
-            >></button>
-    </div>
-    <br>
+</main>
 
-    <div th:replace="~{fragments/footer :: footer}"></div>
-</div> <!-- /container -->
-
-<script>
-    // 'resetButton' 버튼에 클릭 이벤트 리스너 추가
-    document.getElementById('reset-btn').addEventListener('click', function() {
-        // 'category'와 'name' 입력 필드의 값을 초기화
-        document.getElementById('category').value = '';
-        document.getElementById('name').value = '';
-    });
-</script>
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
+<script src="/js/item_list.js"></script>
 </html>
+
+
+<!--    <div style="text-align: center">-->
+<!--        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${students.getNumber()}==0"-->
+<!--                th:onclick="|location.href='@{/admin/student/list(page=${1}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">-->
+<!--            <<</button>-->
+<!--        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!students.hasPrevious()}"-->
+<!--                th:onclick="|location.href='@{/admin/student/list(page=${students.getNumber()}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">-->
+<!--            <</button>-->
+<!--        &nbsp; &nbsp;-->
+<!--        <span>[[${students.getNumber()+1}]] / [[${students.getTotalElements() == 0 ? 1 : students.getTotalPages()}]] </span>-->
+<!--        &nbsp; &nbsp;-->
+<!--        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!students.hasNext()}"-->
+<!--                th:onclick="|location.href='@{/admin/student/list(page=${students.getNumber() + 2}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">-->
+<!--            ></button>-->
+<!--        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!students.hasNext()}"-->
+<!--                th:onclick="|location.href='@{/admin/student/list(page=${students.getTotalPages()}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">-->
+<!--            >></button>-->
+<!--    </div>-->

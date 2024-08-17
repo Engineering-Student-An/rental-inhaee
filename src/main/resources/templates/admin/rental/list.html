@@ -1,109 +1,98 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: header}">
-<body>
-
-<div class="container">
-
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
-    <h2>대여 현황 조회</h2><br>
-
-    <div>
-        <div>
-            <form th:object="${rentalSearch}" class="form-inline">
-                <style>
-                    .inline-elements {
-                        display: flex;
-                        align-items: center;
-                    }
-                </style>
-
-                <div class="inline-elements">
-                    <div class="form-group mb-2">
-                        <input type="text" th:field="*{stuId}" class="form-control" placeholder="학생 학번" /></div>
-                    <div class="form-group mx-sm-1 mb-2">
-                        <select th:field="*{rentalStatus}" class="form-control"><option value="">대여 상태</option>
-                            <option th:each="status : ${T(an.rentalinhaee.domain.RentalStatus).values()}"
-                                    th:value="${status}"
-                                    th:text="${status.getDisplayName()}">option
-                            </option>
-                        </select>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="~{fragments/header :: header}"></head>
+<body class="h-full">
+<link rel="stylesheet" href="/css/item_list.css"/>
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+<header class="bg-white shadow">
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900">대여 현황 조회</h1>
+    </div>
+</header>
+<main>
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <div class="container mx-auto my-8 p-6 bg-gray-100 rounded-lg shadow-md">
+            <form th:object="${rentalSearch}" >
+                <div class="mb-4 flex items-center">
+                    <input type="text" th:field="*{stuId}" class="border border-gray-300 rounded-lg px-4 py-2 mr-4"
+                           placeholder="학생 학번" />
+                    <select th:field="*{rentalStatus}" class="border border-gray-300 rounded-lg px-4 py-2 mr-4">
+                        <option value="">대여 상태</option>
+                        <option th:each="status : ${T(an.rentalinhaee.domain.RentalStatus).values()}"
+                                th:value="${status}"
+                                th:text="${status.getDisplayName()}">option
+                        </option>
+                    </select>
+                    <input type="text" th:field="*{itemName}" class="border border-gray-300 rounded-lg px-4 py-2 mr-4"
+                           placeholder="물품 이름 (카테고리)" />
+                    <div>
+                        <button type="submit" id="reset-btn" style="border: none; background: none; cursor: pointer">
+                            <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top">restart_alt</span>
+                        </button>
+                        <button type="submit" style="border: none; background: none; cursor: pointer">
+                            <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top">search</span>
+                        </button>
                     </div>
-                    <div class="form-group mb-2">
-                        <input type="text" th:field="*{itemName}" class="form-control" placeholder="물품 이름 (카테고리)" /></div>
-                    &nbsp;
-                    <button type="submit" id="reset-btn" style="border: none; background: none; cursor: pointer">
-                        <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top">restart_alt</span>
-                    </button>
-                    &nbsp;
-                    <button type="submit" style="border: none; background: none; cursor: pointer">
-                        <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top">search</span>
-                    </button>
+
                 </div>
             </form>
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full table-auto bg-white rounded-lg shadow-md">
+                    <thead>
+                    <tr class="bg-gray-200 text-gray-600">
+                        <th class="py-3 px-4 text-left">대여 번호</th>
+                        <th class="py-3 px-4 text-left">대여 일자</th>
+                        <th class="py-3 px-4 text-left">대여 물품</th>
+                        <th class="py-3 px-4 text-left">대여 상태</th>
+                        <th class="py-3 px-4 text-left">대여 학생 정보</th>
+                    </tr>
+                    </thead>
+                    <tbody class="text-gray-700">
+                    <tr th:each="rental : ${rentals}" class="hover:bg-gray-100">
+                        <td class="py-3 px-4" th:text="${rental.id}"></td>
+                        <td class="py-3 px-4">
+                            <span th:text="${rental.rentalDate} + ' ~'"></span><br>
+                            <span th:text="${rental.finishRentalDate}"></span>
+                        </td>
+                        <td class="py-3 px-4" th:text="${rental.item.name}"></td>
+                        <td class="py-3 px-4">
+                            <p th:if="${rental.status.name() == 'FINISH'}" th:text="'반납 완료'"></p>
+                            <p th:if="${rental.status.name() == 'FINISH_OVERDUE'}" th:text="'반납 (연체)'" class="text-red-600 font-bold"></p>
+                            <p th:if="${rental.status.name() == 'OVERDUE'}" th:text="'연체 중'" class="text-red-600 font-bold"></p>
+                            <p th:if="${rental.status.name() == 'ING'}" th:text="'대여 중'"></p>
+                        </td>
+                        <td class="py-3 px-4">
+                            <span th:text="'(' + ${rental.student.stuId} + ')'"></span><br>
+                            <span th:text="${rental.student.name}"></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div class="pagination">
+                <button class="pagination-button" th:disabled="${rentals.getNumber()}==0"
+                        th:onclick="|location.href='@{/admin/rental/list(page=${1}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
+                    <<</button>
+                <button class="pagination-button" th:disabled="${!rentals.hasPrevious()}"
+                        th:onclick="|location.href='@{/admin/rental/list(page=${rentals.getNumber()}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
+                    <</button>
+                &nbsp; &nbsp;
+                <span>[[${rentals.getNumber()+1}]] / [[${rentals.getTotalElements() == 0 ? 1 : rentals.getTotalPages()}]] </span>
+                &nbsp; &nbsp;
+                <button class="pagination-button" th:disabled="${!rentals.hasNext()}"
+                        th:onclick="|location.href='@{/admin/rental/list(page=${rentals.getNumber() + 2}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
+                    ></button>
+                <button class="pagination-button" th:disabled="${!rentals.hasNext()}"
+                        th:onclick="|location.href='@{/admin/rental/list(page=${rentals.getTotalPages()}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
+                    >></button>
+            </div>
         </div>
-        <br>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>대여 번호</th>
-                <th>대여 일자</th>
-                <th>반납 일자</th>
-                <th>대여 물품</th>
-                <th>대여 상태</th>
-                <th>대여 학생 학번</th>
-                <th>대여 학생 이름</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="rental : ${rentals}">
-                <td th:text="${rental.id}"></td>
-                <td th:text="${rental.rentalDate}"></td>
-                <td th:text="${rental.finishRentalDate}"></td>
-                <td th:unless="${rental.item.name == ''}" th:text="${rental.item.name}"></td>
-                <td th:if="${rental.item.name == ''}" th:text="${rental.item.category}"></td>
-                <td>
-                    <a th:if="${rental.status.name() == 'FINISH'}" th:text="'반납 완료'"></a>
-                    <a th:if="${rental.status.name() == 'FINISH_OVERDUE'}" th:text="'반납 (연체)'" style="color: red; font-weight: bold"></a>
-                    <a th:if="${rental.status.name() == 'OVERDUE'}" th:text="'연체 중'" style="color: red; font-weight: bold"></a>
-                    <a th:if="${rental.status.name() == 'ING'}" th:text="'대여 중'"></a>
-                </td>
-                <td th:text="${rental.student.stuId}"></td>
-                <td th:text="${rental.student.name}"></td>
-            </tr>
-            </tbody>
-        </table>
     </div>
-
-    <div style="text-align: center">
-        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${rentals.getNumber()}==0"
-                th:onclick="|location.href='@{/admin/rental/list(page=${1}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
-            <<</button>
-        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!rentals.hasPrevious()}"
-                th:onclick="|location.href='@{/admin/rental/list(page=${rentals.getNumber()}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
-            <</button>
-        &nbsp; &nbsp;
-        <span>[[${rentals.getNumber()+1}]] / [[${rentals.getTotalElements() == 0 ? 1 : rentals.getTotalPages()}]] </span>
-        &nbsp; &nbsp;
-        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!rentals.hasNext()}"
-                th:onclick="|location.href='@{/admin/rental/list(page=${rentals.getNumber() + 2}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
-            ></button>
-        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!rentals.hasNext()}"
-                th:onclick="|location.href='@{/admin/rental/list(page=${rentals.getTotalPages()}, stuId=${rentalSearch.getStuId()}, rentalStatus=${rentalSearch.getRentalStatus()} ) }'|">
-            >></button>
-    </div>
-    <br>
-    <div th:replace="~{fragments/footer :: footer}"></div>
-</div> <!-- /container -->
-<script>
-    // 'resetButton' 버튼에 클릭 이벤트 리스너 추가
-    document.getElementById('reset-btn').addEventListener('click', function() {
-        // 'category'와 'name' 입력 필드의 값을 초기화
-        document.getElementById('stuId').value = '';
-        document.getElementById('itemName').value = '';
-        document.getElementById('rentalStatus').value = '';
-    });
-</script>
-
+</main>
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
+<script src="/js/admin_rental_list.js"></script>
 </html>

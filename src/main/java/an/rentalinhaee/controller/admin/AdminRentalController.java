@@ -41,9 +41,6 @@ public class AdminRentalController {
         Page<Rental> rentalByStuIdStatusItem = rentalService.findRentalByStuId_Status_Item(rentalSearch, pageRequest);
         model.addAttribute("rentals", rentalByStuIdStatusItem);
 
-        if ((boolean) model.getAttribute("isMobile")) {
-            return "mobile/admin/rental/list";
-        }
         return "admin/rental/list";
     }
 
@@ -54,14 +51,6 @@ public class AdminRentalController {
             return (Student) session.getAttribute("loginStudent");
         }
         return null;
-    }
-
-    @ModelAttribute("isMobile")
-    public boolean isMobile(HttpSession session) {
-        if(session.getAttribute("isMobile") != null) {
-            return (boolean) session.getAttribute("isMobile");
-        }
-        return false;
     }
 }
 

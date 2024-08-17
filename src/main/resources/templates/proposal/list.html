@@ -1,88 +1,91 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" >
 <head th:replace="~{fragments/header :: header}"></head>
+<body class="h-full">
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+<link rel="stylesheet" href="/css/board_list.css"/>
+<link rel="stylesheet" href="/css/question_mark2.css"/>
+<link rel="stylesheet" href="/css/item_request_list.css"/>
 
-<style>
-    .small-font {
-        font-size: 13px;
-    }
-</style>
-
-
-<style>
-    .text-container {
-        background-color: rgba(241, 92, 92, 0.89); /* 배경색을 빨간색으로 설정 */
-        color: white; /* 텍스트 색상을 흰색으로 설정 */
-        padding: 20px; /* 패딩 설정 */
-        margin: 20px; /* 마진 설정 */
-    }
-</style>
-<body>
-
-<div class="container">
-
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
-    <div>
-        <div class="d-flex justify-content-between">
-            <h2>건의 게시판</h2>
+<header class="bg-white shadow">
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex items-center">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900">건의 게시판</h1>
+        <div class="relative inline-block  hidden md:block">
+            <button class="bg-gray-400 ml-2 text-white rounded-full w-5 h-5 mb-3 flex items-center justify-center hover:bg-gray-600">
+                ?
+            </button>
+            <div class="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-gray-700 text-white text-sm rounded-lg p-9 opacity-0 transition-opacity duration-300 pointer-events-none tooltip"
+                 style="min-width: 500px; z-index: 1000;"> <!-- z-index 추가 -->
+                사이트의 발전과 사용의 편의성을 증진시키기 위한 건의 게시판 입니다.<br>
+                장난 글이나 사실과 다른 글은 지양해 주시기 바랍니다. 🙏<br>
+                비밀글로도 작성가능하며 참고를 위해 작성 시 삭제 및 수정이 불가함을 알립니다.<br>
+                소중한 건의 감사합니다. 😊<br>
+                - 공대생 안씨 -<br>
+            </div>
         </div>
+    </div>
+</header>
+<main>
 
-        <div class="text-container">
-            <h4>사이트의 발전과 사용의 편의성을 증진시키기 위한 건의 게시판 입니다.</h4>
-            <h4>장난 글이나 사실과 다른 글은 지양해 주시기 바랍니다. 🙏</h4>
-            <h4>비밀글로도 작성가능하며 참고를 위해 작성 시 삭제가 불가함을 알립니다.</h4>
-            <h4>소중한 건의 감사합니다. 😊</h4>
-            <h4>- 공대생 안씨 -</h4>
-        </div><br>
-        <a class="d-flex justify-content-end" style="text-decoration: none" href="/proposal/new">
-            <span class="material-symbols-outlined">edit</span>
-        </a>
-        <br>
-        <table class="table table-striped">
+    <div class="flex justify-between items-center mt-7 mr-20">
+        <div class="flex-grow"></div> <!-- 이 요소가 공간을 차지하도록 해줌 -->
+        <div class="flex justify-end items-center mr-10 write-btn" id="write-btn">
+            <div class="label">건의 작성</div>
+            <div class="toggle"></div>
+        </div>
+    </div>
+
+
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <table id="boardTable" class="min-w-full bg-white rounded-lg shadow-md">
             <thead>
-                <tr>
-                    <th>#</th> <th>제목</th> <th>작성자 학번</th> <th>작성자 이름</th> <th>작성 일자</th>
-                </tr>
-            </thead>
-            <tbody>
-            <tr th:each="proposal : ${proposals}">
-                <td th:text="${proposals.getTotalElements() - (proposals.getNumber() * proposals.getSize()) - proposalStat.index}"></td>
-                <td th:if="${!proposal.isSecret or (proposal.isSecret and #strings.equals(loginStudent.role, 'ADMIN')) or (#strings.equals(loginStudent.stuId, proposal.stuId))}">
-                    <a th:href="@{/proposal/{id}(id=${proposal.id})}"  th:text="${proposal.title}"></a>
-                </td>
-                <td th:if="${proposal.isSecret and !#strings.equals(loginStudent.role, 'ADMIN') and (!#strings.equals(loginStudent.stuId, proposal.stuId))}">
-                    <p><span class="material-symbols-outlined">lock</span> 비밀글입니다.</p>
-                </td>
-                <td th:text="${proposal.stuId}"></td>
-                <td th:text="${proposal.name}"></td>
-                <td th:text="${#temporals.format(proposal.writeTime, 'yyyy-MM-dd')}"></td>
+            <tr class="bg-gray-200 text-gray-600">
+                <th class="py-3 px-4 text-left">#</th>
+                <th class="py-3 px-4 text-left" style="width: 60%;">제목</th>
+                <th class="py-3 px-4 text-left">작성자</th>
+                <th class="py-3 px-4 text-left">작성 일자</th>
             </tr>
+            </thead>
+            <tbody class="text-gray-700">
+                <tr th:each="proposal : ${proposals}" class="hover:bg-gray-100">
+                    <td class="py-3 px-4" th:text="${proposals.getTotalElements() - (proposals.getNumber() * proposals.getSize()) - proposalStat.index}"></td>
+
+                    <td th:if="${!proposal.isSecret or (proposal.isSecret and #strings.equals(loginStudent.role, 'ADMIN')) or (#strings.equals(loginStudent.stuId, proposal.stuId))}" class="py-3 px-4">
+                        <a style="color: blue" th:href="@{/proposal/{id}(id=${proposal.id})}" th:text="${proposal.title}"></a>
+                    </td>
+                    <td th:if="${proposal.isSecret and !#strings.equals(loginStudent.role, 'ADMIN') and (!#strings.equals(loginStudent.stuId, proposal.stuId))}" class="py-3 px-4">
+                        <p><span class="material-symbols-outlined">lock</span> 비밀글입니다.</p>
+                    </td>
+                    <td class="py-3 px-4"
+                        th:utext="${proposal.stuId=='ADMIN'} ? '<strong>관리자</strong>' : ${proposal.stuId + ' ' + proposal.name}"></td>
+
+                    <td class="py-3 px-4" th:text="${#temporals.format(proposal.writeTime, 'yyyy-MM-dd HH:mm')}"></td>
+                </tr>
             </tbody>
         </table>
-    </div>
-    <br>
-    <div style="text-align: center">
-        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${proposals.getNumber()}==0"
-                th:onclick="|location.href='@{/proposal/list(proposalPage=${1})}'|">
-            <<</button>
-        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!proposals.hasPrevious()}"
-                th:onclick="|location.href='@{/proposal/list(proposalPage=${proposals.getNumber()}) }'|">
-            <</button>
-        &nbsp; &nbsp;
-        <span>[[${proposals.getNumber()+1}]] / [[${proposals.getTotalElements() == 0 ? 1 : proposals.getTotalPages()}]] </span>
-        &nbsp; &nbsp;
-        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!proposals.hasNext()}"
-                th:onclick="|location.href='@{/proposal/list(proposalPage=${proposals.getNumber() + 2}) }'|">
-            ></button>
-        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!proposals.hasNext()}"
-                th:onclick="|location.href='@{/proposal/list(proposalPage=${proposals.getTotalPages()}) }'|">
-            >></button>
-    </div>
-    <br>
 
-    <div th:replace="~{fragments/footer :: footer}"></div>
-</div> <!-- /container -->
+        <div class="pagination">
+            <button class="pagination-button" th:disabled="${proposals.getNumber()}==0"
+                    th:onclick="|location.href='@{/proposal/list(proposalPage=${1})}'|">
+                <<</button>
+            <button class="pagination-button" th:disabled="${!proposals.hasPrevious()}"
+                    th:onclick="|location.href='@{/proposal/list(proposalPage=${proposals.getNumber()}) }'|">
+                <</button>
+            &nbsp; &nbsp;
+            <span class="pagination-info">[[${proposals.getNumber()+1}]] / [[${proposals.getTotalElements() == 0 ? 1 : proposals.getTotalPages()}]]</span>
+            &nbsp; &nbsp;
+            <button class="pagination-button" th:disabled="${!proposals.hasNext()}"
+                    th:onclick="|location.href='@{/proposal/list(proposalPage=${proposals.getNumber() + 2}) }'|">
+                ></button>
+            <button class="pagination-button" th:disabled="${!proposals.hasNext()}"
+                    th:onclick="|location.href='@{/proposal/list(proposalPage=${proposals.getTotalPages()}) }'|">
+                >></button>
+        </div>
 
+    </div>
+
+</main>
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
+<script src="/js/proposal_list.js"></script>
 </html>
-

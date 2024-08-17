@@ -1,207 +1,99 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: header}">
-<body>
-<div class="container">
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
-    <h2>학생회비 납부 명단 조회</h2><br>
-    <div>
-        <form th:object="${studentSearch}" class="form-inline">
-            <style>
-                .inline-elements{
-                    display: flex;
-                    align-items: center;
-                }
-            </style>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="~{fragments/header :: header}"></head>
+<body class="h-full">
+<link rel="stylesheet" href="/css/item_list.css"/>
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+<header class="bg-white shadow">
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900">학생회비 납부 명단 조회</h1>
+    </div>
+</header>
+<main>
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <div class="container mx-auto my-8 p-6 bg-gray-100 rounded-lg shadow-md">
+            <form th:object="${studentSearch}">
+                <div class="mb-4 flex items-center">
+                    <input type="text" th:field="*{stuId}" class="border border-gray-300 rounded-lg px-4 py-2 mr-4"
+                           placeholder="학생 학번">
+                    <input type="text" th:field="*{name}" class="border border-gray-300 rounded-lg px-4 py-2 mr-4"
+                           placeholder="학생 이름">
 
-            <div class="inline-elements">
-                <div class="form-group mb-2" style="margin-right: 5px;">
-                    <input type="text" class="form-control" th:field="*{stuId}"  placeholder="학생 학번" style="margin-right: 20px;">
+                    <div>
+                        <button type="submit" id="reset-btn" style="border: none; background: none; cursor: pointer">
+                            <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top;">restart_alt</span>
+                        </button>
+
+                        <button type="submit" style="border: none; background: none; cursor: pointer">
+                            <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top;">search</span>
+                        </button>
+                    </div>
                 </div>
-                <div class="form-group mb-2" style="margin-right: 5px;">
-                    <input type="text" class="form-control" th:field="*{name}" placeholder="학생 이름" style="margin-right: 20px;">
-                </div>
-                <button type="submit" id="reset-btn" style="border: none; background: none; cursor: pointer">
-                    <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top;">restart_alt</span>
-                </button>
-                &nbsp;
-                <button type="submit" style="border: none; background: none; cursor: pointer">
-                    <span class="material-symbols-outlined" style="color: #0b5ed7; vertical-align: top;">search</span>
-                </button>
+            </form>
+
+            <a onclick="addTable()" class="mr-3">
+                <span class="material-symbols-outlined" style="color: #0b5ed7; cursor: pointer; font-size: 30px">person_add</span>
+            </a>
+
+            <button type="submit" style="border: none; background: none; cursor: pointer" form="deleteForm" onclick="return confirmDelete()"  class="mr-3">
+                <span class="material-symbols-outlined" style="color: red; vertical-align: top; font-size: 30px">person_off</span>
+            </button>
+
+            <a onclick="addWindow()"  class="mr-3">
+                <span class="material-symbols-outlined" style="color: #20c997; cursor: pointer; font-size: 30px">upload_file</span>
+            </a>
+
+            <div id="tableContainer">
+                <table class="table table-striped">
+                    <tbody></tbody>
+                </table>
             </div>
-        </form>
 
-        <a onclick="addTable()"><span class="material-symbols-outlined" style="color: #0b5ed7; cursor: pointer; font-size: 30px">person_add</span></a>
-        &nbsp;
-        <button type="submit" style="border: none; background: none; cursor: pointer" form="deleteForm" onclick="return confirmDelete()">
-            <span class="material-symbols-outlined" style="color: red; vertical-align: top; font-size: 30px">person_off</span>
-        </button>
-        &nbsp;
-        <a onclick="addWindow()"><span class="material-symbols-outlined" style="color: #20c997; cursor: pointer; font-size: 30px">upload_file</span></a>
+            <div id="windowContainer"></div>
 
-        <div id="tableContainer">
-            <table class="table table-striped">
-                <tbody></tbody>
-            </table>
+
+            <form id="deleteForm" th:action="@{/admin/student/feeList/delete}" method="post">
+                <table class="min-w-full bg-white rounded-lg shadow-md mt-4">
+                    <thead>
+                    <tr>
+                        <th class="py-3 px-4 text-left w-1/12">선택</th>
+                        <th class="py-3 px-4 text-left w-1/12">#</th>
+                        <th class="py-3 px-4 text-left w-5/12">학번</th>
+                        <th class="py-3 px-4 text-left w-5/12">이름</th>
+                    </tr>
+                    </thead>
+                    <tbody class="text-gray-700">
+                    <tr th:each="student : ${students}" class="hover:bg-gray-100">
+                        <td class="py-3 px-4"><input type="checkbox" name="stuIdList" th:value="${student.stuId}"></td>
+                        <td class="py-3 px-4" th:text="${students.getNumber()*students.getSize() + studentStat.count}"></td>
+                        <td class="py-3 px-4" th:text="${student.stuId}"></td>
+                        <td class="py-3 px-4" th:text="${student.name}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+
+            <div class="pagination">
+                <button class="pagination-button" th:disabled="${students.getNumber()}==0"
+                        th:onclick="|location.href='@{/admin/student/feeList(page=${1}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
+                    <<</button>
+                <button class="pagination-button" th:disabled="${!students.hasPrevious()}"
+                        th:onclick="|location.href='@{/admin/student/feeList(page=${students.getNumber()}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
+                    <</button>
+                &nbsp; &nbsp;
+                <span>[[${students.getNumber()+1}]] / [[${students.getTotalElements() == 0 ? 1 : students.getTotalPages()}]] </span>
+                &nbsp; &nbsp;
+                <button class="pagination-button" th:disabled="${!students.hasNext()}"
+                        th:onclick="|location.href='@{/admin/student/feeList(page=${students.getNumber() + 2}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
+                    ></button>
+                <button class="pagination-button" th:disabled="${!students.hasNext()}"
+                        th:onclick="|location.href='@{/admin/student/feeList(page=${students.getTotalPages()}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
+                    >></button>
+            </div>
         </div>
-
-        <div id="windowContainer"></div>
-
-
-        <br>
-        <form id="deleteForm" th:action="@{/admin/student/feeList/delete}" method="post">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>선택</th> <!-- 선택 열 추가-->
-                    <th>#</th>
-                    <th>학번</th>
-                    <th>이름</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="student : ${students}">
-                    <td><input type="checkbox" name="stuIdList" th:value="${student.stuId}"></td> <!-- 체크박스 추가 -->
-                    <td th:text="${students.getNumber()*students.getSize() + studentStat.count}"></td>
-                    <td th:text="${student.stuId}"></td>
-                    <td th:text="${student.name}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </form>
-
     </div>
-    <div style="text-align: center">
-        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${students.getNumber()}==0"
-                th:onclick="|location.href='@{/admin/student/feeList(page=${1}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
-            <<</button>
-        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!students.hasPrevious()}"
-                th:onclick="|location.href='@{/admin/student/feeList(page=${students.getNumber()}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
-            <</button>
-        &nbsp; &nbsp;
-        <span>[[${students.getNumber()+1}]] / [[${students.getTotalElements() == 0 ? 1 : students.getTotalPages()}]] </span>
-        &nbsp; &nbsp;
-        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!students.hasNext()}"
-                th:onclick="|location.href='@{/admin/student/feeList(page=${students.getNumber() + 2}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
-            ></button>
-        <button class="btn btn-outline-dark btn-sm" style="border:none" th:disabled="${!students.hasNext()}"
-                th:onclick="|location.href='@{/admin/student/feeList(page=${students.getTotalPages()}, stuId=${studentSearch.getStuId()}, name=${studentSearch.getName()} ) }'|">
-            >></button>
-    </div>
-    <br>
-    <div th:replace="~{fragments/footer :: footer}"></div>
-
-</div> <!-- /container -->
-
+</main>
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
-
-<script>        <!-- 추가 로직 -->
-    var tableAdded = false;
-    function addTable() {
-        var tableContainer = document.getElementById('tableContainer');
-        if(tableAdded) {
-            tableContainer.innerHTML = '';
-            tableAdded = false;
-        } else {
-            var newTable = '<br><h4>학생회비 납부 학생 추가</h4>' +
-                '<div>' +
-                '<table class="table table-striped small-font">' +
-                '<thead>' +
-                '<tr>' +
-                '<th>학번</th>' +
-                '<th>이름</th>' +
-                '</tr>' +
-                '</thead>' +
-                '<tbody>' +
-                '<tr>' +
-                '<td><input type="text" class="form-control small-font" name="newStuId" placeholder="학번 입력"></td>' +
-                '<td><input type="text" class="form-control small-font" name="newName" placeholder="이름 입력"></td>' +
-                '</tr>' +
-                '</tbody>' +
-                '</table>' +
-                '</div>';
-
-            var addButton = '<button id="addButton" class="material-symbols-outlined"  ' +
-                'style="color: #0b5ed7; background: none; border: none; cursor: pointer; font-size: 30px" ' +
-                'onclick="addStudent()">person_add</button><br>'
-
-            // 새로운 행을 기존 표의 tbody에 추가
-            tableContainer.innerHTML += newTable + addButton;
-            tableAdded = true;
-        }
-
-    }
-    function addStudent() {
-        var stuId = document.getElementsByName('newStuId')[0].value;
-        var name = document.getElementsByName('newName')[0].value;
-        location.href = `/admin/student/feeList/add?newStuId=${stuId}&newName=${name}`;
-    }
-
-</script>
-
-<script>        <!-- 추가 로직 -->
-var windowAdded = false;
-function addWindow() {
-    var windowContainer = document.getElementById('windowContainer');
-    if(windowAdded) {
-        windowContainer.innerHTML = '';
-        windowAdded = false;
-    } else {
-
-        var newWindow = '<br><h4>학생회비 납부 명단 업로드 (엑셀 파일만 업로드!)</h4>' +
-            '<form action="/admin/student/feeList/upload" method="POST" enctype="multipart/form-data">' +
-                '<input type="file" class="btn btn-outline-secondary btn-sm" name="excelFile">' +
-                    '<button type="submit" style="border: none; background: none; cursor: pointer">' +
-                        '<span class="material-symbols-outlined" style="color: #20c997; vertical-align: top; font-size: 30px">upload_file</span>' +
-                    '</button>' +
-            '</input>' +
-            '</form><br>' +
-        '<p></p>';
-
-        windowContainer.innerHTML += newWindow;
-        windowAdded = true;
-    }
-}
-</script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const deleteButton = document.querySelector("button[type='submit'][form='deleteForm']");
-        const checkboxes = document.querySelectorAll("input[type='checkbox'][name='stuIdList']");
-
-        function updateButtonState() {
-            const isAnyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
-            deleteButton.disabled = !isAnyChecked;
-        }
-
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener("change", updateButtonState);
-        });
-
-        // 초기 상태 업데이트
-        updateButtonState();
-    });
-</script>
-
-<script>
-    function confirmDelete() {
-        var result = confirm("정말로 삭제하시겠습니까?");
-        if (result) {
-            // 사용자가 'OK'를 클릭한 경우, 폼 제출
-            return true;
-        } else {
-            // 사용자가 'Cancel'을 클릭한 경우, 폼 제출 취소
-            return false;
-        }
-    }
-</script>
-
-<script>
-    // 'resetButton' 버튼에 클릭 이벤트 리스너 추가
-    document.getElementById('reset-btn').addEventListener('click', function() {
-        // 'category'와 'name' 입력 필드의 값을 초기화
-        document.getElementById('stuId').value = '';
-        document.getElementById('name').value = '';
-    });
-</script>
+<script src="/js/admin_fee_list.js"></script>
 </html>

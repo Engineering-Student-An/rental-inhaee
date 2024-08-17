@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .formLogin((auth) -> auth.loginPage("/login")
 
                         .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/", true)
+                        .defaultSuccessUrl("/home", true)
                         .usernameParameter("stuId")
                         .passwordParameter("password")
                         .permitAll()

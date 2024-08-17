@@ -1,0 +1,62 @@
+.notification{
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 20px; /* 페이지 상단 */
+    right: 20px; /* 페이지 오른쪽 */
+    z-index: 1000; /* 다른 요소 위에 표시 */
+    animation: slideIn 0.5s forwards; /* 애니메이션 적용 */
+    opacity: 0; /* 초기 투명도 설정 */
+}
+.notification-content {
+    flex: 1; /* 내용이 가능한 공간을 차지하도록 설정 */
+    padding-right: 30px; /* close 버튼과 겹치지 않도록 오른쪽 패딩 추가 */
+}
+
+.red {
+    background-color: #ffe6e6; /* 연한 초록색 배경 */
+    color: #852f2f; /* 텍스트 색상 */
+}
+.green {
+    background-color: #e6ffed; /* 연한 초록색 배경 */
+    color: #2f855a; /* 텍스트 색상 */
+}
+
+@keyframes slideIn {
+    0% {
+        right: -300px; /* 오른쪽 밖에서 시작 */
+        opacity: 0; /* 초기 투명도 */
+    }
+    100% {
+        right: 20px; /* 최종 위치 */
+        opacity: 1; /* 최종 투명도 */
+    }
+}
+
+@keyframes slideOut {
+    0% {
+        right: 20px; /* 현재 위치 */
+        opacity: 1; /* 현재 투명도 */
+    }
+    100% {
+        right: -300px; /* 오른쪽 밖으로 이동 */
+        opacity: 0; /* 투명하게 */
+    }
+}
+
+.checkmark {
+    margin-right: 10px;
+
+}
+
+.close {
+    cursor: pointer;
+    margin-left: 10px;
+    margin-right: 5px;
+    position: absolute; /* 절대 위치 설정 */
+    top: 10px; /* 상단에서의 위치 */
+    right: 10px; /* 오른쪽에서의 위치 */
+}

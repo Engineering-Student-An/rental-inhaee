@@ -1,61 +1,116 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org" >-->
+<!--<head th:replace="~{fragments/header :: header}"></head>-->
+<!--<style>-->
+<!--    /* 기본 폰트 크기 설정 */-->
+<!--    input::placeholder {-->
+<!--        font-size: 16px; /* 데스크탑 기준 폰트 크기 */-->
+<!--    }-->
+
+<!--    /* 화면 너비가 768px 이하일 때 적용될 스타일 */-->
+<!--    @media (max-width: 768px) {-->
+<!--        input::placeholder {-->
+<!--            font-size: 14px; /* 모바일 기기용 폰트 크기 */-->
+<!--        }-->
+<!--    }-->
+
+<!--     .btn-very-small {-->
+<!--         padding: 0.25rem 0.5rem; /* 패딩 줄이기 */-->
+<!--         font-size: 0.7rem; /* 폰트 사이즈 줄이기 */-->
+<!--         /* 필요한 경우 여기에 다른 스타일 조정 */-->
+<!--     }-->
+
+<!--</style>-->
+
+
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>-->
+
+<!--&lt;!&ndash;    <div class="jumbotron">&ndash;&gt;-->
+<!--    <br>-->
+<!--    <h2>로그인</h2>-->
+<!--    <form th:method="post" th:action="|@{/login}|" th:object="${loginRequest}">-->
+
+<!--        <br>-->
+<!--        <div>-->
+<!--            <label th:for="stuId">학번</label>-->
+<!--            <input type="text" th:field="*{stuId}" class="form-control" placeholder="학번을 입력하세요"/>-->
+<!--        </div>-->
+<!--        <br/>-->
+<!--        <div>-->
+<!--            <label th:for="password">비밀번호</label>-->
+<!--            <input type="password" th:field="*{password}" class="form-control" placeholder="비밀번호를 입력하세요"/>-->
+<!--        </div>-->
+
+<!--        <br/>-->
+<!--        <p>-->
+<!--            <label for="remember-me" style>로그인 유지</label>  <input type="checkbox" id="remember-me" name="remember-me" />-->
+<!--        </p>-->
+
+<!--        <br/>-->
+<!--        <button type="submit" class="btn btn-outline-secondary" th:classappend="${isMobile} ? 'btn-very-small'">로그인</button>-->
+
+<!--        <a th:href="@{/findPassword}" role="button" class="btn btn-outline-secondary" th:classappend="${isMobile} ? 'btn-very-small'">비밀번호 찾기</a>-->
+<!--        <button type="button" th:onclick="|location.href='/join'|" class="btn btn-outline-secondary" th:classappend="${isMobile} ? 'btn-very-small'">회원 가입</button> <br/><br/>-->
+<!--    </form>-->
+<!--    <br>-->
+<!--    <div th:replace="~{fragments/footer :: footer}"></div>-->
+<!--</div> &lt;!&ndash; /container &ndash;&gt;-->
+<!--</body>-->
+<!--</html>-->
+
+
+<!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" >
 <head th:replace="~{fragments/header :: header}"></head>
-<style>
-    /* 기본 폰트 크기 설정 */
-    input::placeholder {
-        font-size: 16px; /* 데스크탑 기준 폰트 크기 */
-    }
+<body class="h-full">
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+<header>
 
-    /* 화면 너비가 768px 이하일 때 적용될 스타일 */
-    @media (max-width: 768px) {
-        input::placeholder {
-            font-size: 14px; /* 모바일 기기용 폰트 크기 */
-        }
-    }
+</header>
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">계정에 로그인하세요!</h2>
 
-     .btn-very-small {
-         padding: 0.25rem 0.5rem; /* 패딩 줄이기 */
-         font-size: 0.7rem; /* 폰트 사이즈 줄이기 */
-         /* 필요한 경우 여기에 다른 스타일 조정 */
-     }
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form class="space-y-6" th:action="|@{/login}|" method="POST">
+            <div>
+                <label for="stuId" class="block text-sm font-medium leading-6 text-gray-900">학번</label>
+                <div class="mt-2">
+                    <input id="stuId" type="text" name="stuId" required class="block w-full rounded-md border-0 py-1.5 pl-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                           autocomplete="stuId" placeholder="학번을 입력하세요">
 
-</style>
+                </div>
+            </div>
+            <div>
+                <label for="password" class="block text-sm font-medium leading-6 text-gray-900">비밀번호</label>
+                <div class="mt-2">
+                    <input id="password" name="password" type="password" required class="block w-full rounded-md border-0 py-1.5 pl-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                           autocomplete="current-password" placeholder="비밀번호를 입력하세요">
+                </div>
+            </div>
 
+            <div class="text-sm flex justify-between">
+                <div>
+                    <label for="remember-me">자동 로그인</label>
+                    <input type="checkbox" id="remember-me" name="remember-me" />
+                </div>
 
-<body>
-<div class="container">
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+                <a href="/findPassword/info" class="font-semibold text-indigo-600 hover:text-indigo-500">비밀번호를 잊으셨나요?</a>
+            </div>
 
-<!--    <div class="jumbotron">-->
-    <br>
-    <h2>로그인</h2>
-    <form th:method="post" th:action="|@{/login}|" th:object="${loginRequest}">
+            <div>
+                <button type="submit" class="flex w-full justify-center rounded-md bg-blue-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-900">로그인</button>
+            </div>
+        </form>
 
-        <br>
-        <div>
-            <label th:for="stuId">학번</label>
-            <input type="text" th:field="*{stuId}" class="form-control" placeholder="학번을 입력하세요"/>
-        </div>
-        <br/>
-        <div>
-            <label th:for="password">비밀번호</label>
-            <input type="password" th:field="*{password}" class="form-control" placeholder="비밀번호를 입력하세요"/>
-        </div>
-
-        <br/>
-        <p>
-            <label for="remember-me" style>로그인 유지</label>  <input type="checkbox" id="remember-me" name="remember-me" />
+        <p class="mt-10 text-center text-sm text-gray-500">
+            회원이 아니신가요?&nbsp;&nbsp;
+            <a href="/join" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">회원가입</a>
         </p>
-
-        <br/>
-        <button type="submit" class="btn btn-outline-secondary" th:classappend="${isMobile} ? 'btn-very-small'">로그인</button>
-
-        <a th:href="@{/findPassword}" role="button" class="btn btn-outline-secondary" th:classappend="${isMobile} ? 'btn-very-small'">비밀번호 찾기</a>
-        <button type="button" th:onclick="|location.href='/join'|" class="btn btn-outline-secondary" th:classappend="${isMobile} ? 'btn-very-small'">회원 가입</button> <br/><br/>
-    </form>
-    <br>
-    <div th:replace="~{fragments/footer :: footer}"></div>
-</div> <!-- /container -->
+    </div>
+</div>
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
+
 </html>

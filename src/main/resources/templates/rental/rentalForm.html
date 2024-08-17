@@ -1,84 +1,91 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" >
 <head th:replace="~{fragments/header :: header}"></head>
-
-<style>
-    #buttonGroup {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1%; /* 버튼 사이의 간격을 위해 사용 */
-    }
-    #buttonGroup > div {
-        flex: 0 0 30%; /* flex-grow, flex-shrink, flex-basis */
-        margin-bottom: 10px; /* 버튼 아래 간격 */
-    }
-    .btn {
-        width: 100%; /* 부모 div의 전체 너비를 차지하도록 설정 */
-    }
-</style>
-
-<body>
-<div class="container">
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
-
-    <h2>물품 대여 신청</h2><br>
-
-    <h5>카테고리 선택</h5>
-    <form id="categoryForm" role="form" action="/rental" method="post">
-        <div class="form-group">
-            <select id="category" name="category" class="form-control">
-                <option value="" disabled  th:selected="${selectedCategory == null}">카테고리를 선택해주세요.</option>
-                <option th:each="category : ${categories}"
-                        th:value="${category}"
-                        th:text="${category}"
-                        th:selected="${category == selectedCategory}">
-                </option>
-            </select>
-        </div>
-    </form>
-    <br><br>
-
-    <form th:if="${itemsByCategory != null}" action="/rental/complete" method="post">
-        <div th:if="${itemsByCategory.size() == 1}">
-            <h5>[[${selectedCategory}]] 대여 정보</h5>
-            <hr>
-        </div>
-        <div th:unless="${itemsByCategory.size() == 1}">
-            <h5>[[${selectedCategory}]] 내의 물품</h5>
-            <hr>
-        </div>
-
-        <div id="buttonGroup">
-            <div th:each="item : ${itemsByCategory}">
-                <div>
-                    <button class="btn btn-outline-primary" type="submit" name="itemId" th:value="${item.id}" th:disabled="${item.stockQuantity == 0}">
-                        <div th:if="${item.name != ''}">
-                            <span th:text="${item.name}">이름</span><br>
+<body class="h-full">
+<link rel="stylesheet" href="/css/rental_checkbox.css"/>
+<link rel="stylesheet" href="/css/notification.css"/>
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+<header class="bg-white shadow">
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900">물품 대여 신청</h1>
+    </div>
+</header>
+<main>
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <div class="flex">
+            <div class="w-full md:w-1/4 pr-4 mr-9">
+                <label class="block mb-2 text-gray-700 select-h">카테고리 선택</label>
+                <form id="categoryForm" role="form" action="/rental" method="post">
+                    <div class="relative">
+                        <select id="category" name="category" class="block appearance-none w-full bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 py-2 px-3 text-gray-700">
+                            <option value="" disabled selected>카테고리를 선택해주세요.</option>
+                            <option th:each="category : ${categories}"
+                                    th:value="${category}"
+                                    th:text="${category}"
+                                    th:selected="${category == selectedCategory}">
+                            </option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="w-2/3">
+                <div th:if="${itemsByCategory != null}" id="rentalForm">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        <div th:each="item : ${itemsByCategory}">
+                            <div class="flex flex-col items-center">
+                                <button class="element-button w-full bg-white border border-gray-300 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 py-4 px-6 transition duration-200"
+                                        th:data-item-id="${item.id}"
+                                        th:data-item-name="${item.name}"
+                                        th:data-item-stock-quantity="${item.stockQuantity}"
+                                        th:data-item-all-stock-quantity="${item.allStockQuantity}"
+                                onclick="openModal(this)" th:disabled="${item.stockQuantity == 0}">
+                                <span class="text-gray-800 font-semibold" th:text="${item.name}">이름</span><br>
+                                </button>
+                            </div>
                         </div>
-                        <div th:unless="${item.name != ''}">
-                            <span  th:text="${item.category}">이름</span><br>
-                        </div>
+                    </div>
+                </div>
 
-                        <span th:text="'대여 가능 수량 / 총 재고 수량'"></span><br>
-                        <span th:text="${item.stockQuantity} + '개 / ' + ${item.allStockQuantity} + '개'"></span>
-                    </button>
+                <!-- 모달창 -->
+                <div id="rentalModal" class="fixed inset-0 flex items-center justify-center z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeModal()">
+                    <div class="modal-content bg-white rounded-lg shadow-lg p-6 max-w-sm w-full transform transition-transform duration-300 scale-95" onclick="event.stopPropagation();">
+                        <div id="modalItemInfo" class="mt-4"></div> <!-- 아이템 정보를 표시할 div -->
+                        <div class="mt-4 flex justify-end">
+                            <button onclick="confirmRental()" class="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition duration-200">대여</button>
+                            <button onclick="closeModal()" class="ml-2 bg-gray-300 text-black rounded-md px-4 py-2 hover:bg-gray-400 hover:text-white transition duration-200">취소</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 알림창 -->
+                <div id="notification-success" class="notification green w-full max-w-xs" style="display: none;">
+                    <span class="checkmark">✅</span>
+                    <div class="notification-content">
+                        물품 대여 신청을 완료했습니다.<br/>
+                        <span id="return-date"></span>까지 반납을 완료해주세요.<br/>
+                        그 이후에 반납 시 연체료가 부가됩니다!
+                        <p style="font-size: small">(5초 후에 자동으로 닫힙니다.)</p>
+                    </div>
+                    <span class="close" onclick="closeNotification(nextUrl)">✖</span>
+                </div>
+
+                <!-- 알림창 -->
+                <div id="notification-fail" class="notification red w-full max-w-xs" style="display: none;">
+                    <span class="checkmark">❌</span>
+                    <div class="notification-content">
+                        현재 대여중인 물품은 추가적으로 대여할 수 없습니다!<br>
+                        반납 진행 후 다시 대여하세요!<br>
+                        <p style="font-size: small">(5초 후에 자동으로 닫힙니다.)</p>
+                    </div>
+                    <span class="close" onclick="closeFailNotification()">✖</span>
                 </div>
 
             </div>
         </div>
-    </form>
+    </div>
+</main>
 
-    <br>
-    <div th:replace="~{fragments/footer :: footer}"></div>
-</div> <!-- /container -->
-
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
-
-<!--셀렉트 박스 변경 감지-->
-<script>
-    document.getElementById('category').addEventListener('change', function() {
-        document.getElementById('categoryForm').submit();
-    });
-</script>
-
+<script src="/js/rental_checkbox.js"></script>
 </html>

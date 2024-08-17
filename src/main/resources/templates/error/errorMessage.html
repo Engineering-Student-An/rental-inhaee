@@ -1,22 +1,15 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" >
 <head th:replace="~{fragments/header :: header}"></head>
-<body>
-
-<div class="container">
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
-    <script th:inline="javascript">
-        window.onload = function (){
-            window.location.href = [[${nextUrl}]]
-            alert([[${errorMessage}]])
-
-        }
-    </script>
-    <br>
-    <div th:replace="~{fragments/footer :: footer}"></div>
-
-</div> <!-- /container -->
-
-
+<body class="h-full">
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
+<script th:inline="javascript">
+    window.onload = function (){
+        window.location.href = [[${nextUrl}]]
+        alert([[${errorMessage}]])
+
+    }
+</script>
 </html>

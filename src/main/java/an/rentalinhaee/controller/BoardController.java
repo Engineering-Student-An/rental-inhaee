@@ -40,19 +40,19 @@ public class BoardController {
 
         model.addAttribute("noticePage", noticePage);
 
-        if((boolean) model.getAttribute("isMobile")) {
-            return "mobile/board/notice";
-        }
         return "board/notice";
     }
 
     @GetMapping("/board/list")
-    public String boardList(Model model, @RequestParam(required = false, value = "noticePage", defaultValue = "1") int noticePage,
+    public String boardList(Model model,
                        @RequestParam(required = false, value = "boardPage", defaultValue = "1") int boardPage) {
 
-        PageRequest noticePageRequest = PageRequest.of(noticePage - 1, 5, Sort.by("writeTime").descending());
-        Page<Board> notices = boardService.findByNotice(noticePageRequest, true);
-        model.addAttribute("notices", notices);
+//        PageRequest noticePageRequest = PageRequest.of(noticePage - 1, 5, Sort.by("writeTime").descending());
+//        Page<Board> notices = boardService.findByNotice(noticePageRequest, true);
+//        model.addAttribute("notices", notices);
+
+        // 최근 공지사항 5개
+        model.addAttribute("recentNotices", boardService.findRecentNotice());
 
         PageRequest boardPageRequest = PageRequest.of(boardPage - 1, 10, Sort.by("writeTime").descending());
         Page<Board> boards = boardService.findByNotice(boardPageRequest, false);
@@ -60,12 +60,8 @@ public class BoardController {
         model.addAttribute("boards", boards);
 
 
-        model.addAttribute("noticePage", noticePage);
         model.addAttribute("boardPage", boardPage);
 
-        if((boolean) model.getAttribute("isMobile")) {
-            return "mobile/board/list";
-        }
         return "board/list";
     }
 
@@ -73,15 +69,12 @@ public class BoardController {
     public String createBoardForm(Model model) {
 
         model.addAttribute("boardForm", new BoardForm());
-        if((boolean) model.getAttribute("isMobile")) {
-            return "mobile/board/createBoardForm";
-        }
         return "board/createBoardForm";
     }
 
     @PostMapping("/board/new")
     public String createBoard(@ModelAttribute BoardForm boardForm,
-                              HttpSession httpSession, BindingResult bindingResult, Model model) {
+                              BindingResult bindingResult, Model model) {
 
         if (boardForm.getTitle().isEmpty()) {
             bindingResult.addError(new FieldError("boardForm", "title", "제목을 입력하세요"));
@@ -117,9 +110,6 @@ public class BoardController {
         model.addAttribute("board", board);
         model.addAttribute("form", new ReplyForm());
 
-        if((boolean) model.getAttribute("isMobile")) {
-            return "mobile/board/showOne";
-        }
         return "board/showOne";
 
     }
@@ -153,9 +143,6 @@ public class BoardController {
 
         model.addAttribute("boardForm", boardForm);
 
-        if((boolean) model.getAttribute("isMobile")) {
-            return "mobile/board/updateBoardForm";
-        }
         return "board/updateBoardForm";
     }
 
@@ -212,9 +199,6 @@ public class BoardController {
         Page<Board> boards = boardService.findByStuId(pageRequest, student.getStuId());
         model.addAttribute("boards", boards);
 
-        if((boolean) model.getAttribute("isMobile")) {
-            return "mobile/board/myList";
-        }
         return "board/myList";
     }
 
@@ -226,11 +210,11 @@ public class BoardController {
         return null;
     }
 
-    @ModelAttribute("isMobile")
-    public boolean isMobile(HttpSession session) {
-        if(session.getAttribute("isMobile") != null) {
-            return (boolean) session.getAttribute("isMobile");
-        }
-        return false;
-    }
+//    @ModelAttribute("isMobile")
+//    public boolean isMobile(HttpSession session) {
+//        if(session.getAttribute("isMobile") != null) {
+//            return (boolean) session.getAttribute("isMobile");
+//        }
+//        return false;
+//    }
 }

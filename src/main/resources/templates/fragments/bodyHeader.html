@@ -1,157 +1,193 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
 
-</head>
 <body>
-    <div class="header" th:fragment="bodyHeader">
-        <ul class="nav nav-pills pull-right">
-        </ul>
-        <style>
-            .btn-very-small {
-                padding: 0.25rem 0.5rem; /* 패딩 줄이기 */
-                font-size: 0.8rem; /* 폰트 사이즈 줄이기 */
-                /* 필요한 경우 여기에 다른 스타일 조정 */
-            }
-        </style>
-
-        <div class="d-flex justify-content-between">
-            <div style="text-align: left">
-                <a th:if="${loginStudent != null and loginStudent.getRole().toString() == 'ADMIN'}" href="/admin">
-                    <span th:if="${isMobile}" class="material-symbols-outlined" style="font-size: 30px; color: #605f5f">home</span>
-                    <span th:unless="${isMobile}" class="material-symbols-outlined" style="font-size: 48px; color: #605f5f">home</span>
-                </a>
-
-                <a th:if="${loginStudent == null or loginStudent.getRole().toString() != 'ADMIN'}" href="/">
-                    <span th:if="${isMobile}" class="material-symbols-outlined" style="font-size: 30px; color: #605f5f">home</span>
-                    <span th:unless="${isMobile}" class="material-symbols-outlined" style="font-size: 48px; color: #605f5f">home</span>
-                </a>
-            </div>
-
-            <div class="dropdown1">
-
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                        th:classappend="${isMobile} ? 'btn-very-small'">
-                    <span class="material-symbols-outlined" th:styleappend="${isMobile} ? 'font-size: 20px'">account_circle</span>
-                </button>
-                <div class="dropdown-menu p-3 text-muted" style="max-width: 200px;">
-                    <div th:if="${loginStudent == null}">
-                        <p>
-                            로그인 후<br/>
-                            이용 가능 합니다!
-                        </p>
-                        <p class="mb-0"></p>
-                        <li><a class="dropdown-item" th:href="@{/login}">로그인</a></li>
-                        <p class="mb-0"></p>
-                        <li><a class="dropdown-item" href="/join">회원가입</a></li>
-                    </div>
-                    <div th:if="${loginStudent != null}">
-                        <p> [[${loginStudent.stuId}]] <br>
-                            [[${loginStudent.name}]] 님<br>
-                            환영합니다!
-                        </p>
-                        <div th:if="${#strings.equals(loginStudent.role, 'ADMIN')}">
-                            <p class="mb-0"></p>
-                            <li><a class="dropdown-item" href="/admin">관리자 페이지</a></li>
+<div class="header" th:fragment="bodyHeader">
+    <div class="min-h-full">
+        <nav class="bg-gray-900">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="flex h-16 items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="main-switch" id="main-switch-button">
+                                <div class="label">SWITCH</div>
+                                <div class="toggle"></div>
+                            </div>
                         </div>
+                        <div class="hidden md:block" style="display: flex; align-items: baseline; margin-left:10px">
+                            <span class="flex items-baseline space-x-4 hidden md:flex">
+                                <a href="/home" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white" style="margin-left: 20px">대시보드</a>
+                            </span>
 
-                        <p class="mb-0"></p>
-                        <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
-                    </div>
-                </div>
-                <br>
-            </div>
-        </div>
-
-
-        <div style="text-align: center">
-
-            <a href="https://www.inha.ac.kr" target="_blank"><img src="/images/logo.png" alt="인하대 로고" class="img-fluid"/></a>
-            &nbsp; &nbsp;
-            <a href="https://pf.kakao.com/_CxjxlxiM" target="_blank"><img src="/images/inhaeelogo.png" alt="학생회 로고" class="img-fluid"/></a>
-            <h1>
-                <a href="/" class="text-decoration-none text-light-emphasis" >전자공학과 <span style="white-space: nowrap;">학생회</span> <span style="white-space: nowrap;">대여 사업</span></a>
-            </h1>
-        </div>
-        <br><br>
-        <div>
-            <div th:if="${!isMobile}">
-                <div class="dropdown-group">
-                    <div class="dropdown">
-                        <button class="dropbtn">물품</button>
-                        <div class="dropdown-content">
-                            <a href="/item/list">물품 현황</a>
-                            <a href="/item/request/list">물품 수정 요청</a>
+                            <div class="ml-10 flex items-baseline space-x-4 rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white dropdown hidden md:flex">
+                                서비스
+                                <div class="dropdown-content">
+                                    <div class="dropdown-columns">
+                                        <div class="column">
+                                            <h3>물품</h3>
+                                            <div class="divider"></div>
+                                            <a href="/item/list">물품 현황</a>
+                                            <a href="/item/request/list">물품 수정 요청</a>
+                                        </div>
+                                        <div class="column">
+                                            <h3>대여</h3>
+                                            <div class="divider"></div>
+                                            <a href="/rental">대여 신청</a>
+                                        </div>
+                                        <div class="column">
+                                            <h3>게시판</h3>
+                                            <div class="divider"></div>
+                                            <a href="/board/list/notice">공지사항</a>
+                                            <a href="/board/list">자유 게시판</a>
+                                            <a href="/proposal/list">건의 게시판</a>
+                                        </div>
+                                        <div class="column">
+                                            <h3>내 정보</h3>
+                                            <div class="divider"></div>
+                                            <a href="/board/myList">내가 쓴 게시글</a>
+                                            <a href="/rental/findOne">내 대여 목록</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <div class="hidden md:block">
+                        <div class="ml-4 flex items-center md:ml-6">
+                            <span class="flex items-baseline space-x-4">
+                                <a href="/admin" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white" style="margin-left: 20px">관리자 페이지</a>
+                            </span>
+                            <div class="relative ml-3">
+                                <div class="relative inline-block text-left">
+                                    <div>
+                                        <button type="button" class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="alarm-button" aria-haspopup="true" >
+                                            <span class="absolute -inset-1.5"></span>
+                                            <span class="sr-only">Open user menu</span>
+                                            <span class="material-symbols-outlined text-gray-400 text-4xl">notifications</span>
+                                        </button>
 
-                    <div class="dropdown">
-                        <button class="dropbtn">대여</button>
-                        <div class="dropdown-content">
-                            <a href="/rental">대여 신청</a>
-                            <a href="/rental/findOne">내 대여 현황</a>
-                        </div>
-                    </div>
+                                        <!-- 모달 -->
+                                        <div id="modal" class="modal hidden">
+                                            <div class="modal-content">
+                                                <h2>최근 7일간 알림</h2>
+                                                <p>기능 구현 예정</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                    <div class="dropdown">
-                        <button class="dropbtn">게시판</button>
-                        <div class="dropdown-content">
-                            <a href="/board/list/notice">공지사항</a>
-                            <a href="/board/list">자유 게시판</a>
-                            <a href="/proposal/list">건의 게시판</a>
-                        </div>
-                    </div>
+                            <div class="relative ml-3">
+                                <div class="relative inline-block text-left">
+                                    <div>
+                                        <button type="button" class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-haspopup="true">
+                                            <span class="sr-only">Open user menu</span>
+                                            <span class="material-symbols-outlined text-gray-400 text-4xl">account_circle</span>
+                                        </button>
+                                    </div>
 
-                    <div class="dropdown">
-                        <button class="dropbtn">내 정보</button>
-                        <div class="dropdown-content">
-                            <a href="/changeInfo">개인정보 수정</a>
-                            <a href="/board/myList">내가 쓴 게시글</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                    <!-- Dropdown menu -->
+                                    <div id="dropdown-menu" class="absolute right-0 z-10 w-48 mt-2 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button">
+                                        <div th:if="${loginStudent == null}">
+                                            <p class="block px-4 py-2 text-sm text-black-700" role="menuitem">로그인 후<br/>이용 가능합니다!<br/></p>
+                                            <a href="/login" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">로그인</a>
+                                            <a href="/join" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">회원가입</a>
+                                        </div>
+                                        <div th:unless="${loginStudent == null}">
+                                            <div class="py-1 block px-4 py-2 font-bold text-gray-700 " role="menuitem">
+                                                <div th:text="${loginStudent.name + ' (' + loginStudent.stuId + ') 님'}"></div>
+                                                <div>환영합니다!</div>
+                                            </div>
 
-            <div th:if="${isMobile}">
-                <div class="dropdown-group">
-                    <div class="dropdown">
-                        <button class="dropbtn" style="font-size: 13px">물품</button>
-                        <div class="dropdown-content" style="min-width: 120px">
-                            <a href="/item/list" style="font-size: 13px">물품 현황</a>
-                            <a href="/item/request/list" style="font-size: 13px">물품 수정 요청</a>
+                                            <div class="py-1">
+                                                <a href="/changeInfo" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">내 프로필</a>
+                                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">설정</a>
+                                                <a href="/logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">로그아웃</a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
-                    <div class="dropdown">
-                        <button class="dropbtn" style="font-size: 13px">대여</button>
-                        <div class="dropdown-content" style="min-width: 120px">
-                            <a href="/rental" style="font-size: 13px">대여 신청</a>
-                            <a href="/rental/findOne" style="font-size: 13px">내 대여 현황</a>
-                        </div>
-                    </div>
-
-                    <div class="dropdown">
-                        <button class="dropbtn" style="font-size: 13px">게시판</button>
-                        <div class="dropdown-content" style="min-width: 120px">
-                            <a href="/board/list/notice" style="font-size: 13px">공지사항</a>
-                            <a href="/board/list" style="font-size: 13px">자유 게시판</a>
-                            <a href="/proposal/list" style="font-size: 13px">건의 게시판</a>
-                        </div>
-                    </div>
-
-                    <div class="dropdown">
-                        <button class="dropbtn" style="font-size: 13px">내 정보</button>
-                        <div class="dropdown-content" style="min-width: 120px">
-                            <a href="/changeInfo" style="font-size: 13px">개인정보 수정</a>
-                            <a href="/board/myList" style="font-size: 13px">내가 쓴 게시글</a>
-                        </div>
+                    <div class="-mr-2 flex md:hidden">
+                        <!-- Mobile menu button -->
+                        <button type="button" id="mobile-menu-button" class="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" aria-controls="mobile-menu" aria-expanded="false">
+                            <span class="absolute -inset-0.5"></span>
+                            <span class="sr-only">Open main menu</span>
+                            <!-- Menu open: "hidden", Menu closed: "block" -->
+                            <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                            </svg>
+                            <!-- Menu open: "block", Menu closed: "hidden" -->
+                            <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
 
+            <!-- Mobile menu, show/hide based on menu state. -->
+            <div class="md:hidden" id="mobile-menu" style="display: none;">
+                <div class="border-gray-700 pb-3 pt-4">
+                    <a href="/item/list" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">물품 현황</a>
+                    <a href="/item/request/list" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">물품 수정 요청</a>
+                </div>
+                <div class="border-t border-gray-700 pb-3 pt-4">
+                    <a href="/rental" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">대여 신청</a>
+                </div>
+                <div class="border-t border-gray-700 pb-3 pt-4">
+                    <a href="/board/list/notice" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">공지 사항</a>
+                    <a href="/board/list" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">자유 게시판</a>
+                    <a href="/proposal/list" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">건의 게시판</a>
+                </div>
+                <div class="border-t border-gray-700 pb-3 pt-4">
+                    <a href="/board/myList" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">내가 쓴 게시글</a>
+                    <a href="/rental/findOne" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">내 대여 목록</a>
+                </div>
+                <div th:if="${loginStudent == null}" class="border-t border-gray-700 pb-3 pt-4">
+                    <div class="flex items-center px-5 mb-3">
+                        <div class="flex-shrink-0">
+                            <img class="h-10 w-10 rounded-full" src="data:image/jpeg;base64,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" alt="">
+                        </div>
+                        <div class="ml-3">
+                            <div class="text-base font-medium leading-none text-white">로그인 후</div>
+                            <div class="text-sm font-medium leading-none text-gray-400 mt-2">이용 가능합니다!</div>
+                        </div>
+                        <a href="/login" class="ml-auto inline-block px-4 py-2 text-white bg-blue-500 rounded-lg shadow hover:bg-blue-600 transition duration-200">
+                            로그인
+                        </a>
+                    </div>
+                </div>
+                <div th:unless="${loginStudent == null}" class="border-t border-gray-700 pb-3 pt-4">
+                    <div class="flex items-center px-5">
+                        <div class="flex-shrink-0">
+                            <img class="h-10 w-10 rounded-full" src="data:image/jpeg;base64,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" alt="">
+                        </div>
+                        <div class="ml-3">
+                            <div class="text-base font-medium leading-none text-white" th:text="${loginStudent.name}"></div>
+                            <div class="text-sm font-medium leading-none text-gray-400 mt-2" th:text="${loginStudent.stuId}"></div>
+                        </div>
+                        <button type="button" class="relative ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                            <span class="absolute -inset-1.5"></span>
+                            <span class="sr-only">View notifications</span>
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                            </svg>
+                        </button>
+                    </div>
 
+                    <div class="mt-3 space-y-1 px-2">
+                        <a href="/changeInfo" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">내 프로필</a>
+                        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">설정</a>
+                        <a href="/admin" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">관리자 페이지</a>
+                        <a href="/logout" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">로그아웃</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
     </div>
-
+</div>
 </body>
-

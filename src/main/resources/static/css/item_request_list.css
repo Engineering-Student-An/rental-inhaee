@@ -1,0 +1,50 @@
+/* 대여 신청 버튼*/
+.write-btn {
+    position: relative;
+    width: 130px; /* 버튼 크기 조정 */
+    height: 50px; /* 버튼 높이 조정 */
+    background-color: #0056b3; /* 기본 배경색 */
+    border-radius: 30px; /* 둥근 모서리 */
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* 중앙 정렬에서 양쪽 정렬로 변경 */
+    color: white; /* 글자 색상 */
+    font-weight: bold; /* 글자 두께 */
+    font-size: 13px; /* 글자 크기 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    overflow: hidden; /* 넘치는 요소 숨기기 */
+    padding-right: 50px; /* 오른쪽 여백 추가 */
+}
+
+.write-btn .toggle {
+    position: absolute;
+    top: 10px; /* 위쪽 여백 조정 */
+    left: 10px; /* 왼쪽 여백 조정 */
+    width: 30px;
+    height: 30px;
+    background-color: white; /* 스위치 색상 */
+    border-radius: 20px; /* 둥근 모서리 */
+    transition: transform 0.3s;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+}
+
+.write-btn:hover {
+    background-color: #003d85; /* 마우스 오버 시 배경색 */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* 마우스 오버 시 그림자 효과 */
+}
+
+.write-btn.active {
+    background-color: #003d85; /* 활성화 시 배경색 */
+}
+
+.write-btn.active .toggle {
+    transform: translateX(80px); /* 오른쪽으로 이동 */
+}
+
+.write-btn .label {
+    margin-left: 55px;
+    position: relative; /* 위치 조정 */
+    z-index: 1; /* 토글 요소보다 위에 표시 */
+}

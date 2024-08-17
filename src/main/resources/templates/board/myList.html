@@ -1,54 +1,129 @@
+<!--<!DOCTYPE HTML>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head th:replace="~{fragments/header :: header}"></head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>-->
+<!--    <div>-->
+<!--        <h3>내가 쓴 게시글</h3><br>-->
+<!--        <table class="table table-striped">-->
+<!--            <thead> <tr>-->
+<!--                <th>#</th> <th>제목</th> <th><span class="material-symbols-outlined" style="font-size: 20px;">thumb_up</span></th> <th>작성 일자</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr th:each="board : ${boards}">-->
+<!--                <td th:text="${boards.getTotalElements() - (boards.getNumber() * boards.getSize()) - boardStat.index}"></td>-->
+<!--                <td>-->
+<!--                    <a th:href="@{/board/{id}(id=${board.id})}"  th:text="${#strings.length(board.title) > 10 ? #strings.substring(board.title, 0, 10) + '...' : board.title}"></a>-->
+<!--                </td>-->
+<!--                <td th:text="${board.likeNumber.size()}"></td>-->
+<!--                <div th:if="${board.editTime == null}">-->
+<!--                    <td th:text="${#temporals.format(board.writeTime, 'yyyy-MM-dd HH:mm')}"></td>-->
+<!--                </div>-->
+<!--                <div th:unless="${board.editTime == null}">-->
+<!--                    <td th:text="${#temporals.format(board.editTime, 'yyyy-MM-dd HH:mm') + ' (수정)'}"></td>-->
+<!--                </div>-->
+
+
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+<!--    </div><br>-->
+<!--    <div style="text-align: center">-->
+<!--        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${boards.getNumber()}==0"-->
+<!--                th:onclick="|location.href='@{/board/myList(page=${1}) }'|">-->
+<!--            <<</button>-->
+<!--        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!boards.hasPrevious()}"-->
+<!--                th:onclick="|location.href='@{/board/myList(page=${boards.getNumber()}) }'|">-->
+<!--            <</button>-->
+<!--        &nbsp; &nbsp;-->
+<!--        <span>[[${boards.getNumber()+1}]] / [[${boards.getTotalElements() == 0 ? 1 : boards.getTotalPages()}]]</span>-->
+<!--        &nbsp; &nbsp;-->
+<!--        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!boards.hasNext()}"-->
+<!--                th:onclick="|location.href='@{/board/myList(page=${boards.getNumber() + 2}) }'|">-->
+<!--            ></button>-->
+<!--        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!boards.hasNext()}"-->
+<!--                th:onclick="|location.href='@{/board/myList(page=${boards.getTotalPages()} ) }'|">-->
+<!--            >></button>-->
+<!--    </div>-->
+<!--    <br>-->
+<!--    <div th:replace="~{fragments/footer :: footer}"></div>-->
+<!--</div> &lt;!&ndash; /container &ndash;&gt;-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" >
 <head th:replace="~{fragments/header :: header}"></head>
-<body>
-<div class="container">
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
-    <div>
-        <h3>내가 쓴 게시글</h3><br>
-        <table class="table table-striped">
-            <thead> <tr>
-                <th>#</th> <th>제목</th> <th><span class="material-symbols-outlined" style="font-size: 20px;">thumb_up</span></th> <th>작성 일자</th>
+<body class="h-full">
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+<link rel="stylesheet" href="/css/board_list.css"/>
+<link rel="stylesheet" href="/css/question_mark.css"/>
+<link rel="stylesheet" href="/css/item_request_list.css"/>
+
+<header class="bg-white shadow">
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900">내가 쓴 게시글</h1>
+    </div>
+</header>
+<main>
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <table id="boardTable" class="min-w-full bg-white rounded-lg shadow-md">
+            <thead>
+            <tr class="bg-gray-200 text-gray-600">
+                <th class="py-3 px-4 text-left">#</th>
+                <th class="py-3 px-4 text-left" style="width: 40%;">제목</th>
+                <th class="py-3 px-4 text-left">
+                    <div class="flex items-center">
+                        <span class="material-symbols-outlined">thumb_up</span>
+                    </div>
+                </th>
+                <th class="py-3 px-4 text-left">작성 일자</th>
             </tr>
             </thead>
-            <tbody>
-            <tr th:each="board : ${boards}">
-                <td th:text="${boards.getTotalElements() - (boards.getNumber() * boards.getSize()) - boardStat.index}"></td>
-                <td>
-                    <a th:href="@{/board/{id}(id=${board.id})}"  th:text="${#strings.length(board.title) > 10 ? #strings.substring(board.title, 0, 10) + '...' : board.title}"></a>
+            <tbody class="text-gray-700">
+            <tr th:each="board : ${boards}" class="hover:bg-gray-100">
+                <td class="py-3 px-4"
+                    th:text="${boards.getTotalElements() - (boards.getNumber() * boards.getSize()) - boardStat.index}"></td>
+                <td class="py-3 px-4">
+                    <a style="color: blue" th:href="@{/board/{id}(id=${board.id})}" th:text="${board.title}"></a>
                 </td>
-                <td th:text="${board.likeNumber.size()}"></td>
-                <div th:if="${board.editTime == null}">
-                    <td th:text="${#temporals.format(board.writeTime, 'yyyy-MM-dd HH:mm')}"></td>
-                </div>
-                <div th:unless="${board.editTime == null}">
-                    <td th:text="${#temporals.format(board.editTime, 'yyyy-MM-dd HH:mm') + ' (수정)'}"></td>
-                </div>
 
+                <td class="py-3 px-4">
+                    <div class="flex items-center">
+                        <span th:text="${board.likeNumber.size()}"></span>
+                    </div>
+                </td>
 
+                <td class="py-3 px-4" th:text="${board.editTime == null} ? ${#temporals.format(board.writeTime, 'yyyy-MM-dd HH:mm')} : ${#temporals.format(board.editTime, 'yyyy-MM-dd HH:mm') + ' (수정)'}"></td>
             </tr>
             </tbody>
         </table>
-    </div><br>
-    <div style="text-align: center">
-        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${boards.getNumber()}==0"
-                th:onclick="|location.href='@{/board/myList(page=${1}) }'|">
-            <<</button>
-        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!boards.hasPrevious()}"
-                th:onclick="|location.href='@{/board/myList(page=${boards.getNumber()}) }'|">
-            <</button>
-        &nbsp; &nbsp;
-        <span>[[${boards.getNumber()+1}]] / [[${boards.getTotalElements() == 0 ? 1 : boards.getTotalPages()}]]</span>
-        &nbsp; &nbsp;
-        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!boards.hasNext()}"
-                th:onclick="|location.href='@{/board/myList(page=${boards.getNumber() + 2}) }'|">
-            ></button>
-        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!boards.hasNext()}"
-                th:onclick="|location.href='@{/board/myList(page=${boards.getTotalPages()} ) }'|">
-            >></button>
+
+
+        <div class="pagination">
+            <button class="pagination-button" th:disabled="${boards.getNumber()}==0"
+                    th:onclick="|location.href='@{/board/list(boardPage=${1}) }'|">
+                <<</button>
+            <button class="pagination-button" th:disabled="${!boards.hasPrevious()}"
+                    th:onclick="|location.href='@{/board/list(boardPage=${boards.getNumber()}) }'|">
+                <</button>
+            &nbsp; &nbsp;
+            <span class="pagination-info">[[${boards.getNumber()+1}]] / [[${boards.getTotalElements() == 0 ? 1 : boards.getTotalPages()}]]</span>
+            &nbsp; &nbsp;
+            <button class="pagination-button" th:disabled="${!boards.hasNext()}"
+                    th:onclick="|location.href='@{/board/list(boardPage=${boards.getNumber() + 2}) }'|">
+                ></button>
+            <button class="pagination-button" th:disabled="${!boards.hasNext()}"
+                    th:onclick="|location.href='@{/board/list(boardPage=${boards.getTotalPages()} ) }'|">
+                >></button>
+        </div>
+
     </div>
-    <br>
-    <div th:replace="~{fragments/footer :: footer}"></div>
-</div> <!-- /container -->
+
+</main>
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
+<script src="/js/board_list.js"></script>
 </html>

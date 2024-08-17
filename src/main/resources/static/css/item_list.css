@@ -1,0 +1,135 @@
+/* 페이징 버튼 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.pagination-button {
+    border: none;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.pagination-button:hover {
+    background-color: #0056b3; /* 호버 색상 */
+    color: white;
+    transform: scale(1.1); /* 호버 시 크기 증가 */
+}
+
+.pagination-button:disabled {
+    color: #b6b6b6; /* 비활성화 텍스트 색상 */
+    background-color: transparent; /* 비활성화된 버튼의 배경색을 투명으로 설정 */
+    /*pointer-events: none; !* 호버 이벤트 비활성화 *!*/
+}
+
+.pagination-button:disabled:hover {
+    background-color: transparent; /* 비활성화된 버튼 호버 시 배경색 변경 없음 */
+    transform: none; /* 호버 시 크기 변화 없음 */
+    cursor: not-allowed;
+}
+
+.pagination-info {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333; /* 정보 텍스트 색상 */
+}
+
+/* 대여 신청 버튼*/
+.rental-btn {
+    position: relative;
+    width: 130px; /* 버튼 크기 조정 */
+    height: 50px; /* 버튼 높이 조정 */
+    background-color: #0056b3; /* 기본 배경색 */
+    border-radius: 30px; /* 둥근 모서리 */
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* 중앙 정렬에서 양쪽 정렬로 변경 */
+    color: white; /* 글자 색상 */
+    font-weight: bold; /* 글자 두께 */
+    font-size: 13px; /* 글자 크기 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    overflow: hidden; /* 넘치는 요소 숨기기 */
+    padding-right: 50px; /* 오른쪽 여백 추가 */
+}
+
+.rental-btn .toggle {
+    position: absolute;
+    top: 10px; /* 위쪽 여백 조정 */
+    left: 10px; /* 왼쪽 여백 조정 */
+    width: 30px;
+    height: 30px;
+    background-color: white; /* 스위치 색상 */
+    border-radius: 20px; /* 둥근 모서리 */
+    transition: transform 0.3s;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+}
+
+.rental-btn:hover {
+    background-color: #003d85; /* 마우스 오버 시 배경색 */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* 마우스 오버 시 그림자 효과 */
+}
+
+.rental-btn.active {
+    background-color: #003d85; /* 활성화 시 배경색 */
+}
+
+.rental-btn.active .toggle {
+    transform: translateX(80px); /* 오른쪽으로 이동 */
+}
+
+.rental-btn .label {
+    margin-left: 55px;
+    position: relative; /* 위치 조정 */
+    z-index: 1; /* 토글 요소보다 위에 표시 */
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 16px; /* 모바일에서는 패딩을 줄임 */
+    }
+
+    .mb-4 {
+        flex-direction: column; /* 세로로 배치 */
+    }
+
+    .mb-4 input {
+        margin-bottom: 10px; /* 아래쪽 여백 추가 */
+        width: 100%; /* 전체 폭 사용 */
+    }
+
+    .flex-grow {
+        flex: 1;
+    }
+
+    .rental-btn {
+        /*width: 50%; !* 대여 신청 버튼을 전체 폭으로 사용 *!*/
+        margin-top: 10px; /* 위쪽 여백 추가 */
+    }
+
+    .flex-grow {
+        flex: 1; /* 입력창을 동일한 크기로 조정 */
+    }
+
+    .pagination-button {
+        margin: 5px 0; /* 버튼 간 간격 조정 */
+    }
+
+    table {
+        width: 100%; /* 테이블을 전체 폭으로 사용 */
+        overflow-x: auto; /* 가로 스크롤 추가 */
+    }
+
+    th, td {
+        padding: 10px; /* 셀 패딩 줄이기 */
+        font-size: 0.9em; /* 폰트 크기 조정 */
+    }
+}

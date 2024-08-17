@@ -1,73 +1,65 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: header}"></head>
-
-<style>
-    .small-font {
-        font-size: 13px;
-    }
-</style>
-<style>
-    .table {
-        margin: 0;
-        width: 100%; /* 테이블이 부모 요소의 전체 너비를 차지하도록 설정 */
-    }
-    .table-container {
-        overflow: hidden;
-        border: 2px solid #625e5e;
-        border-radius: 20px;
-        padding: 0; /* 여기서는 패딩을 0으로 설정 */
-    }
-</style>
-
-<body>
-
-<div class="container">
-
-    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
-    <div>
-        <h2>공지사항 <span class="material-symbols-outlined" style="font-size: 27px; vertical-align: text-top; color: red">info</span></h2><br/>
-        <table class="table table-striped">
+<head th:replace="~{fragments/header :: header}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 뷰포트 메타 태그 추가 -->
+</head>
+<body class="h-full">
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div><br>
+<link rel="stylesheet" href="/css/board_list.css"/>
+<header class="bg-white shadow">
+    <div class="mx-auto max-w-screen-lg px-4 py-6 sm:px-6 lg:px-8"> <!-- max-w-7xl에서 max-w-screen-lg로 변경 -->
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900">공지 사항</h1>
+    </div>
+</header>
+<main>
+    <div class="mx-auto max-w-screen-lg px-4 py-6 sm:px-6 lg:px-8"> <!-- max-w-7xl에서 max-w-screen-lg로 변경 -->
+        <table id="boardTable" class="min-w-full bg-white rounded-lg shadow-md">
             <thead>
-                <tr>
-                    <th>#</th> <th>공지사항</th> <th>작성 일자</th>
-                </tr>
+            <tr class="bg-gray-200 text-gray-600">
+                <th class="py-3 px-4 text-left">#</th>
+                <th class="py-3 px-4 text-left" style="width: 60%;">제목</th>
+                <th class="py-3 px-4 text-left">작성자</th>
+                <th class="py-3 px-4 text-left">작성 일자</th>
+            </tr>
             </thead>
-            <tbody>
-            <tr th:each="notice : ${notices}">
-                <td th:text="${notices.getTotalElements() - (notices.getNumber() * notices.getSize()) - noticeStat.index}"></td>
-                <td>
-                    <a th:href="@{/board/{id}(id=${notice.id})}"  th:text="${notice.title}"></a>
+
+            <tbody class="text-gray-700">
+            <tr th:each="notice : ${notices}" class="hover:bg-gray-100">
+                <td class="py-3 px-4"
+                    th:text="${notices.getTotalElements() - (notices.getNumber() * notices.getSize()) - noticeStat.index}"></td>
+                <td class="py-3 px-4">
+                    <a class="text-blue-600" th:href="@{/board/{id}(id=${notice.id})}" th:text="${notice.title}"></a>
                 </td>
-                <td th:if="${notice.editTime == null}" th:text="${#temporals.format(notice.writeTime, 'yyyy-MM-dd')}"></td>
-                <td th:unless="${notice.editTime == null}" th:text="${#temporals.format(notice.editTime, 'yyyy-MM-dd') + ' (수정)'}"></td>
+
+                <td class="py-3 px-4"
+                    th:text="${notice.name}"></td>
+
+                <td class="py-3 px-4" th:text="${notice.editTime == null} ? ${#temporals.format(notice.writeTime, 'yyyy-MM-dd HH:mm')} : ${#temporals.format(notice.editTime, 'yyyy-MM-dd HH:mm') + ' (수정)'}"></td>
             </tr>
             </tbody>
         </table>
-    </div>
-    <br>
-    <div style="text-align: center">
-        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${notices.getNumber()}==0"
-                th:onclick="|location.href='@{/board/list/notice(noticePage=${1})}'|">
-            <<</button>
-        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!notices.hasPrevious()}"
-                th:onclick="|location.href='@{/board/list/notice(noticePage=${notices.getNumber()}) }'|">
-            <</button>
-        &nbsp; &nbsp;
-        <span>[[${notices.getNumber()+1}]] / [[${notices.getTotalElements() == 0 ? 1 : notices.getTotalPages()}]] </span>
-        &nbsp; &nbsp;
-        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!notices.hasNext()}"
-                th:onclick="|location.href='@{/board/list/notice(noticePage=${notices.getNumber() + 2}) }'|">
-            ></button>
-        <button class="btn btn-outline-dark btn-sm" style="border: none" th:disabled="${!notices.hasNext()}"
-                th:onclick="|location.href='@{/board/list/notice(noticePage=${notices.getTotalPages()}) }'|">
-            >></button>
-    </div>
-    <br>
 
-    <div th:replace="~{fragments/footer :: footer}"></div>
-</div> <!-- /container -->
+        <div class="pagination flex justify-center mt-4"> <!-- flex와 justify-center로 버튼 정렬 -->
+            <button class="pagination-button" th:disabled="${notices.getNumber()}==0"
+                    th:onclick="|location.href='@{/board/list/notice(noticePage=${1})}'|">
+                <<</button>
+            <button class="pagination-button" th:disabled="${!notices.hasPrevious()}"
+                    th:onclick="|location.href='@{/board/list/notice(noticePage=${notices.getNumber()}) }'|">
+                <</button>
+            &nbsp; &nbsp;
+            <span class="pagination-info">[[${notices.getNumber()+1}]] / [[${notices.getTotalElements() == 0 ? 1 : notices.getTotalPages()}]]</span>
+            &nbsp; &nbsp;
+            <button class="pagination-button" th:disabled="${!notices.hasNext()}"
+                    th:onclick="|location.href='@{/board/list/notice(noticePage=${notices.getNumber() + 2}) }'|">
+                ></button>
+            <button class="pagination-button" th:disabled="${!notices.hasNext()}"
+                    th:onclick="|location.href='@{/board/list/notice(noticePage=${notices.getTotalPages()}) }'|">
+                >></button>
+        </div>
 
+    </div>
+</main>
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
+<script src="/js/board_list.js"></script>
 </html>
-

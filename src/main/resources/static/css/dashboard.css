@@ -1,0 +1,249 @@
+.container {
+    max-width: 1200px;
+    margin: auto;
+    text-align: center;
+}
+
+.pricing-cards-container {
+    position: relative;
+    width: 80%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 버튼과 카드 간의 공간을 균등하게 배분 */
+    margin: 20px auto; /* 상하 마진은 20px, 좌우는 자동으로 설정 */
+}
+
+.arrow {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10; /* 버튼이 카드 위에 보이도록 설정 */
+    border-radius: 50%; /* 원형으로 만들기 */
+    width: 40px; /* 버튼의 너비 */
+    height: 40px; /* 버튼의 높이 */
+    display: flex;
+    align-items: center; /* 화살표 중앙 정렬 */
+    justify-content: center; /* 화살표 중앙 정렬 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
+    position: absolute; /* 절대 위치 설정 */
+    top: 50%; /* 수직 중앙 정렬 */
+    transform: translateY(-50%); /* 중앙으로 이동 */
+    margin:0;
+}
+
+.arrow.left {
+    left: 15%; /* 왼쪽 버튼 위치 */
+}
+
+.arrow.right {
+    right: 15%; /* 오른쪽 버튼 위치 */
+}
+.arrow:hover {
+    background-color: #e0e0e0; /* 마우스 오버 시 배경색 변경 */
+}
+
+
+.pricing-cards {
+    display: flex;
+    transition: transform 0.5s ease; /* 부드러운 애니메이션 */
+    min-width: 500px;
+}
+.pricing-card {
+    min-width: 100%; /* 카드가 하나씩 보이도록 설정 */
+    display: flex;
+    justify-content: center;
+}
+.pricing-cards-30 {
+    display: flex;
+    justify-content: center;
+}
+
+
+.card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px; /* 카드 간 간격 설정 */
+    width: 50%;
+    justify-content: center;
+    transition: transform 0.3s; /* 변형 애니메이션을 부드럽게 */
+    /*right: 50%;*/
+    /*border: solid blue 2px;*/
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+.card-30 {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px;
+    transition: transform 0.3s;
+}
+.card-30:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.card p, .card-30 p {
+    font-size: 1.2em;
+    margin-bottom: 2em;
+}
+.card h2, .card-30 h2 {
+    margin: 0;
+}
+
+.price {
+    color: #4A90E2;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    margin: 10px 0;
+}
+
+.finish-button {
+    background-color: #4A90E2;
+    color: white;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.finish-button.overdue {
+    background-color: #e24a4a;
+    color: white;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.card.overdue {
+    border: 2px solid #e24a4a;
+    background-color: rgba(226, 74, 74, 0.3);
+    position: relative;
+    animation: bounce 1s infinite;
+}
+
+.card.overdue::after {
+    content: "연체중";
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: #e24a4a;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8em;
+}
+
+/* 애니메이션 정의 */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0); /* 원래 위치 */
+    }
+    40% {
+        transform: translateY(-10px); /* 위로 10px 이동 */
+    }
+    60% {
+        transform: translateY(-5px); /* 다시 아래로 5px 이동 */
+    }
+}
+
+
+/* 대여 신청 버튼*/
+.login-btn {
+    position: relative;
+    width: 150px; /* 버튼 크기 조정 */
+    height: 50px; /* 버튼 높이 조정 */
+    background-color: #0056b3; /* 기본 배경색 */
+    border-radius: 30px; /* 둥근 모서리 */
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* 중앙 정렬에서 양쪽 정렬로 변경 */
+    color: white; /* 글자 색상 */
+    font-weight: bold; /* 글자 두께 */
+    font-size: 13px; /* 글자 크기 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    overflow: hidden; /* 넘치는 요소 숨기기 */
+    padding-right: 50px; /* 오른쪽 여백 추가 */
+}
+
+.login-btn .toggle {
+    position: absolute;
+    top: 10px; /* 위쪽 여백 조정 */
+    left: 10px; /* 왼쪽 여백 조정 */
+    width: 30px;
+    height: 30px;
+    background-color: white; /* 스위치 색상 */
+    border-radius: 20px; /* 둥근 모서리 */
+    transition: transform 0.3s;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+}
+
+.login-btn:hover {
+    background-color: #003d85; /* 마우스 오버 시 배경색 */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* 마우스 오버 시 그림자 효과 */
+}
+
+.login-btn.active {
+    background-color: #003d85; /* 활성화 시 배경색 */
+}
+
+.login-btn.active .toggle {
+    transform: translateX(100px); /* 오른쪽으로 이동 */
+}
+
+.login-btn .label {
+    margin-left: 60px;
+    position: relative; /* 위치 조정 */
+    z-index: 1; /* 토글 요소보다 위에 표시 */
+}
+
+@media (max-width: 768px) {
+    main {
+        flex-direction: column; /* 세로 방향으로 배치 */
+    }
+
+    .flex-col {
+        width: 100%; /* 모바일에서는 전체 폭 사용 */
+        margin-left: 0; /* 왼쪽 여백 제거 */
+    }
+
+    .pricing-cards-container {
+        /*display: block; !* 카드 레이아웃을 블록으로 변경 *!*/
+        width:100%;
+    }
+
+    .arrow.left {
+        left: 5% /* 왼쪽 버튼을 더 끝으로 이동 */
+    }
+    .arrow.right {
+        right: 5%; /* 오른쪽 버튼을 더 끝으로 이동 */
+    }
+
+    .card {
+        margin-bottom: 1rem; /* 카드 간의 공간 */
+    }
+
+    .finish-button {
+        width: 100%; /* 버튼을 전체 폭으로 사용 */
+    }
+}

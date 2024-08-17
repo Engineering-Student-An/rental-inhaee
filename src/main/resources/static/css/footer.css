@@ -1,0 +1,94 @@
+.footer {
+    background-color: white;
+    padding: 20px 0;
+    border-top: 1px solid #eaeaea;
+    display: flex;
+    /*justify-content: space-between; !* 좌우 정렬 *!*/
+    align-items: center; /* 수직 중앙 정렬 */
+}
+
+.footer-content {
+    display: flex;
+    flex-grow: 1; /* 공간을 차지하게 */
+    align-items: center; /* 수직 중앙 정렬 */
+}
+
+.footer-img {
+    display: flex;
+    margin-left: 20px;
+    align-items: center;
+}
+
+.footer-text {
+    font-size: 16px;
+    /*display: flex;*/
+    color: rgb(128, 128, 128);
+    margin-left: 20px;
+    /*align-items: center;*/
+}
+
+.footer-icons {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 20px;
+}
+
+.footer-icons a {
+    margin-right: 10px;
+}
+
+.footer-icons img {
+    width: 24px;
+    height: 24px;
+}
+
+.footer-copy {
+    font-size: 12px;
+    color: #aaa;
+}
+
+/* 모바일 관련 설정 */
+@media (max-width: 768px) {
+    .footer {
+
+        align-items: center; /* 왼쪽 정렬 */
+        padding: 10px 0; /* 패딩 조정 */
+    }
+
+    .footer-content {
+        justify-content: space-between; /* 콘텐츠 간의 공간 조정 */
+        width: 100%; /* 너비를 100%로 설정 */
+        margin-right:0;
+    }
+
+    .footer-img {
+        margin-left: 5px; /* 좌측 여백 제거 */
+        margin-bottom: 10px; /* 이미지 아래 여백 추가 */
+        width: 70%;
+    }
+
+    .mail-img {
+        width:20px;
+    }
+
+    .footer-text {
+        font-size: 12px; /* 폰트 크기 조정 */
+        margin-left: 2px; /* 여백 제거 */
+        margin-right: 0;
+    }
+
+    .footer-icons {
+        /*justify-content: flex-start; !* 아이콘을 왼쪽으로 정렬 *!*/
+        margin-left: 0;
+        margin-right: 0; /* 우측 여백 제거 */
+    }
+
+    .footer-icons a {
+        margin-right: 8px; /* 아이콘 간격 조정 */
+    }
+
+    .footer-icons img {
+        width: 20px;
+        height: 20px;
+    }
+}

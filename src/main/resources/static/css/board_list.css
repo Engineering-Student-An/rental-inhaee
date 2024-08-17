@@ -1,0 +1,42 @@
+/* 페이징 버튼 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.pagination-button {
+    border: none;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.pagination-button:hover {
+    background-color: #0056b3; /* 호버 색상 */
+    color: white;
+    transform: scale(1.1); /* 호버 시 크기 증가 */
+}
+
+.pagination-button:disabled {
+    color: #b6b6b6; /* 비활성화 텍스트 색상 */
+    background-color: transparent; /* 비활성화된 버튼의 배경색을 투명으로 설정 */
+    /*pointer-events: none; !* 호버 이벤트 비활성화 *!*/
+}
+
+.pagination-button:disabled:hover {
+    background-color: transparent; /* 비활성화된 버튼 호버 시 배경색 변경 없음 */
+    transform: none; /* 호버 시 크기 변화 없음 */
+    cursor: not-allowed;
+}
+
+.pagination-info {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333; /* 정보 텍스트 색상 */
+}
