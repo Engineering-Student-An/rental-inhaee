@@ -1,9 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://db-inhaee.czac0gwkswbv.ap-northeast-2.rds.amazonaws.com:3306/inhaeeDB
-    username: root
-    password: justiff0801
+
 
   jpa:
     hibernate:
@@ -21,8 +19,7 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: chm20060
-    password: aplsnsbodvlydaao
+
     properties:
       mail:
         smtp:
