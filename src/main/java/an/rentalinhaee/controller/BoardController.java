@@ -47,10 +47,6 @@ public class BoardController {
     public String boardList(Model model,
                        @RequestParam(required = false, value = "boardPage", defaultValue = "1") int boardPage) {
 
-//        PageRequest noticePageRequest = PageRequest.of(noticePage - 1, 5, Sort.by("writeTime").descending());
-//        Page<Board> notices = boardService.findByNotice(noticePageRequest, true);
-//        model.addAttribute("notices", notices);
-
         // 최근 공지사항 5개
         model.addAttribute("recentNotices", boardService.findRecentNotice());
 
