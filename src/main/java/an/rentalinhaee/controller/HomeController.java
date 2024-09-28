@@ -60,16 +60,9 @@ public class HomeController {
 
         if (loginStudent != null) {
             myRentalINGList = rentalService.findMyRentalINGList(loginStudent.getId());
-            for (Rental rental : myRentalINGList) {
-                System.out.println("rental.getItem().getName() = " + rental.getItem().getName());
-            }
         }
         model.addAttribute("rentalList", myRentalINGList);
 
-//        model.addAttribute("recentBoard", boardService.findRecentBoard());
-//        model.addAttribute("hotBoard", boardService.findHotBoard());
-//
-//        model.addAttribute("hotItems", itemService.findHotItems());
         model.addAttribute("recentNotice", boardService.findRecentNotice());
         model.addAttribute("importantPosts", inhaEEService.importantPostParser());
         model.addAttribute("recentPosts", inhaEEService.recentPostParser());
