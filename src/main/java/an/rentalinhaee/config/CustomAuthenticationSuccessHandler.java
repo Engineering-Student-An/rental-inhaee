@@ -29,15 +29,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         SavedRequest savedRequest = requestCache.getRequest(request, response);
 
-
-        // 관리자 권한 체크
-        boolean isAdmin = authentication.getAuthorities().stream()
-                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
-
-//        if (isAdmin) {
-//            // 관리자 권한이 있을 경우의 로직
-//            response.sendRedirect("/admin"); // ADMIN으로 리다이렉트
-//        } else
         if(savedRequest != null){
             String targetUrl = savedRequest.getRedirectUrl();
 
