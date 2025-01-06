@@ -206,7 +206,6 @@ public class HomeController {
 
         // 인증 문자 동일하면 회원가입
         JoinRequest joinRequest = (JoinRequest) session.getAttribute("joinRequest");
-        System.out.println("email = " + email);
         studentService.join(joinRequest, email);
 
         model.addAttribute("errorMessage", "회원가입이 완료되었습니다! 로그인 페이지로 이동합니다.");
@@ -313,10 +312,6 @@ public class HomeController {
 
     @PostMapping("/findPassword/reset")
     public String resetPassword(@ModelAttribute("request") ChangePasswordRequest request, BindingResult bindingResult, HttpSession session, Model model) {
-
-        System.out.println("request.getChangePassword() = " + request.getChangePassword());
-        System.out.println("request = " + request.getChangePasswordCheck());
-        System.out.println(("request.getChangePassword() == request.getChangePasswordCheck() = " + request.getChangePassword()).equals(request.getChangePasswordCheck()));
 
         if(request.getChangePassword().isEmpty()) {
             bindingResult.addError(new FieldError("request",

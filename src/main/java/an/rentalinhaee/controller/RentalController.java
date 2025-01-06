@@ -41,7 +41,6 @@ public class RentalController {
     @PostMapping("/rental")
     public String rental(@RequestParam("category") String category, Model model) {
 
-        System.out.println("category = " + category);
         model.addAttribute("selectedCategory", category);
         model.addAttribute("categories", itemService.findCategories());
 
@@ -123,7 +122,6 @@ public class RentalController {
     public String finishRental(@PathVariable("rentalId") Long rentalId, Model model, HttpSession session) {
 
         String previousPage = (String) session.getAttribute("previousPage");
-        System.out.println("previousPage = " + previousPage);
         if(ChronoUnit.DAYS.between(rentalService.findRentalByRentalId(rentalId).getRentalDate(), LocalDate.now()) > 3){
             model.addAttribute("errorMessage", "연체중인 물품의 반납은 관리자를 통해 가능합니다.");
             model.addAttribute("nextUrl", previousPage);

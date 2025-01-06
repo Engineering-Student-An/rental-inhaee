@@ -55,7 +55,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             // 세션에 Student 정보 저장
             HttpSession session = request.getSession();
             session.setAttribute("loginStudent", loginStudent);
-            System.out.println("loginStudent = " + loginStudent);
         }
 
     }
