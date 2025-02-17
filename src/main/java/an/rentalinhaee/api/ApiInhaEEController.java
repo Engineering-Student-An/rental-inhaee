@@ -21,5 +21,4 @@ public class ApiInhaEEController {
         return inhaEEService.importantPostParser();
     }
 
-    
 }
