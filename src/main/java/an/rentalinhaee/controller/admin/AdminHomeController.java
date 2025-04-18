@@ -1,14 +1,12 @@
 package an.rentalinhaee.controller.admin;
 
 import an.rentalinhaee.domain.Student;
-import an.rentalinhaee.repository.RuleRepository;
 import an.rentalinhaee.service.BoardService;
 import an.rentalinhaee.service.StudentService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminHomeController {
 
     private final BoardService boardService;
-    private final RuleRepository ruleRepository;
     private final StudentService studentService;
 
     @GetMapping({"/", ""})

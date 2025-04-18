@@ -1,6 +1,5 @@
 package an.rentalinhaee.domain;
 
-import an.rentalinhaee.repository.RuleRepository;
 import an.rentalinhaee.service.ItemService;
 import an.rentalinhaee.service.RentalService;
 import an.rentalinhaee.service.StudentService;
@@ -15,7 +14,6 @@ public class InsertAdmin implements CommandLineRunner {
     private final StudentService studentService;
     private final ItemService itemService;
     private final RentalService rentalService;
-    private final RuleRepository ruleRepository;
 
     // 스프링 띄워지면서 자동으로 실행됨 => 일단은 관리자랑 몇개 데이터 추가
     @Override
