@@ -23,7 +23,7 @@ public class AdminHomeController {
     private final StudentService studentService;
 
     @GetMapping({"/", ""})
-    public String adminHome(HttpSession session, Model model) {
+    public String adminHome(HttpSession session) {
 
 
         String loginStuId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -31,9 +31,6 @@ public class AdminHomeController {
 
 
         if (loginStudent != null) {
-            model.addAttribute("ann", ruleRepository.findAnnouncementById(1L));
-
-            model.addAttribute("recentBoard", boardService.findRecentBoard());
 
             session.setAttribute("loginStudent", session.getAttribute("loginStudent"));
         }
