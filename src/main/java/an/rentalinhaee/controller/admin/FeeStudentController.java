@@ -101,10 +101,7 @@ public class FeeStudentController {
 
         List<FeeStudent> feeStudents = ReadExcel.uploadExcel(file);
         feeStudentService.deleteAll();
-        for (FeeStudent feeStudent : feeStudents) {
-            feeStudentService.save(feeStudent);
-        }
-
+        feeStudentService.saveAll(feeStudents);
         return "redirect:/admin/student/feeList";
     }
 
