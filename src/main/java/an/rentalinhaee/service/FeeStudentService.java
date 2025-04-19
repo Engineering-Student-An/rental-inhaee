@@ -54,6 +54,11 @@ public class FeeStudentService {
     }
 
     @Transactional
+    public void saveAll(List<FeeStudent> feeStudents) {
+        feeStudentRepository.saveAll(feeStudents);
+    }
+
+    @Transactional
     public void delete(String stuId) {
         feeStudentRepository.delete(feeStudentRepository.findByStuId(stuId));
     }
