@@ -18,7 +18,7 @@ jobs:
     # 실행될 jobs를 순서대로 명시
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v3
 
     # JDK 21 설치
     - name: Set up JDK 21
@@ -44,11 +44,7 @@ jobs:
 
     # Docker 이미지 빌드
     - name: Docker Image Build
-      run: |
-        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.PROJECT_NAME }} \
-        --build-arg SPRING_MAIL_USERNAME=${{ secrets.MAIL_USERNAME }} \
-        --build-arg SPRING_MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }} .
-
+      run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.PROJECT_NAME }} .
 
     # DockerHub Push
     - name: DockerHub Push
@@ -73,4 +69,6 @@ jobs:
           -e SPRING_DATASOURCE_URL=${{ secrets.DB_URL }} \
           -e SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }} \
           -e SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }} \
+          -e MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }} \
+          -e MAIL_USERNAME=${{ secrets.MAIL_USERNAME }} \
           -d ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.PROJECT_NAME }}
